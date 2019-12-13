@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';
-import './App.css';
+import './App.less';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from "redux";
 import { exampleCopy, exampleDecrement, exampleIncrement } from "../store/example/actions";
