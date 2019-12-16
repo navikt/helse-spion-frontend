@@ -10,7 +10,7 @@ import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbejdsgiverPeriodeTabell.less';
 import Lenke from "nav-frontend-lenker";
-import { Innholdstittel } from "nav-frontend-typografi";
+import { Innholdstittel, Sidetittel } from "nav-frontend-typografi";
 
 interface OwnProps {
 
@@ -81,7 +81,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
 
     return (
       <div className="arbeidsgiver-periode-tabell">
-        <div className="arbeidsgiver-periode-tabell--banner"></div>
+        <div className="arbeidsgiver-periode-tabell--banner">
+          <Sidetittel id="arbeidsgiver-periode-tabell--titel">Min side - refusjoner</Sidetittel>
+        </div>
         <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">&lt;&lt; Alle refusjoner</Lenke>
         <div className="arbeidsgiver-periode-tabell--header">
           <div className="arbeidsgiver-periode-tabell--info-gruppe">
