@@ -1,11 +1,11 @@
-import { ExampleState } from "./example/types";
-import { combineReducers } from "redux";
-import { exampleReducer } from "./example/reducers";
+import {combineReducers, Reducer} from "redux";
+import { HelseSpionState } from "./types/helseSpionTypes";
+import { helseSpionReducer } from "./reducers/helseSpionReducers";
 
 export interface RootState {
-  exampleState: ExampleState,
-}
+  helseSpionState: HelseSpionState,
+};
 
-export const rootReducer = combineReducers({
-  exampleState: exampleReducer,
+export const rootReducers: Reducer<RootState> = combineReducers({
+  helseSpionState: helseSpionReducer,
 });
