@@ -1,10 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
-import {Person} from "../store/types/helseSpionTypes";
-import {fetchPerson} from "../store/actions/helseSpionActions";
+import 'nav-frontend-skjema-style';
+import { Person} from "../store/types/helseSpionTypes";
+import { fetchPerson } from "../store/actions/helseSpionActions";
+import { Input } from "nav-frontend-skjema";
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import './ArbejdsgiverPeriodeTabell.less';
+import Lenke from "nav-frontend-lenker";
+import { Innholdstittel } from "nav-frontend-typografi";
 
 interface OwnProps {
 
@@ -72,8 +78,26 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
 
   render() {
     const { fødselsnummerSøk, person } = this.props;
+
     return (
-      <div>
+      <div className="arbeidsgiver-periode-tabell">
+        <div className="arbeidsgiver-periode-tabell--banner"></div>
+        <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">&lt;&lt; Alle refusjoner</Lenke>
+        <div className="arbeidsgiver-periode-tabell--header">
+          <div className="arbeidsgiver-periode-tabell--info-gruppe">
+            <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: 12345678912</div>
+            <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">Ola Nordmann</Innholdstittel>
+          </div>
+
+          <div className="arbeidsgiver-periode-tabell--søke-gruppe">
+            <Input
+              className="arbeidsgiver-periode-tabell--søke-input"
+              label="Finn en annen ansatt"
+              placeholder="Personnummer 11 siffer"
+            />
+            <Søkeknapp className="arbeidsgiver-periode-tabell--søke-knapp"></Søkeknapp>
+          </div>
+        </div>
         {this.table}
       </div>
     );
