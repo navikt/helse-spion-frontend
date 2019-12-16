@@ -80,7 +80,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
     const { fødselsnummerSøk, person } = this.props;
 
     return (
-      <div className="arbeidsgiver-periode-tabell">
+      <div className="arbeidsgiver-periode-tabell col-sm-12">
         <div className="arbeidsgiver-periode-tabell--banner">
           <Sidetittel id="arbeidsgiver-periode-tabell--titel">Min side - refusjoner</Sidetittel>
         </div>
