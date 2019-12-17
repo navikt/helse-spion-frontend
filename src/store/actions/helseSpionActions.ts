@@ -1,7 +1,21 @@
-import { FETCH_PERSON, HelseSpionActionTypes } from "../types/helseSpionTypes";
+import {HelseSpionActions, HelseSpionTypes} from "../types/helseSpionTypes";
 
-export function fetchPerson(): HelseSpionActionTypes {
+export function fetchPerson(): HelseSpionActions {
   return {
-    type: FETCH_PERSON,
+    type: HelseSpionTypes.FETCH_PERSON,
+  }
+}
+
+export function setFOM(date: Date): HelseSpionActions {
+  return {
+    type: HelseSpionTypes.SET_FOM,
+    fom: date,
+  }
+}
+
+export function setTOM(date: Date): HelseSpionActions {
+  return {
+    type: HelseSpionTypes.SET_TOM,
+    tom: date,
   }
 }

@@ -1,6 +1,8 @@
 export interface HelseSpionState {
   fødselsnummerSøk?: string
   person?: Person
+  fom?: Date
+  tom?: Date
 }
 
 export interface Person {
@@ -22,10 +24,14 @@ export interface ArbeidsgiverPeriode {
   status: string // todo: Enum
 }
 
-export const FETCH_PERSON = 'FETCH_PERSON';
-
-interface FetchPersonAction {
-  type: typeof FETCH_PERSON
+export enum HelseSpionTypes {
+  FETCH_PERSON = 'FETCH_PERSON',
+  SET_FOM = 'SET_FOM',
+  SET_TOM = 'SET_TOM',
 }
 
-export type HelseSpionActionTypes = FetchPersonAction
+export type HelseSpionActions =
+  | { type: HelseSpionTypes.FETCH_PERSON }
+  | { type: HelseSpionTypes.SET_FOM, fom: Date }
+  | { type: HelseSpionTypes.SET_TOM, tom: Date };
+

@@ -5,14 +5,19 @@ import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import { Person} from "../store/types/helseSpionTypes";
-import { fetchPerson } from "../store/actions/helseSpionActions";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
 import Lenke from "nav-frontend-lenker";
-import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
+import { Innholdstittel, Normaltekst, Sidetittel } from "nav-frontend-typografi";
 import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {fetchPerson, setFOM, setTOM} from "../store/actions/helseSpionActions";
+import nb from 'date-fns/locale/nb';
+import { registerLocale } from  "react-datepicker";
+registerLocale('nb', nb)
 
 interface OwnProps {
 
@@ -21,10 +26,14 @@ interface OwnProps {
 type StateProps = {
   fødselsnummerSøk?: string
   person?: Person
+  fom?: Date
+  tom?: Date
 }
 
 type DispatchProps = {
   fetchPerson: () => void
+  setFOM: (date: Date) => void
+  setTOM: (date: Date) => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -122,6 +131,18 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
                   <Søkeknapp className="arbeidsgiver-periode-tabell--søke-knapp"></Søkeknapp>
                 </div>
               </div>
+              <div>
+                <DatePicker
+                  locale="nb"
+                  selected={this.props.fom}
+                  onChange={e => this.props.setFOM(e)}
+                />
+                <DatePicker
+                  locale="nb"
+                  selected={this.props.tom}
+                  onChange={e => this.props.setTOM(e)}
+                />
+              </div>
               {this.table}
             </div>
           </div>
@@ -135,10 +156,14 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
 const mapStateToProps = (state: RootState): StateProps => ({
   fødselsnummerSøk: state.helseSpionState.fødselsnummerSøk,
   person: state.helseSpionState.person,
+  fom: state.helseSpionState.fom,
+  tom: state.helseSpionState.tom,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
   fetchPerson: fetchPerson,
+  setFOM: setFOM,
+  setTOM: setTOM,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell);
