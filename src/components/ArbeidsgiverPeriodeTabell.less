@@ -1,10 +1,22 @@
 .arbeidsgiver-periode-tabell {
   &--banner {
     background-color: #cce1f3;
+    border-bottom: .25rem solid #99c2e8;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    &-rad {
+      margin-right: 0;
+    }
+  }
+
+  &--alertstripe {
+    display: grid;
+    grid-template-columns: 50px auto;
+    padding: 10px;
   }
 
   &--lenke {
-    margin-top: 15px;
     margin-left: 15px;
   }
 
@@ -17,7 +29,6 @@
   &--info-gruppe {
     display: grid;
     align-content: end;
-    margin-left: 15px;
   }
 
   &--søke-gruppe {
@@ -27,21 +38,21 @@
 
   &--søke-input {
     width: 200px;
-    margin-right: 15px;
     margin-bottom: 0;
   }
 
   &--søke-knapp {
-    margin-right: 15px;
     align-self: end;
+  }
+
+  &--tabell {
+    margin-top: 15px;
   }
 }
 
 #arbeidsgiver-periode-tabell {
-  &--titel {
-    background-color: #cce1f3;
-    border-bottom: .25rem solid #99c2e8;
-    padding: 15px;
+  &--tittel {
+    margin-top: 15px;
   }
 
   &--person-navn {

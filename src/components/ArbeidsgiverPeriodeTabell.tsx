@@ -8,9 +8,11 @@ import { Person} from "../store/types/helseSpionTypes";
 import { fetchPerson } from "../store/actions/helseSpionActions";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import './ArbejdsgiverPeriodeTabell.less';
+import './ArbeidsgiverPeriodeTabell.less';
 import Lenke from "nav-frontend-lenker";
-import { Innholdstittel, Sidetittel } from "nav-frontend-typografi";
+import {Innholdstittel, Normaltekst, Sidetittel} from "nav-frontend-typografi";
+import 'nav-frontend-alertstriper-style';
+import Ikon from 'nav-frontend-ikoner-assets';
 
 interface OwnProps {
 
@@ -29,7 +31,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 class ArbeidsgiverPeriodeTabell extends Component<Props> {
   table =
-    <table className="tabell tabell--stripet">
+    <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
       <thead>
       <tr>
         <th>Periode</th>
@@ -80,28 +82,52 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
     const { fødselsnummerSøk, person } = this.props;
 
     return (
-      <div className="arbeidsgiver-periode-tabell col-sm-12">
+      <div className="arbeidsgiver-periode-tabell">
         <div className="arbeidsgiver-periode-tabell--banner">
-          <Sidetittel id="arbeidsgiver-periode-tabell--titel">Min side - refusjoner</Sidetittel>
-        </div>
-        <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">&lt;&lt; Alle refusjoner</Lenke>
-        <div className="arbeidsgiver-periode-tabell--header">
-          <div className="arbeidsgiver-periode-tabell--info-gruppe">
-            <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: 12345678912</div>
-            <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">Ola Nordmann</Innholdstittel>
+          <div className="container">
+            <div className="row arbeidsgiver-periode-tabell--banner-rad">
+              <div className="col-sm-8">
+                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">Min side - refusjoner</Sidetittel>
+              </div>
+              <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
+                <Ikon kind="info-sirkel-fyll"></Ikon>
+                <div>
+                  <Normaltekst className="arbeidsgiver-periode-tabell--email">
+                    <u> bjørn.byråkrat@oslo.kommune.no</u>
+                  </Normaltekst>
+                  <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
+                  <Normaltekst>
+                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">Endre</Lenke>
+                  </Normaltekst>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div className="arbeidsgiver-periode-tabell--søke-gruppe">
-            <Input
-              className="arbeidsgiver-periode-tabell--søke-input"
-              label="Finn en annen ansatt"
-              placeholder="Personnummer 11 siffer"
-            />
-            <Søkeknapp className="arbeidsgiver-periode-tabell--søke-knapp"></Søkeknapp>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              <Lenke href="">&lt;&lt; Alle refusjoner</Lenke>
+              <div className="arbeidsgiver-periode-tabell--header">
+                <div className="arbeidsgiver-periode-tabell--info-gruppe">
+                  <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: 12345678912</div>
+                  <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">Ola Nordmann</Innholdstittel>
+                </div>
+                <div className="arbeidsgiver-periode-tabell--søke-gruppe">
+                  <Input
+                    className="arbeidsgiver-periode-tabell--søke-input"
+                    label="Finn en annen ansatt"
+                    placeholder="Personnummer 11 siffer"
+                  />
+                  <Søkeknapp className="arbeidsgiver-periode-tabell--søke-knapp"></Søkeknapp>
+                </div>
+              </div>
+              {this.table}
+            </div>
           </div>
         </div>
-        {this.table}
       </div>
+
     );
   }
 }
