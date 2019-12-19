@@ -1,5 +1,4 @@
 export interface HelseSpionState {
-  fødselsnummerSøk?: string
   person?: Person
   fom?: Date
   tom?: Date
@@ -17,7 +16,7 @@ export interface Person {
 export interface ArbeidsgiverPeriode {
   fom: string // todo: localdate
   tom: string // todo: localdate
-  grad?: number
+  grad?: string
   referanseBeløp: string // todo: Enum
   ytelse: string // todo: Enum
   merknad?: string
@@ -31,7 +30,7 @@ export enum HelseSpionTypes {
 }
 
 export type HelseSpionActions =
-  | { type: HelseSpionTypes.FETCH_PERSON }
+  | { type: HelseSpionTypes.FETCH_PERSON, person: Person }
   | { type: HelseSpionTypes.SET_FOM, fom: Date }
   | { type: HelseSpionTypes.SET_TOM, tom: Date };
 

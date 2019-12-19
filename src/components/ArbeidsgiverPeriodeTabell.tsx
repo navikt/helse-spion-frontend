@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Person} from "../store/types/helseSpionTypes";
+import { Person } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -12,83 +12,80 @@ import Lenke from "nav-frontend-lenker";
 import { Innholdstittel, Normaltekst, Sidetittel } from "nav-frontend-typografi";
 import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {fetchPerson, setFOM, setTOM} from "../store/actions/helseSpionActions";
+import { setFOM, setTOM } from "../store/actions/helseSpionActions";
 import nb from 'date-fns/locale/nb';
-import { registerLocale } from  "react-datepicker";
-registerLocale('nb', nb)
+import { fetchPerson } from "../store/thunks/fetchPerson";
+
+registerLocale('nb', nb);
 
 interface OwnProps {
 
 }
 
 type StateProps = {
-  fødselsnummerSøk?: string
   person?: Person
   fom?: Date
   tom?: Date
 }
 
 type DispatchProps = {
-  fetchPerson: () => void
+  fetchPerson: (fødselsnummerSøk: string) => void
   setFOM: (date: Date) => void
   setTOM: (date: Date) => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-class ArbeidsgiverPeriodeTabell extends Component<Props> {
-  table =
-    <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
-      <thead>
-      <tr>
-        <th>Periode</th>
-        <th>Status</th>
-        <th>Beløp</th>
-        <th>Ytelse</th>
-        <th>Grad</th>
-        <th>Merknad</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>17.12-19 - 01.01.20</td>
-        <td>Under behandling</td>
-        <td>-</td>
-        <td>SP</td>
-        <td>100%</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>10.03.19 - 07.04.19</td>
-        <td>Avslått</td>
-        <td>0,-</td>
-        <td>PP</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>21.01.19 - 02.03.19</td>
-        <td>Innvilget</td>
-        <td>9.500,-</td>
-        <td>PP</td>
-        <td>50%</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>21.01.19 - 02.03.19</td>
-        <td>Innvilget</td>
-        <td>12.000,-</td>
-        <td>SP</td>
-        <td>50%</td>
-        <td>Fritak AGP</td>
-      </tr>
-      </tbody>
-    </table>;
+type State = {
+  fødselsnummerSøk: string
+}
+
+class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
+  constructor(p) {
+    super(p);
+    this.state = {
+      fødselsnummerSøk: '',
+    }
+  }
+  
+  setfødselsnummerSøk = (input: string) => {
+    input = input.replace(/\D/g,'').substring(0, 11);
+    this.setState({fødselsnummerSøk: input})
+  };
 
   render() {
-    const { fødselsnummerSøk, person } = this.props;
+    const { person } = this.props;
+    
+    const table =
+      <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
+        <thead>
+        <tr>
+          <th>Periode</th>
+          <th>Status</th>
+          <th>Beløp</th>
+          <th>Ytelse</th>
+          <th>Grad</th>
+          <th>Merknad</th>
+        </tr>
+        </thead>
+        <tbody>
+          {
+            person && person.arbeidsgiverPerioder.map((periode, index ) => {
+                return <tr key={index}>
+                  <td>{periode.fom} - {periode.tom}</td>
+                  <td>{periode.status}</td>
+                  <td>{periode.referanseBeløp}</td>
+                  <td>{periode.ytelse}</td>
+                  <td>{periode.grad}</td>
+                  <td>{periode.merknad}</td>
+                </tr>
+              }
+            )
+          }
+        </tbody>
+      </table>;
 
     return (
       <div className="arbeidsgiver-periode-tabell">
@@ -119,31 +116,49 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
               <Lenke href="">&lt;&lt; Alle refusjoner</Lenke>
               <div className="arbeidsgiver-periode-tabell--header">
                 <div className="arbeidsgiver-periode-tabell--info-gruppe">
-                  <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: 12345678912</div>
-                  <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">Ola Nordmann</Innholdstittel>
+                  {
+                    person &&
+                    <>
+                      <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: {person?.fødselsnummer}</div>
+                      <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
+                        {person?.fornavne} {person?.etternavn}
+                      </Innholdstittel>
+                    </>
+                  }
                 </div>
                 <div className="arbeidsgiver-periode-tabell--søke-gruppe">
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
                     placeholder="Personnummer 11 siffer"
+                    onChange={e => this.setfødselsnummerSøk(e.target.value)}
+                    value={this.state.fødselsnummerSøk}
                   />
-                  <Søkeknapp className="arbeidsgiver-periode-tabell--søke-knapp"></Søkeknapp>
+                  <Søkeknapp
+                    className="arbeidsgiver-periode-tabell--søke-knapp"
+                    onClick={() => this.props.fetchPerson(this.state.fødselsnummerSøk)}
+                  />
                 </div>
               </div>
-              <div>
+              <div className="arbeidsgiver-periode-tabell--periode-vælger">
+                <div>Periode:</div>
                 <DatePicker
                   locale="nb"
+                  dateFormat="dd.MM.yyyy"
                   selected={this.props.fom}
                   onChange={e => this.props.setFOM(e)}
                 />
+                <b>-</b>
                 <DatePicker
                   locale="nb"
+                  dateFormat="dd.MM.yyyy"
                   selected={this.props.tom}
                   onChange={e => this.props.setTOM(e)}
                 />
+                <div className="arbeidsgiver-periode-tabell--periode-vælger-total">Total refundert: <b>21.500</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-vælger-max-dato">Maxdato: <b>15.03.20</b></div>
               </div>
-              {this.table}
+              {table}
             </div>
           </div>
         </div>
@@ -154,7 +169,6 @@ class ArbeidsgiverPeriodeTabell extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  fødselsnummerSøk: state.helseSpionState.fødselsnummerSøk,
   person: state.helseSpionState.person,
   fom: state.helseSpionState.fom,
   tom: state.helseSpionState.tom,

@@ -1,7 +1,6 @@
 import { HelseSpionActions, HelseSpionState, HelseSpionTypes } from "../types/helseSpionTypes";
 
 const initialHelseSpionState: HelseSpionState = {
-  fødselsnummerSøk: undefined,
   person: undefined
 };
 
@@ -13,12 +12,13 @@ export function helseSpionReducer (
     case HelseSpionTypes.FETCH_PERSON:
       return {
         ...state,
+        person: action.person,
       };
 
     case HelseSpionTypes.SET_FOM:
       return {
         ...state,
-        fom: action.fom
+        fom: action.fom,
       };
 
     case HelseSpionTypes.SET_TOM:
