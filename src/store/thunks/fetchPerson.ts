@@ -16,8 +16,8 @@ export function fetchPerson(fødselsnummerSøk?: String) {
 
 const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
-    fom: '17.12.19',
-    tom: '01.01.20',
+    fom: new Date(2019,12,17),
+    tom: new Date(2020,1,1),
     status: 'Under behandling',
     referanseBeløp: '-',
     ytelse: 'SP',
@@ -25,8 +25,8 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
     merknad: '-',
   },
   {
-    fom: '10.03.19',
-    tom: '07.04.19',
+    fom: new Date(2019,3,10),
+    tom: new Date(2019,4,7),
     status: 'Avslått',
     referanseBeløp: '0,-',
     ytelse: 'PP',
@@ -34,8 +34,8 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
     merknad: '-',
   },
   {
-    fom: '21.01.19',
-    tom: '02.03.19',
+    fom: new Date(2019,1,21),
+    tom: new Date(2019,3,2),
     status: 'Innvilget',
     referanseBeløp: '9.500,-',
     ytelse: 'PP',
@@ -43,8 +43,8 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
     merknad: '-',
   },
   {
-    fom: '21.01.18',
-    tom: '02.03.18',
+    fom: new Date(2018,1,21),
+    tom: new Date(2018,3,2),
     status: 'Innvilget',
     referanseBeløp: '12.000,-',
     ytelse: 'SP',

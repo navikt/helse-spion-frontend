@@ -14,8 +14,8 @@ export interface Person {
 }
 
 export interface ArbeidsgiverPeriode {
-  fom: string // todo: localdate
-  tom: string // todo: localdate
+  fom: Date
+  tom: Date
   grad?: string
   referanseBeløp: string // todo: Enum
   ytelse: string // todo: Enum

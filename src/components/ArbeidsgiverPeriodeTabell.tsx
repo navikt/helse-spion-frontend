@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Person } from "../store/types/helseSpionTypes";
+import { ArbeidsgiverPeriode, Person } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -52,11 +52,21 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   
   setfødselsnummerSøk = (input: string) => {
     input = input.replace(/\D/g,'').substring(0, 11);
-    this.setState({fødselsnummerSøk: input})
+    this.setState({ fødselsnummerSøk: input })
   };
-
+  
   render() {
-    const { person } = this.props;
+    const { person, fom, tom } = this.props;
+    
+    const filteredPerioder: ArbeidsgiverPeriode[] = person
+      ? person.arbeidsgiverPerioder.filter(periode => fom
+        ? periode.fom > fom
+        : periode
+      ).filter(periode => tom
+        ? periode.tom < tom
+        : periode
+      )
+      : [];
     
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
@@ -72,9 +82,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         </thead>
         <tbody>
           {
-            person && person.arbeidsgiverPerioder.map((periode, index ) => {
+            filteredPerioder.map((periode, index ) => {
                 return <tr key={index}>
-                  <td>{periode.fom} - {periode.tom}</td>
+                  <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
                   <td>{periode.status}</td>
                   <td>{periode.referanseBeløp}</td>
                   <td>{periode.ytelse}</td>
@@ -99,7 +109,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <Ikon kind="info-sirkel-fyll"></Ikon>
                 <div>
                   <Normaltekst className="arbeidsgiver-periode-tabell--email">
-                    <u> bjørn.byråkrat@oslo.kommune.no</u>
+                    <u>bjørn.byråkrat@oslo.kommune.no</u>
                   </Normaltekst>
                   <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
                   <Normaltekst>
