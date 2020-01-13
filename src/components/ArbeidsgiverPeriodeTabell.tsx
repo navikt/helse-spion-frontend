@@ -14,7 +14,7 @@ import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { setFOM, setTOM } from "../store/actions/helseSpionActions";
+import { setFom, setTom } from "../store/actions/helseSpionActions";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 
@@ -32,8 +32,8 @@ type StateProps = {
 
 type DispatchProps = {
   fetchPerson: (fødselsnummerSøk: string) => void
-  setFOM: (date: Date) => void
-  setTOM: (date: Date) => void
+  setFom: (date: Date) => void
+  setTom: (date: Date) => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -50,9 +50,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     }
   }
   
-  setfødselsnummerSøk = (input: string) => {
+  setFødselsnummerSøk = (input: string) => {
     input = input.replace(/\D/g,'').substring(0, 11);
-    this.setState({ fødselsnummerSøk: input })
+    this.setState({ fødselsnummerSøk: input });
   };
   
   render() {
@@ -141,7 +141,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
                     placeholder="Personnummer 11 siffer"
-                    onChange={e => this.setfødselsnummerSøk(e.target.value)}
+                    onChange={e => this.setFødselsnummerSøk(e.target.value)}
                     value={this.state.fødselsnummerSøk}
                   />
                   <Søkeknapp
@@ -150,30 +150,29 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   />
                 </div>
               </div>
-              <div className="arbeidsgiver-periode-tabell--periode-vælger">
+              <div className="arbeidsgiver-periode-tabell--periode-velger">
                 <div>Periode:</div>
                 <DatePicker
                   locale="nb"
                   dateFormat="dd.MM.yyyy"
                   selected={this.props.fom}
-                  onChange={e => this.props.setFOM(e)}
+                  onChange={e => this.props.setFom(e)}
                 />
                 <b>-</b>
                 <DatePicker
                   locale="nb"
                   dateFormat="dd.MM.yyyy"
                   selected={this.props.tom}
-                  onChange={e => this.props.setTOM(e)}
+                  onChange={e => this.props.setTom(e)}
                 />
-                <div className="arbeidsgiver-periode-tabell--periode-vælger-total">Total refundert: <b>21.500</b></div>
-                <div className="arbeidsgiver-periode-tabell--periode-vælger-max-dato">Maxdato: <b>15.03.20</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>21.500</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
               </div>
               {table}
             </div>
           </div>
         </div>
       </div>
-
     );
   }
 }
@@ -186,8 +185,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
   fetchPerson: fetchPerson,
-  setFOM: setFOM,
-  setTOM: setTOM,
+  setFom: setFom,
+  setTom: setTom,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell);

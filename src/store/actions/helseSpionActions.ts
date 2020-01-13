@@ -7,14 +7,14 @@ export const fetchPersonSuccess = (person: Person): HelseSpionActions => {
   }
 };
 
-export const setFOM = (date: Date): HelseSpionActions => {
+export const setFom = (date: Date): HelseSpionActions => {
   return {
     type: HelseSpionTypes.SET_FOM,
     fom: date,
   }
 };
 
-export const setTOM = (date: Date): HelseSpionActions => {
+export const setTom = (date: Date): HelseSpionActions => {
   return {
     type: HelseSpionTypes.SET_TOM,
     tom: date,

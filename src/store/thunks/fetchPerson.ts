@@ -1,7 +1,7 @@
 import {fetchPersonSuccess} from "../actions/helseSpionActions";
 import {ArbeidsgiverPeriode, Person} from "../types/helseSpionTypes";
 
-// Todo: Needs type security
+// Todo: Needs type safety
 export function fetchPerson(fødselsnummerSøk?: String) {
   return async dispatch => {
     if (fødselsnummerSøk) {
@@ -60,5 +60,5 @@ const dummyData: Person = {
   virksomhetsNr: '12345678912',
   virksomhetsNavn: 'Grünerløkka pleiehjem',
   arbeidsgiverPerioder: dummyDataPerioder,
-}
+};
 
