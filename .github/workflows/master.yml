@@ -1,0 +1,43 @@
+name: Bygg og deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm test
+      - name: build docker image
+        run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
+      - name: push docker image
+        run: |
+          echo "$GITHUB_ACCESS_TOKEN" | docker login --username "x-access-token" --password-stdin https://docker.pkg.github.com
+          docker push $(cat .docker_image):$(cat .docker_tag)
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+      - name: deploy to dev
+        uses: navikt/deployment-cli/action@0.4.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          AWAIT_SECONDS: 0
+        with:
+          cluster: dev-fss
+          team: helsearbeidsgiver
+          resources: deploy/dev.yaml
+      - name: deploy to prod
+        uses: navikt/deployment-cli/action@0.4.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          AWAIT_SECONDS: 0
+        with:
+          cluster: prod-fss
+          team: helsearbeidsgiver
+          resources: deploy/prod.yaml
