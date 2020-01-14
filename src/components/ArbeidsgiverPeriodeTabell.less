@@ -1,0 +1,78 @@
+.arbeidsgiver-periode-tabell {
+  &--banner {
+    background-color: #cce1f3;
+    border-bottom: .25rem solid #99c2e8;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    &-rad {
+      margin-right: 0;
+    }
+  }
+
+  &--alertstripe {
+    display: grid;
+    grid-template-columns: 50px auto;
+    padding: 10px;
+  }
+
+  &--lenke {
+    margin-left: 15px;
+  }
+
+  &--header {
+    display: grid;
+    grid-template-columns: auto 325px;
+    margin-top: 15px;
+  }
+
+  &--periode-velger {
+    margin-top: 25px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    display: grid;
+    grid-template-columns: min-content min-content min-content min-content auto auto;
+
+    &-total, &-max-dato {
+      justify-self: end;
+    }
+  }
+
+  .react-datepicker-wrapper {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  &--info-gruppe {
+    display: grid;
+    align-content: end;
+  }
+
+  &--søke-gruppe {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  &--søke-input {
+    width: 200px;
+    margin-bottom: 0;
+  }
+
+  &--søke-knapp {
+    align-self: end;
+  }
+
+  &--tabell {
+    margin-top: 15px;
+  }
+}
+
+#arbeidsgiver-periode-tabell {
+  &--tittel {
+    margin-top: 15px;
+  }
+
+  &--person-navn {
+    font-weight: 400;
+  }
+}
