@@ -1,5 +1,5 @@
-import {fetchPersonSuccess} from "../actions/helseSpionActions";
-import {ArbeidsgiverPeriode, Person} from "../types/helseSpionTypes";
+import { fetchPersonSuccess } from "../actions/helseSpionActions";
+import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
 
 //TODO: Needs type safety
 export function fetchPerson(fødselsnummerSøk?: String) {

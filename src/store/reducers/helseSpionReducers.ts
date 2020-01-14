@@ -24,7 +24,7 @@ export function helseSpionReducer (
     case HelseSpionTypes.SET_TOM:
       return {
         ...state,
-        tom: action.tom
+        tom: action.tom,
       };
 
     default:
