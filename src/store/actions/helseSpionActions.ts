@@ -1,4 +1,4 @@
-import {HelseSpionActions, HelseSpionTypes, Person} from "../types/helseSpionTypes";
+import { HelseSpionActions, HelseSpionTypes, Person } from "../types/helseSpionTypes";
 
 export const fetchPersonSuccess = (person: Person): HelseSpionActions => {
   return {

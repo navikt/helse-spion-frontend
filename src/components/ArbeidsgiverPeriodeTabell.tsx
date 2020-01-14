@@ -17,6 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { setFom, setTom } from "../store/actions/helseSpionActions";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
+import { stripToInt } from "../util/stripToInt";
 
 registerLocale('nb', nb);
 
@@ -67,6 +68,15 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         : periode
       )
       : [];
+    
+    let totalBeløp: number = 0;
+    
+    filteredPerioder.map((periode) => {
+      const beløp = (stripToInt(periode.referanseBeløp));
+      if (beløp) {
+        totalBeløp += beløp;
+      }
+    });
     
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
@@ -165,7 +175,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   selected={this.props.tom}
                   onChange={e => this.props.setTom(e)}
                 />
-                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>21.500</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>{totalBeløp}</b></div>
                 <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
               </div>
               {table}
