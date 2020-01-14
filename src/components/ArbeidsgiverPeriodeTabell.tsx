@@ -72,7 +72,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     let totalBeløp: number = 0;
     
     filteredPerioder.map((periode) => {
-      const beløp = (stripToInt(periode.referanseBeløp));
+      const beløp: number | null = (stripToInt(periode.referanseBeløp));
       if (beløp) {
         totalBeløp += beløp;
       }
