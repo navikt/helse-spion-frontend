@@ -5,7 +5,7 @@ import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
 export function fetchPerson(fødselsnummerSøk?: String) {
   return async dispatch => {
     if (fødselsnummerSøk) {
-      await fetch(`http://localhost:8080`)
+      await fetch(`http://localhost:3000/api`)
         // .then(data => data.json())
         .then(data => {
           dispatch(fetchPersonSuccess(dummyData))

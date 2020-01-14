@@ -1,4 +1,5 @@
 import { HelseSpionActions, HelseSpionState, HelseSpionTypes } from "../types/helseSpionTypes";
+import {Action} from "redux";
 
 const initialHelseSpionState: HelseSpionState = {
   person: undefined
@@ -6,8 +7,9 @@ const initialHelseSpionState: HelseSpionState = {
 
 export function helseSpionReducer (
   state = initialHelseSpionState,
-  action: HelseSpionActions
+  incomingAction: Action
 ): HelseSpionState {
+  const action = incomingAction as HelseSpionActions
   switch (action.type) {
     case HelseSpionTypes.FETCH_PERSON:
       return {
