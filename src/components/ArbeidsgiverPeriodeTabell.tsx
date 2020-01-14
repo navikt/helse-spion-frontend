@@ -18,6 +18,7 @@ import { setFom, setTom } from "../store/actions/helseSpionActions";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 import { stripToInt } from "../util/stripToInt";
+import { thousandSeparation } from "../util/thousandSeparation";
 
 registerLocale('nb', nb);
 
@@ -175,7 +176,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   selected={this.props.tom}
                   onChange={e => this.props.setTom(e)}
                 />
-                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>{totalBeløp}</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>{thousandSeparation(totalBeløp)}</b></div>
                 <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
               </div>
               {table}
