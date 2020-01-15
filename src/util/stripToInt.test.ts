@@ -1,6 +1,5 @@
 import { stripToInt } from "./stripToInt";
 
-
 describe('stripToInt', () => {
 	it('strips string to int', () => {
 		const input = stripToInt("foo123bar321");
