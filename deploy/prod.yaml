@@ -14,12 +14,14 @@ spec:
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
+    port: 3000
   readiness:
     path: isready
     initialDelay: 15
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
+    port: 3000
   ingresses:
     - https://helse-spion-frontend.nais.adeo.no
   replicas:
