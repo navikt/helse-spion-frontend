@@ -42,6 +42,8 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
   fødselsnummerSøk: string
+  sortColumn: number
+  sortDescending: boolean
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
@@ -49,6 +51,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     super(p);
     this.state = {
       fødselsnummerSøk: '',
+      sortColumn: -1,
+      sortDescending: true,
     }
   }
   
@@ -67,6 +71,12 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 
   submitSøk = (): void => {
     this.props.fetchPerson(this.state.fødselsnummerSøk);
+  };
+  
+  setSort = (index: number): void => {
+    this.state.sortColumn == index
+      ? this.setState({ sortDescending: !this.state.sortDescending })
+      : this.setState({ sortColumn: index, sortDescending: true })
   };
 
   render() {
@@ -91,21 +101,32 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       }
     });
     
+    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) =>
+      a.fom.getTime() - b.fom.getTime()
+    );
+    
+    const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
+    
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
         <thead>
         <tr>
-          <th>Periode</th>
-          <th>Status</th>
-          <th>Beløp</th>
-          <th>Ytelse</th>
-          <th>Grad</th>
-          <th>Merknad</th>
+          {
+            columnHeaders.map((columnHeader, index) => {
+              if (this.state.sortColumn == index) {
+                return this.state.sortDescending
+                  ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+                  : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+              } else {
+                return <th key={index} role="columnheader" aria-sort="none" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+              }
+            })
+          }
         </tr>
         </thead>
         <tbody>
           {
-            filteredPerioder.map((periode, index ) => {
+            sortedPerioder.map((periode, index ) => {
                 return <tr key={index}>
                   <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
                   <td>{periode.status}</td>
