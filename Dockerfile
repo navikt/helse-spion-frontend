@@ -5,4 +5,4 @@ ENV NODE_ENV=production \
     PORT=3000
 
 EXPOSE 3000 3000
-CMD ["npm", "start"]
+CMD ["npm", "start -p 3000"]
