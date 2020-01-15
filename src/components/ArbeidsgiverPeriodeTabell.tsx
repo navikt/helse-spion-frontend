@@ -78,6 +78,15 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true })
   };
+  
+  getClassnameFromStatus = (status: string): string => {
+    switch (status) {
+      case 'Under behandling': return 'under-behandling';
+      case 'Avslått': return 'avslått';
+      case 'Innvilget': return 'innvilget';
+      default: return '';
+    }
+  };
 
   render() {
     const { person, fom, tom } = this.props;
@@ -151,7 +160,10 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
             sortedPerioder.map((periode, index ) => {
                 return <tr key={index}>
                   <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
-                  <td>{periode.status}</td>
+                  <td>
+                    <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
+                    {periode.status}
+                  </td>
                   <td>{periode.referanseBeløp}</td>
                   <td>{periode.ytelse}</td>
                   <td>{periode.grad}</td>
