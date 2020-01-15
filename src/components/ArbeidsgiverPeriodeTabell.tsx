@@ -117,7 +117,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           sort = b.ytelse.localeCompare(a.ytelse);
           break;
         case 4:
-          sort = (b.grad ?? '').localeCompare(a.grad ?? '');
+          sort = (stripToInt(b.grad ?? '') ?? -1) - (stripToInt(a.grad ?? '') ?? 0);
           break;
         case 5:
           sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
