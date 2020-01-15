@@ -56,7 +56,19 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     input = input.replace(/\D/g,'').substring(0, 11);
     this.setState({ fødselsnummerSøk: input });
   };
-  
+
+  onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.submitSøk();
+    }
+  };
+
+  submitSøk = (): void => {
+    this.props.fetchPerson(this.state.fødselsnummerSøk);
+  };
+
   render() {
     const { person, fom, tom } = this.props;
     
@@ -140,7 +152,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   {
                     person &&
                     <>
-                      <div className="arbeidsgiver-periode-tabell--person-nummer">Personnummer: {person?.fødselsnummer}</div>
+                      <div className="arbeidsgiver-periode-tabell--person-nummer">
+                        Personnummer: {person?.fødselsnummer}
+                      </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
                       </Innholdstittel>
@@ -154,10 +168,11 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     placeholder="Personnummer 11 siffer"
                     onChange={e => this.setFødselsnummerSøk(e.target.value)}
                     value={this.state.fødselsnummerSøk}
+                    onKeyDown={this.onEnterClick}
                   />
                   <Søkeknapp
                     className="arbeidsgiver-periode-tabell--søke-knapp"
-                    onClick={() => this.props.fetchPerson(this.state.fødselsnummerSøk)}
+                    onClick={this.submitSøk}
                   />
                 </div>
               </div>
@@ -176,7 +191,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   selected={this.props.tom}
                   onChange={e => this.props.setTom(e)}
                 />
-                <div className="arbeidsgiver-periode-tabell--periode-velger-total">Total refundert: <b>{thousandSeparation(totalBeløp)}</b></div>
+                <div className="arbeidsgiver-periode-tabell--periode-velger-total">
+                  Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
+                </div>
                 <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
               </div>
               {table}
