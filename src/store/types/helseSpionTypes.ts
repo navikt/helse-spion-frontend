@@ -5,7 +5,7 @@ export interface HelseSpionState {
 }
 
 export interface Person {
-  fornavne: string
+  fornavn: string
   etternavn: string
   fødselsnummer: string
   virksomhetsNr: string

@@ -1,11 +1,11 @@
 import { fetchPersonSuccess } from "../actions/helseSpionActions";
 import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
 
-// Todo: Needs type safety
+//TODO: Needs type safety
 export function fetchPerson(fødselsnummerSøk?: String) {
   return async dispatch => {
     if (fødselsnummerSøk) {
-      await fetch(`http://localhost:3000`)
+      await fetch(`http://localhost:3000/api`)
         // .then(data => data.json())
         .then(data => {
           dispatch(fetchPersonSuccess(dummyData))
@@ -54,7 +54,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
 ];
 
 const dummyData: Person = {
-  fornavne: 'Ola',
+  fornavn: 'Ola',
   etternavn: 'Nordman',
   fødselsnummer: '12345678912',
   virksomhetsNr: '12345678912',

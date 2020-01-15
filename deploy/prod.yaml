@@ -1,0 +1,33 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: helse-spion-frontend
+  namespace: default
+  labels:
+    team: {{team}}
+spec:
+  image: {{image}}:{{tag}}
+  port: 3000
+  liveness:
+    path: isalive
+    initialDelay: 20
+    periodSeconds: 5
+    failureThreshold: 3
+  readiness:
+    path: isready
+    initialDelay: 20
+    timeout: 1
+    periodSeconds: 5
+    failureThreshold: 3
+  ingresses:
+    - https://helse-spion-frontend.nais.adeo.no
+  replicas:
+    max: 1
+    min: 1
+  resources:
+    limits:
+      cpu: 400m
+      memory: 256Mi
+    requests:
+      cpu: 200m
+      memory: 64Mi
