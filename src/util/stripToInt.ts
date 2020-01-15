@@ -1,5 +1,5 @@
-export const stripToInt = (input: string): number | null => {
+export const stripToInt = (input: string): number | undefined => {
   input = input.replace(/\D/g,'');
   const number = parseInt(input);
-  return number ? number : null;
+  return number ? number : undefined;
 };

@@ -95,15 +95,37 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     let totalBeløp: number = 0;
     
     filteredPerioder.map((periode) => {
-      const beløp: number | null = (stripToInt(periode.referanseBeløp));
+      const beløp: number | undefined = (stripToInt(periode.referanseBeløp));
       if (beløp) {
         totalBeløp += beløp;
       }
     });
     
-    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) =>
-      a.fom.getTime() - b.fom.getTime()
-    );
+    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) => {
+      let sort: number = 0;
+      switch (this.state.sortColumn) {
+        case 0:
+          sort = b.fom.getTime() - a.fom.getTime();
+          break;
+        case 1:
+          sort = b.status.localeCompare(a.status);
+          break;
+        case 2:
+          sort = (stripToInt(b.referanseBeløp) ?? -1) - (stripToInt(a.referanseBeløp) ?? 0);
+          break;
+        case 3:
+          sort = b.ytelse.localeCompare(a.ytelse);
+          break;
+        case 4:
+          sort = (b.grad ?? '').localeCompare(a.grad ?? '');
+          break;
+        case 5:
+          sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
+          break;
+        default: break;
+      }
+      return this.state.sortDescending ? sort : -sort;
+    });
     
     const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
     
