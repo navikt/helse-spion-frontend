@@ -10,9 +10,9 @@ spec:
   port: 3000
   liveness:
     path: isalive
-    initialDelay: 15
+    initialDelay: 30
     timeout: 1
-    periodSeconds: 3
+    periodSeconds: 5
     failureThreshold: 10
   readiness:
     path: isready
