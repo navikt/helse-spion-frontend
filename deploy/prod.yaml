@@ -11,13 +11,13 @@ spec:
   liveness:
     path: isalive
     initialDelay: 30
-    timeout: 1
+    timeout: 2
     periodSeconds: 5
     failureThreshold: 10
   readiness:
     path: isready
     initialDelay: 15
-    timeout: 1
+    timeout: 2
     periodSeconds: 3
     failureThreshold: 10
   ingresses:
