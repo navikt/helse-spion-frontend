@@ -42,6 +42,8 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
   fødselsnummerSøk: string
+  sortColumn: number
+  sortDescending: boolean
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
@@ -49,6 +51,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     super(p);
     this.state = {
       fødselsnummerSøk: '',
+      sortColumn: -1,
+      sortDescending: true,
     }
   }
   
@@ -68,6 +72,21 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   submitSøk = (): void => {
     this.props.fetchPerson(this.state.fødselsnummerSøk);
   };
+  
+  setSort = (index: number): void => {
+    this.state.sortColumn == index
+      ? this.setState({ sortDescending: !this.state.sortDescending })
+      : this.setState({ sortColumn: index, sortDescending: true })
+  };
+  
+  getClassnameFromStatus = (status: string): string => {
+    switch (status) {
+      case 'Under behandling': return 'under-behandling';
+      case 'Avslått': return 'avslått';
+      case 'Innvilget': return 'innvilget';
+      default: return '';
+    }
+  };
 
   render() {
     const { person, fom, tom } = this.props;
@@ -85,30 +104,66 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     let totalBeløp: number = 0;
     
     filteredPerioder.map((periode) => {
-      const beløp: number | null = (stripToInt(periode.referanseBeløp));
+      const beløp: number | undefined = (stripToInt(periode.referanseBeløp));
       if (beløp) {
         totalBeløp += beløp;
       }
     });
     
+    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) => {
+      let sort: number = 0;
+      switch (this.state.sortColumn) {
+        case 0:
+          sort = b.fom.getTime() - a.fom.getTime();
+          break;
+        case 1:
+          sort = b.status.localeCompare(a.status);
+          break;
+        case 2:
+          sort = (stripToInt(b.referanseBeløp) ?? -1) - (stripToInt(a.referanseBeløp) ?? 0);
+          break;
+        case 3:
+          sort = b.ytelse.localeCompare(a.ytelse);
+          break;
+        case 4:
+          sort = (stripToInt(b.grad ?? '') ?? -1) - (stripToInt(a.grad ?? '') ?? 0);
+          break;
+        case 5:
+          sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
+          break;
+        default: break;
+      }
+      return this.state.sortDescending ? sort : -sort;
+    });
+    
+    const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
+    
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
         <thead>
         <tr>
-          <th>Periode</th>
-          <th>Status</th>
-          <th>Beløp</th>
-          <th>Ytelse</th>
-          <th>Grad</th>
-          <th>Merknad</th>
+          {
+            columnHeaders.map((columnHeader, index) => {
+              if (this.state.sortColumn == index) {
+                return this.state.sortDescending
+                  ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+                  : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+              } else {
+                return <th key={index} role="columnheader" aria-sort="none" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+              }
+            })
+          }
         </tr>
         </thead>
         <tbody>
           {
-            filteredPerioder.map((periode, index ) => {
+            sortedPerioder.map((periode, index ) => {
                 return <tr key={index}>
                   <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
-                  <td>{periode.status}</td>
+                  <td>
+                    <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
+                    {periode.status}
+                  </td>
                   <td>{periode.referanseBeløp}</td>
                   <td>{periode.ytelse}</td>
                   <td>{periode.grad}</td>
