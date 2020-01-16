@@ -19,6 +19,7 @@ import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 import { stripToInt } from "../util/stripToInt";
 import { thousandSeparation } from "../util/thousandSeparation";
+import { identityNumberSeparation } from "../util/identityNumberSeparation";
 
 registerLocale('nb', nb);
 
@@ -156,25 +157,24 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         </tr>
         </thead>
         <tbody>
-          {
-            sortedPerioder.map((periode, index ) => {
-                return <tr key={index}>
-                  <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
-                  <td>
-                    <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
-                    {periode.status}
-                  </td>
-                  <td>{periode.referanseBeløp}</td>
-                  <td>{periode.ytelse}</td>
-                  <td>{periode.grad}</td>
-                  <td>{periode.merknad}</td>
-                </tr>
-              }
-            )
-          }
+        {
+          sortedPerioder.map((periode, index ) =>
+            <tr key={index}>
+              <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
+              <td>
+                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
+                {periode.status}
+              </td>
+              <td>{periode.referanseBeløp}</td>
+              <td>{periode.ytelse}</td>
+              <td>{periode.grad}</td>
+              <td>{periode.merknad}</td>
+            </tr>
+          )
+        }
         </tbody>
       </table>;
-
+    
     return (
       <div className="arbeidsgiver-periode-tabell">
         <div className="arbeidsgiver-periode-tabell--banner">
@@ -208,7 +208,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     person &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Personnummer: {person?.fødselsnummer}
+                        Fødselsnummer: {identityNumberSeparation(person?.fødselsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
@@ -220,9 +220,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
-                    placeholder="Personnummer 11 siffer"
+                    placeholder="Fødselsnummer 11 siffer"
                     onChange={e => this.setFødselsnummerSøk(e.target.value)}
-                    value={this.state.fødselsnummerSøk}
+                    value={identityNumberSeparation(this.state.fødselsnummerSøk)}
                     onKeyDown={this.onEnterClick}
                   />
                   <Søkeknapp
