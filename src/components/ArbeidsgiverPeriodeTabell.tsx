@@ -157,22 +157,21 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         </tr>
         </thead>
         <tbody>
-          {
-            sortedPerioder.map((periode, index ) => {
-                return <tr key={index}>
-                  <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
-                  <td>
-                    <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
-                    {periode.status}
-                  </td>
-                  <td>{periode.referanseBeløp}</td>
-                  <td>{periode.ytelse}</td>
-                  <td>{periode.grad}</td>
-                  <td>{periode.merknad}</td>
-                </tr>
-              }
-            )
-          }
+        {
+          sortedPerioder.map((periode, index ) =>
+            <tr key={index}>
+              <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
+              <td>
+                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
+                {periode.status}
+              </td>
+              <td>{periode.referanseBeløp}</td>
+              <td>{periode.ytelse}</td>
+              <td>{periode.grad}</td>
+              <td>{periode.merknad}</td>
+            </tr>
+          )
+        }
         </tbody>
       </table>;
 
