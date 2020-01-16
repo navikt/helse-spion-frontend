@@ -92,15 +92,13 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   render() {
     const { person, fom, tom } = this.props;
     
-    const filteredPerioder: ArbeidsgiverPeriode[] = person
-      ? person.arbeidsgiverPerioder.filter(periode => fom
+    const filteredPerioder: ArbeidsgiverPeriode[] = person?.arbeidsgiverPerioder.filter(periode => fom
         ? periode.fom > fom
         : periode
       ).filter(periode => tom
         ? periode.tom < tom
         : periode
-      )
-      : [];
+      ) ?? [];
     
     let totalBeløp: number = 0;
     
