@@ -16,11 +16,11 @@ export interface Person {
 export interface ArbeidsgiverPeriode {
   fom: Date
   tom: Date
-  grad?: string
+  status: string // todo: Enum
   referanseBeløp: string // todo: Enum
   ytelse: string // todo: Enum
+  grad?: string
   merknad?: string
-  status: string // todo: Enum
 }
 
 export enum HelseSpionTypes {

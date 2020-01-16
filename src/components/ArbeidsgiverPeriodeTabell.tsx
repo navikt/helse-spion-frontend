@@ -19,6 +19,7 @@ import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 import { stripToInt } from "../util/stripToInt";
 import { thousandSeparation } from "../util/thousandSeparation";
+import { identityNumberSeparation } from "../util/identityNumberSeparation";
 
 registerLocale('nb', nb);
 
@@ -222,7 +223,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     label="Finn en annen ansatt"
                     placeholder="Personnummer 11 siffer"
                     onChange={e => this.setFødselsnummerSøk(e.target.value)}
-                    value={this.state.fødselsnummerSøk}
+                    value={identityNumberSeparation(this.state.fødselsnummerSøk)}
                     onKeyDown={this.onEnterClick}
                   />
                   <Søkeknapp
