@@ -174,7 +174,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         }
         </tbody>
       </table>;
-
+    
     return (
       <div className="arbeidsgiver-periode-tabell">
         <div className="arbeidsgiver-periode-tabell--banner">
@@ -208,7 +208,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     person &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Fødselsnummer: {identityNumberSeparation(person?.fødselsnummer)}
+                        Fødselsnummer: {identityNumberSeparation(person?.fødselsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
