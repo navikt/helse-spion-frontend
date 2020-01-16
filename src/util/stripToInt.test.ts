@@ -6,8 +6,8 @@ describe('stripToInt', () => {
 		expect(input).toEqual(123321);
 	});
 	
-	it('returns null if string doesnt contain a number', async () => {
+	it('returns undefined if string doesnt contain a number', async () => {
 		const input = stripToInt("foo bar");
-		expect(input).toEqual(null);
+		expect(input).toEqual(undefined);
 	});
 });
