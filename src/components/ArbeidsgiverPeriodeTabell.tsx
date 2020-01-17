@@ -48,14 +48,11 @@ type State = {
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
-  constructor(p) {
-    super(p);
-    this.state = {
+  state = {
       identitetsnummerSøk: '',
       sortColumn: -1,
       sortDescending: true,
-    }
-  }
+  };
   
   setIdentitetsnummerSøk = (input: string) => {
     input = input.replace(/\D/g,'').substring(0, 11);
