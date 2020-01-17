@@ -34,7 +34,7 @@ type StateProps = {
 }
 
 type DispatchProps = {
-  fetchPerson: (fødselsnummerSøk: string) => void
+  fetchPerson: (identitetsnummerSøk: string) => void
   setFom: (date: Date) => void
   setTom: (date: Date) => void
 }
@@ -42,24 +42,21 @@ type DispatchProps = {
 type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
-  fødselsnummerSøk: string
+  identitetsnummerSøk: string
   sortColumn: number
   sortDescending: boolean
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
-  constructor(p) {
-    super(p);
-    this.state = {
-      fødselsnummerSøk: '',
+  state = {
+      identitetsnummerSøk: '',
       sortColumn: -1,
       sortDescending: true,
-    }
-  }
+  };
   
-  setFødselsnummerSøk = (input: string) => {
+  setIdentitetsnummerSøk = (input: string) => {
     input = input.replace(/\D/g,'').substring(0, 11);
-    this.setState({ fødselsnummerSøk: input });
+    this.setState({ identitetsnummerSøk: input });
   };
 
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -71,7 +68,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
 
   submitSøk = (): void => {
-    this.props.fetchPerson(this.state.fødselsnummerSøk);
+    this.props.fetchPerson(this.state.identitetsnummerSøk);
   };
   
   setSort = (index: number): void => {
@@ -203,7 +200,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     person &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Fødselsnummer: {identityNumberSeparation(person?.fødselsnummer ?? '')}
+                        Identitetsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
@@ -215,9 +212,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
-                    placeholder="Fødselsnummer 11 siffer"
-                    onChange={e => this.setFødselsnummerSøk(e.target.value)}
-                    value={identityNumberSeparation(this.state.fødselsnummerSøk)}
+                    placeholder="Identitetsnummer 11 siffer"
+                    onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
+                    value={identityNumberSeparation(this.state.identitetsnummerSøk)}
                     onKeyDown={this.onEnterClick}
                   />
                   <Søkeknapp
