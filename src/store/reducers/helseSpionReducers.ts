@@ -2,7 +2,8 @@ import { HelseSpionActions, HelseSpionState, HelseSpionTypes } from "../types/he
 import { Action } from "redux";
 
 const initialHelseSpionState: HelseSpionState = {
-  person: undefined
+  person: undefined,
+  error: false
 };
 
 export function helseSpionReducer (
@@ -11,10 +12,22 @@ export function helseSpionReducer (
 ): HelseSpionState {
   const action = incomingAction as HelseSpionActions;
   switch (action.type) {
-    case HelseSpionTypes.FETCH_PERSON:
+    case HelseSpionTypes.FETCH_PERSON_STARTED:
+      return {
+        ...state,
+        error: false,
+      };
+  
+    case HelseSpionTypes.FETCH_PERSON_SUCCESS:
       return {
         ...state,
         person: action.person,
+      };
+  
+    case HelseSpionTypes.FETCH_PERSON_ERROR:
+      return {
+        ...state,
+        error: true,
       };
 
     case HelseSpionTypes.SET_FOM:
