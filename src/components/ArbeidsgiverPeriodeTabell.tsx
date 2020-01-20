@@ -198,7 +198,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     person &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Identitetsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
+                        Fødselsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
@@ -210,7 +210,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
-                    placeholder="Identitetsnummer 11 siffer"
+                    placeholder="Fødselsnummer 11 siffer"
                     onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
                     value={identityNumberSeparation(identitetsnummerSøk)}
                     onKeyDown={this.onEnterClick}
