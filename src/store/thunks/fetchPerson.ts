@@ -13,7 +13,6 @@ export function fetchPerson(identitetsnummerSøk?: String) {
           dispatch(fetchPersonSuccess(dummyData));
         } else {
           dispatch(fetchPersonError());
-          alert("error");
         }
       });
     }
