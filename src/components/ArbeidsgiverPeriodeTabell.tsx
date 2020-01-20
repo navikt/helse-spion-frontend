@@ -20,17 +20,15 @@ import { fetchPerson } from "../store/thunks/fetchPerson";
 import { stripToInt } from "../util/stripToInt";
 import { thousandSeparation } from "../util/thousandSeparation";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
+import AlertStripe from "nav-frontend-alertstriper";
 
 registerLocale('nb', nb);
-
-interface OwnProps {
-
-}
 
 type StateProps = {
   person?: Person
   fom?: Date
   tom?: Date
+  error: boolean
 }
 
 type DispatchProps = {
@@ -39,7 +37,7 @@ type DispatchProps = {
   setTom: (date: Date) => void
 }
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
 type State = {
   identitetsnummerSøk: string
@@ -87,7 +85,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
 
   render() {
-    const { person, fom, tom } = this.props;
+    const { person, fom, tom, error, } = this.props;
     
     const filteredPerioder: ArbeidsgiverPeriode[] = person?.arbeidsgiverPerioder.filter(periode => fom
         ? periode.fom > fom
@@ -223,27 +221,33 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   />
                 </div>
               </div>
-              <div className="arbeidsgiver-periode-tabell--periode-velger">
-                <div>Periode:</div>
-                <DatePicker
-                  locale="nb"
-                  dateFormat="dd.MM.yyyy"
-                  selected={this.props.fom}
-                  onChange={e => this.props.setFom(e)}
-                />
-                <b>-</b>
-                <DatePicker
-                  locale="nb"
-                  dateFormat="dd.MM.yyyy"
-                  selected={this.props.tom}
-                  onChange={e => this.props.setTom(e)}
-                />
-                <div className="arbeidsgiver-periode-tabell--periode-velger-total">
-                  Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
-                </div>
-                <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
-              </div>
-              {table}
+              {
+                error
+                ? <AlertStripe type="feil">En feil har skjedd. Prøv igjen senere</AlertStripe>
+                : <>
+                    <div className="arbeidsgiver-periode-tabell--periode-velger">
+                      <div>Periode:</div>
+                      <DatePicker
+                        locale="nb"
+                        dateFormat="dd.MM.yyyy"
+                        selected={this.props.fom}
+                        onChange={e => this.props.setFom(e)}
+                      />
+                      <b>-</b>
+                      <DatePicker
+                        locale="nb"
+                        dateFormat="dd.MM.yyyy"
+                        selected={this.props.tom}
+                        onChange={e => this.props.setTom(e)}
+                      />
+                      <div className="arbeidsgiver-periode-tabell--periode-velger-total">
+                        Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
+                      </div>
+                      <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
+                    </div>
+                    {table}
+                  </>
+              }
             </div>
           </div>
         </div>
@@ -256,6 +260,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   person: state.helseSpionState.person,
   fom: state.helseSpionState.fom,
   tom: state.helseSpionState.tom,
+  error: state.helseSpionState.error,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({

@@ -1,15 +1,21 @@
-import { fetchPersonSuccess } from "../actions/helseSpionActions";
+import {fetchPersonError, fetchPersonStarted, fetchPersonSuccess} from "../actions/helseSpionActions";
 import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
 
 //TODO: Needs type safety
 export function fetchPerson(identitetsnummerSøk?: String) {
   return async dispatch => {
     if (identitetsnummerSøk) {
-      await fetch(`http://localhost:3000/api`)
-        // .then(data => data.json())
-        .then(data => {
-          dispatch(fetchPersonSuccess(dummyData))
-        });
+      dispatch(fetchPersonStarted());
+      await fetch(`http://localhost:3000/api`).then(response => {
+        if (response.status === 401) {
+          alert("redirect");
+        } else if (response.status === 200) {
+          dispatch(fetchPersonSuccess(dummyData));
+        } else {
+          dispatch(fetchPersonError());
+          alert("error");
+        }
+      });
     }
   };
 }
