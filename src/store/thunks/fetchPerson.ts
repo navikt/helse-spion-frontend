@@ -1,4 +1,4 @@
-import {fetchPersonError, fetchPersonStarted, fetchPersonSuccess} from "../actions/helseSpionActions";
+import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
 import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
 
 //TODO: Needs type safety
