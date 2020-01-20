@@ -3,7 +3,7 @@ import { Action } from "redux";
 
 const initialHelseSpionState: HelseSpionState = {
   person: undefined,
-  error: false
+  error: false,
 };
 
 export function helseSpionReducer (
@@ -29,19 +29,7 @@ export function helseSpionReducer (
         ...state,
         error: true,
       };
-
-    case HelseSpionTypes.SET_FOM:
-      return {
-        ...state,
-        fom: action.fom,
-      };
-
-    case HelseSpionTypes.SET_TOM:
-      return {
-        ...state,
-        tom: action.tom,
-      };
-
+      
     default:
       return state
   }

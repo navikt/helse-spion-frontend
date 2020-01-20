@@ -14,7 +14,6 @@ import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { setFom, setTom } from "../store/actions/helseSpionActions";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 import { stripToInt } from "../util/stripToInt";
@@ -26,15 +25,11 @@ registerLocale('nb', nb);
 
 type StateProps = {
   person?: Person
-  fom?: Date
-  tom?: Date
   error: boolean
 }
 
 type DispatchProps = {
   fetchPerson: (identitetsnummerSøk: string) => void
-  setFom: (date: Date) => void
-  setTom: (date: Date) => void
 }
 
 type Props = StateProps & DispatchProps;
@@ -43,13 +38,17 @@ type State = {
   identitetsnummerSøk: string
   sortColumn: number
   sortDescending: boolean
+  fom?: Date
+  tom?: Date
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   state = {
-      identitetsnummerSøk: '',
-      sortColumn: -1,
-      sortDescending: true,
+    identitetsnummerSøk: '',
+    sortColumn: -1,
+    sortDescending: true,
+    fom: undefined,
+    tom: undefined,
   };
   
   setIdentitetsnummerSøk = (input: string) => {
@@ -85,15 +84,16 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
 
   render() {
-    const { person, fom, tom, error, } = this.props;
-    
+    const { person, error, } = this.props;
+    const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
+  
     const filteredPerioder: ArbeidsgiverPeriode[] = person?.arbeidsgiverPerioder.filter(periode => fom
-        ? periode.fom > fom
-        : periode
-      ).filter(periode => tom
-        ? periode.tom < tom
-        : periode
-      ) ?? [];
+      ? periode.fom > fom!
+      : periode
+    ).filter(periode => tom
+      ? periode.tom < tom!
+      : periode
+    ) ?? [];
     
     let totalBeløp: number = 0;
     
@@ -103,7 +103,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     
     const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) => {
       let sort: number = 0;
-      switch (this.state.sortColumn) {
+      switch (sortColumn) {
         case 0:
           sort = b.fom.getTime() - a.fom.getTime();
           break;
@@ -124,7 +124,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           break;
         default: break;
       }
-      return this.state.sortDescending ? sort : -sort;
+      return sortDescending ? sort : -sort;
     });
     
     const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
@@ -135,8 +135,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <tr>
           {
             columnHeaders.map((columnHeader, index) => {
-              if (this.state.sortColumn == index) {
-                return this.state.sortDescending
+              if (sortColumn == index) {
+                return sortDescending
                   ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
                   : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
               } else {
@@ -198,7 +198,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     person &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Identitetsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
+                        Fødselsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {person?.fornavn} {person?.etternavn}
@@ -210,9 +210,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
                     label="Finn en annen ansatt"
-                    placeholder="Identitetsnummer 11 siffer"
+                    placeholder="Fødselsnummer 11 siffer"
                     onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
-                    value={identityNumberSeparation(this.state.identitetsnummerSøk)}
+                    value={identityNumberSeparation(identitetsnummerSøk)}
                     onKeyDown={this.onEnterClick}
                   />
                   <Søkeknapp
@@ -230,15 +230,15 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                       <DatePicker
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
-                        selected={this.props.fom}
-                        onChange={e => this.props.setFom(e)}
+                        selected={fom}
+                        onChange={e => this.setState({ fom: e })}
                       />
                       <b>-</b>
                       <DatePicker
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
-                        selected={this.props.tom}
-                        onChange={e => this.props.setTom(e)}
+                        selected={tom}
+                        onChange={e => this.setState({ tom: e })}
                       />
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
                         Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
@@ -258,15 +258,11 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   person: state.helseSpionState.person,
-  fom: state.helseSpionState.fom,
-  tom: state.helseSpionState.tom,
   error: state.helseSpionState.error,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
   fetchPerson: fetchPerson,
-  setFom: setFom,
-  setTom: setTom,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell);

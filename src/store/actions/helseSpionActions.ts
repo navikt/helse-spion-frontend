@@ -18,17 +18,3 @@ export const fetchPersonError = (): HelseSpionActions => {
     type: HelseSpionTypes.FETCH_PERSON_ERROR,
   }
 };
-
-export const setFom = (date: Date): HelseSpionActions => {
-  return {
-    type: HelseSpionTypes.SET_FOM,
-    fom: date,
-  }
-};
-
-export const setTom = (date: Date): HelseSpionActions => {
-  return {
-    type: HelseSpionTypes.SET_TOM,
-    tom: date,
-  }
-};
