@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { ArbeidsgiverPeriode, Person } from "../store/types/helseSpionTypes";
+import { ArbeidsgiverPeriode, Person, Status } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -74,11 +74,11 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       : this.setState({ sortColumn: index, sortDescending: true })
   };
   
-  getClassnameFromStatus = (status: string): string => {
+  getClassnameFromStatus = (status: Status): string => {
     switch (status) {
-      case 'Under behandling': return 'under-behandling';
-      case 'Avslått': return 'avslått';
-      case 'Innvilget': return 'innvilget';
+      case Status.UNDER_BEHANDLING: return 'under-behandling';
+      case Status.AVSLÅTT: return 'avslått';
+      case Status.INNVILGET: return 'innvilget';
       default: return '';
     }
   };
