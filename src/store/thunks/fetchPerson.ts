@@ -6,7 +6,13 @@ export function fetchPerson(identitetsnummerSøk?: String) {
   return async dispatch => {
     if (identitetsnummerSøk) {
       dispatch(fetchPersonStarted());
-      await fetch(`http://localhost:3000/api`).then(response => {
+      await fetch(`http://localhost:3000/api`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+        method: 'POST',
+        body: '',
+      }).then(response => {
         if (response.status === 401) {
           alert("redirect");
         } else if (response.status === 200) {
