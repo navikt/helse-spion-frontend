@@ -15,11 +15,17 @@ export interface Person {
 export interface ArbeidsgiverPeriode {
   fom: Date
   tom: Date
-  status: string // todo: Enum
+  status: Status
   referanseBeløp: string // todo: Enum
   ytelse: string // todo: Enum
   grad?: string
   merknad?: string
+}
+
+export enum Status {
+  UNDER_BEHANDLING = 'Under behandling',
+  AVSLÅTT = 'Avslått',
+  INNVILGET = 'Innvilget',
 }
 
 export enum HelseSpionTypes {

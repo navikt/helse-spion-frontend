@@ -1,12 +1,18 @@
 import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
-import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
+import { ArbeidsgiverPeriode, Person, Status } from "../types/helseSpionTypes";
 
 //TODO: Needs type safety
 export function fetchPerson(identitetsnummerSøk?: String) {
   return async dispatch => {
     if (identitetsnummerSøk) {
       dispatch(fetchPersonStarted());
-      await fetch(`http://localhost:3000/api`).then(response => {
+      await fetch(`http://localhost:3000/api`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+        method: 'POST',
+        body: '',
+      }).then(response => {
         if (response.status === 401) {
           alert("redirect");
         } else if (response.status === 200) {
@@ -23,7 +29,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,12,17),
     tom: new Date(2020,1,1),
-    status: 'Under behandling',
+    status: Status.UNDER_BEHANDLING,
     referanseBeløp: '-',
     ytelse: 'SP',
     grad: '100%',
@@ -32,7 +38,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,3,10),
     tom: new Date(2019,4,7),
-    status: 'Avslått',
+    status: Status.AVSLÅTT,
     referanseBeløp: '0,-',
     ytelse: 'PP',
     grad: '-',
@@ -41,7 +47,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,1,21),
     tom: new Date(2019,3,2),
-    status: 'Innvilget',
+    status: Status.INNVILGET,
     referanseBeløp: '9.500,-',
     ytelse: 'PP',
     grad: '50%',
@@ -50,7 +56,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2018,1,21),
     tom: new Date(2018,3,2),
-    status: 'Innvilget',
+    status: Status.INNVILGET,
     referanseBeløp: '12.000,-',
     ytelse: 'SP',
     grad: '50%',
