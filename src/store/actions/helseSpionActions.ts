@@ -1,4 +1,4 @@
-import { HelseSpionActions, HelseSpionTypes, Person } from "../types/helseSpionTypes";
+import { HelseSpionActions, HelseSpionTypes, Sak } from "../types/helseSpionTypes";
 
 export const fetchPersonStarted = (): HelseSpionActions => {
   return {
@@ -6,10 +6,10 @@ export const fetchPersonStarted = (): HelseSpionActions => {
   }
 };
 
-export const fetchPersonSuccess = (person: Person): HelseSpionActions => {
+export const fetchPersonSuccess = (sak: Sak): HelseSpionActions => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_SUCCESS,
-    person: person,
+    sak: sak,
   }
 };
 

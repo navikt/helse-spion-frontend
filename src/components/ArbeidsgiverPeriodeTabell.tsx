@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { ArbeidsgiverPeriode, Person, Status } from "../store/types/helseSpionTypes";
+import {Sak, Status, Ytelsesperiode} from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -16,7 +16,6 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
-import { stripToInt } from "../util/stripToInt";
 import { thousandSeparation } from "../util/thousandSeparation";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
@@ -24,7 +23,7 @@ import AlertStripe from "nav-frontend-alertstriper";
 registerLocale('nb', nb);
 
 type StateProps = {
-  person?: Person
+  sak?: Sak
   error: boolean
 }
 
@@ -84,40 +83,40 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
 
   render() {
-    const { person, error, } = this.props;
+    const { sak, error, } = this.props;
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
-  
-    const filteredPerioder: ArbeidsgiverPeriode[] = person?.arbeidsgiverPerioder.filter(periode => fom
-      ? periode.fom > fom!
-      : periode
-    ).filter(periode => tom
-      ? periode.tom < tom!
-      : periode
+    
+    const filteredYtelsesperioder: Ytelsesperiode[] = sak?.ytelsesperioder.filter(ytelsesperiode => fom
+      ? ytelsesperiode[0].fom > fom!
+      : ytelsesperiode
+    ).filter(ytelsesperiode => tom
+      ? ytelsesperiode[0].tom < tom!
+      : ytelsesperiode
     ) ?? [];
     
     let totalBeløp: number = 0;
     
-    filteredPerioder.map((periode) => {
-      totalBeløp += stripToInt(periode.referanseBeløp) ?? 0;
+    filteredYtelsesperioder.map((ytelsesperiode) => {
+      totalBeløp += ytelsesperiode.refusjonsbeløp;
     });
     
-    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) => {
+    const sortedYtelsesperioder: Ytelsesperiode[] = filteredYtelsesperioder.sort((a, b) => {
       let sort: number = 0;
       switch (sortColumn) {
         case 0:
-          sort = b.fom.getTime() - a.fom.getTime();
+          sort = b.periode.fom.getTime() - a.periode.fom.getTime();
           break;
         case 1:
           sort = b.status.localeCompare(a.status);
           break;
         case 2:
-          sort = (stripToInt(b.referanseBeløp) ?? -1) - (stripToInt(a.referanseBeløp) ?? 0);
+          sort = b.refusjonsbeløp - a.refusjonsbeløp;
           break;
         case 3:
           sort = b.ytelse.localeCompare(a.ytelse);
           break;
         case 4:
-          sort = (stripToInt(b.grad ?? '') ?? -1) - (stripToInt(a.grad ?? '') ?? 0);
+          sort = (b.grad ?? -1) - (a.grad ?? 0);
           break;
         case 5:
           sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
@@ -148,17 +147,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         </thead>
         <tbody>
         {
-          sortedPerioder.map((periode, index ) =>
+          sortedYtelsesperioder.map((ytelsesperiode, index ) =>
             <tr key={index}>
-              <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
+              <td>{ytelsesperiode.periode.fom.toLocaleDateString('nb')} - {ytelsesperiode.periode.tom.toLocaleDateString('nb')}</td>
               <td>
-                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
-                {periode.status}
+                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(ytelsesperiode.status)}/>
+                {ytelsesperiode.status}
               </td>
-              <td>{periode.referanseBeløp}</td>
-              <td>{periode.ytelse}</td>
-              <td>{periode.grad}</td>
-              <td>{periode.merknad}</td>
+              <td>{ytelsesperiode.refusjonsbeløp}</td>
+              <td>{ytelsesperiode.ytelse}</td>
+              <td>{ytelsesperiode.grad}</td>
+              <td>{ytelsesperiode.merknad}</td>
             </tr>
           )
         }
@@ -195,13 +194,13 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
               <div className="arbeidsgiver-periode-tabell--header">
                 <div className="arbeidsgiver-periode-tabell--info-gruppe">
                   {
-                    person &&
+                    sak &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Fødselsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
+                        Fødselsnummer: {identityNumberSeparation(sak?.arbeidsgiver.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {person?.fornavn} {person?.etternavn}
+                        {sak?.person.fornavn} {sak?.person.etternavn}
                       </Innholdstittel>
                     </>
                   }
@@ -231,7 +230,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
                         selected={fom}
-                        onChange={e => this.setState({ fom: e })}
+                        onChange={e => {this.setState({ fom: e }); console.log(e)}}
                       />
                       <b>-</b>
                       <DatePicker
@@ -257,7 +256,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  person: state.helseSpionState.person,
+  sak: state.helseSpionState.sak,
   error: state.helseSpionState.error,
 });
 

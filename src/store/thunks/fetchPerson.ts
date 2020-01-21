@@ -1,82 +1,57 @@
 import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
-import { ArbeidsgiverPeriode, Person, Status } from "../types/helseSpionTypes";
+import { Sak } from "../types/helseSpionTypes";
+import { stringToDate } from "../../util/stringToDate";
+import { Dispatch } from "redux";
 
-//TODO: Needs type safety
-export function fetchPerson(identitetsnummerSøk?: String) {
+export function fetchPerson(identitetsnummerSøk?: String): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
-    if (identitetsnummerSøk) {
-      dispatch(fetchPersonStarted());
-      await fetch('http://localhost:3000/api/v1/saker/oppslag', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        //method: 'GET',
-        method: 'POST',
-        body: JSON.stringify({
-          "identitetsnummer": identitetsnummerSøk,
-          "arbeidsgiverOrgnr": "2"
-        }),
-      }).then(response => {
-        if (response.status === 401) {
-          alert("redirect");
-        } else if (response.status === 200) {
-          dispatch(fetchPersonSuccess(dummyData));
-          console.log(response.json())
-        } else {
-          dispatch(fetchPersonError());
-          // dispatch(fetchPersonSuccess(dummyData));
-        }
-      });
-    }
-  };
+    dispatch(fetchPersonStarted());
+    await fetch('http://localhost:3000/api/v1/saker/oppslag', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        "identitetsnummer": identitetsnummerSøk,
+        "arbeidsgiverOrgnr": "2"
+      }),
+    }).then(response => {
+      if (response.status === 401) {
+        alert("redirect");
+        return dispatch(fetchPersonError());
+      } else if (response.status === 200) {
+        // todo: type safety on data response
+        return response.json().then(data =>
+          dispatch(fetchPersonSuccess(convertResponseDataToSak(data[0])))
+        );
+      } else {
+        return dispatch(fetchPersonError());
+      }
+    });
+  }
 }
 
-const dummyDataPerioder: ArbeidsgiverPeriode[] = [
-  {
-    fom: new Date(2019,12,17),
-    tom: new Date(2020,1,1),
-    status: Status.UNDER_BEHANDLING,
-    referanseBeløp: '-',
-    ytelse: 'SP',
-    grad: '100%',
-    merknad: '-',
-  },
-  {
-    fom: new Date(2019,3,10),
-    tom: new Date(2019,4,7),
-    status: Status.AVSLÅTT,
-    referanseBeløp: '0,-',
-    ytelse: 'PP',
-    grad: '-',
-    merknad: '-',
-  },
-  {
-    fom: new Date(2019,1,21),
-    tom: new Date(2019,3,2),
-    status: Status.INNVILGET,
-    referanseBeløp: '9.500,-',
-    ytelse: 'PP',
-    grad: '50%',
-    merknad: '-',
-  },
-  {
-    fom: new Date(2018,1,21),
-    tom: new Date(2018,3,2),
-    status: Status.INNVILGET,
-    referanseBeløp: '12.000,-',
-    ytelse: 'SP',
-    grad: '50%',
-    merknad: 'Fritak AGP',
-  },
-];
-
-const dummyData: Person = {
-  fornavn: 'Ola',
-  etternavn: 'Nordman',
-  identitetsnummer: '12345678912',
-  virksomhetsNr: '12345678912',
-  virksomhetsNavn: 'Grünerløkka pleiehjem',
-  arbeidsgiverPerioder: dummyDataPerioder,
+// todo: type safety
+const convertResponseDataToSak = (data): Sak => {
+  return {
+    ...data,
+    oppsummering: {
+      ...data.oppsummering,
+      periode: {
+        ...data.oppsummering.periode,
+        fom: stringToDate(data.oppsummering.periode.fom),
+        tom: stringToDate(data.oppsummering.periode.tom),
+      }
+    },
+    ytelsesperioder: data.ytelsesperioder.map(ytelsesperiode => {
+      return {
+        ...ytelsesperiode,
+        periode: {
+          fom: stringToDate(ytelsesperiode.periode.fom),
+          tom: stringToDate(ytelsesperiode.periode.tom),
+        }
+      }
+    })
+  };
 };
-
