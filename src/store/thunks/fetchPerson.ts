@@ -1,5 +1,5 @@
 import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
-import { ArbeidsgiverPeriode, Person } from "../types/helseSpionTypes";
+import { ArbeidsgiverPeriode, Person, Status } from "../types/helseSpionTypes";
 
 //TODO: Needs type safety
 export function fetchPerson(identitetsnummerSøk?: String) {
@@ -11,7 +11,6 @@ export function fetchPerson(identitetsnummerSøk?: String) {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        //method: 'GET',
         method: 'POST',
         body: JSON.stringify({
           "identitetsnummer": identitetsnummerSøk,
@@ -22,8 +21,10 @@ export function fetchPerson(identitetsnummerSøk?: String) {
           alert("redirect");
         } else if (response.status === 200) {
           dispatch(fetchPersonSuccess(dummyData));
+          console.log(response.json())
         } else {
           dispatch(fetchPersonError());
+          // dispatch(fetchPersonSuccess(dummyData));
         }
       });
     }
@@ -34,7 +35,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,12,17),
     tom: new Date(2020,1,1),
-    status: 'Under behandling',
+    status: Status.UNDER_BEHANDLING,
     referanseBeløp: '-',
     ytelse: 'SP',
     grad: '100%',
@@ -43,7 +44,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,3,10),
     tom: new Date(2019,4,7),
-    status: 'Avslått',
+    status: Status.AVSLÅTT,
     referanseBeløp: '0,-',
     ytelse: 'PP',
     grad: '-',
@@ -52,7 +53,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2019,1,21),
     tom: new Date(2019,3,2),
-    status: 'Innvilget',
+    status: Status.INNVILGET,
     referanseBeløp: '9.500,-',
     ytelse: 'PP',
     grad: '50%',
@@ -61,7 +62,7 @@ const dummyDataPerioder: ArbeidsgiverPeriode[] = [
   {
     fom: new Date(2018,1,21),
     tom: new Date(2018,3,2),
-    status: 'Innvilget',
+    status: Status.INNVILGET,
     referanseBeløp: '12.000,-',
     ytelse: 'SP',
     grad: '50%',
