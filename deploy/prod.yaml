@@ -32,6 +32,6 @@ spec:
     requests:
       cpu: 200m
       memory: 256Mi
-      env:
-        - name: PROXY
-          value: http://helse-spion.default.svc.nais.local
+  env:
+    - name: PROXY
+      value: https://helse-spion.nais.adeo.no
