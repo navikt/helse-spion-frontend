@@ -33,4 +33,4 @@ spec:
       cpu: 200m
       memory: 256Mi
       env:
-        proxy: http://helse-spion.default.svc.nais.local
+        proxy: https://helse-spion.default.svc.nais.local
