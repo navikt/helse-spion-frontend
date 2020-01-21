@@ -10,13 +10,7 @@ const devServerConfig = () => config => {
         ...config,
         proxy: {
             '/api': {
-                target: process.env.PROXY || 'http://localhost:8080',
-                secure: false,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/': '/',
-                },
-                ws: false
+                target: process.env.PROXY || 'http://localhost:8080'
             },
         },
     }

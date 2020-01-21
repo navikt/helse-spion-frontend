@@ -6,6 +6,7 @@ export function fetchPerson(identitetsnummerSøk?: String) {
   return async dispatch => {
     if (identitetsnummerSøk) {
       dispatch(fetchPersonStarted());
+      console.log(process.env.PROXY)
       await fetch('/api/v1/saker/oppslag', {
         headers: {
           'Accept': 'application/json',
