@@ -5,9 +5,9 @@ location  /api/ {
 }
 location  /isalive/ {
     access_by_lua_file oidc_protected.lua;
-    proxy_pass "${APP_URL_SPION}/isalive/";
+    proxy_pass "${APP_URL_SPION}/isalive";
 }
 location  /isready/ {
     access_by_lua_file oidc_protected.lua;
-    proxy_pass "${APP_URL_SPION}/isready/";
+    proxy_pass "${APP_URL_SPION}/isready";
 }
