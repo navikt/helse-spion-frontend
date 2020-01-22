@@ -1,11 +1,10 @@
-FROM navikt/node-express:12.2.0-alpine
+FROM navikt/nginx-oidc:latest
 
-ENV NODE_ENV production
+ENV APP_DIR="/app" \
+	APP_PATH_PREFIX="/" \
+	APP_URL_SPION="http://helse-spion.default.svc.nais.local"
 
-CMD ["npm", "run build"]
-
-COPY . /var/server
+COPY dist /app/
+COPY k8s/proxy.nginx      /nginx/proxy.nginx
 
 EXPOSE 3000
-
-CMD ["npm", "start"]
