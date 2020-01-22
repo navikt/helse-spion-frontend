@@ -6,7 +6,7 @@ ENV APP_DIR="/app" \
 	APP_PATH_PREFIX="/" \
 	APP_URL_SPION=$BACKEND
 
-RUN npm run-script build
+RUN yarn build
 
 COPY build /app/
 COPY k8s/proxy.nginx      /nginx/proxy.nginx
