@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import {Sak, Status, Ytelsesperiode} from "../store/types/helseSpionTypes";
+import { Sak, Status, Ytelsesperiode } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -225,12 +225,14 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 ? <AlertStripe type="feil">En feil har skjedd. Prøv igjen senere</AlertStripe>
                 : <>
                     <div className="arbeidsgiver-periode-tabell--periode-velger">
-                      <div>Periode:</div>
+                      <div id="periode">Periode:</div>
                       <DatePicker
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
                         selected={fom}
-                        onChange={e => {this.setState({ fom: e }); console.log(e)}}
+                        onChange={e => this.setState({ fom: e })}
+                        showYearDropdown
+                        ariaLabelledBy="periode"
                       />
                       <b>-</b>
                       <DatePicker
@@ -238,6 +240,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                         dateFormat="dd.MM.yyyy"
                         selected={tom}
                         onChange={e => this.setState({ tom: e })}
+                        showYearDropdown
+                        ariaLabelledBy="periode"
                       />
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
                         Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
