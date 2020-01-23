@@ -7,7 +7,7 @@ ENV APP_DIR="/app" \
 	APP_URL_SPION=$BACKEND
 
 COPY build /app
-COPY k8s/proxy.nginx      /nginx/proxy.nginx
+COPY deploy/proxy.nginx      /nginx/proxy.nginx
 
 
 EXPOSE 9000 443
