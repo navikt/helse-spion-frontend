@@ -7,7 +7,7 @@ metadata:
     team: {{team}}
 spec:
   image: {{image}}:{{tag}}
-  port: 3000
+  port: 443
   liveness:
     path: isalive
     initialDelay: 15
@@ -34,4 +34,4 @@ spec:
       memory: 256Mi
   env:
     - name: PROXY
-      value: http://helse-spion.default.svc.nais.local
+      value: http://helse-spion
