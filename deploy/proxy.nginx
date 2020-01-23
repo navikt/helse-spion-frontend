@@ -2,9 +2,3 @@
 location  /api/ {
     proxy_pass "${APP_URL_SPION}/api/";
 }
-location  /isalive {
-    proxy_pass "${APP_URL_SPION}/isalive/";
-}
-location  /isready {
-    proxy_pass "${APP_URL_SPION}/isready/";
-}
