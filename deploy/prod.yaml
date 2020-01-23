@@ -9,13 +9,13 @@ spec:
   image: {{image}}:{{tag}}
   port: 443
   liveness:
-    path: isalive
+    path: /health/is-alive
     initialDelay: 15
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
   readiness:
-    path: isready
+    path: /health/is-ready
     initialDelay: 15
     timeout: 1
     periodSeconds: 3
