@@ -132,5 +132,9 @@ server {
         proxy_pass "${APP_URL_BACKEND}/api/";
     }
 
+    location @rewrites {
+        rewrite "/din-refusjon" "/" last;
+    }
+
     include /nginx/*.nginx;
 }
