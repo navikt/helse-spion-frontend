@@ -32,7 +32,7 @@ echo -e "Startup:" ${APP_PATH_PREFIX} \n"\
  App version:" ${APP_VERSION}
 
 # replace env for nginx conf
-envsubst '$APP_DIR $APP_HOSTNAME $APP_NAME $APP_VERSION $APP_PORT $APP_CALLBACK_PATH $APP_PATH_PREFIX $OIDC_AGENTNAME $OIDC_PASSWORD $OIDC_HOST_URL $RESOLVER $REDIS_HOST $REDIS_PORT $SESSION_STORAGE' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '$APP_DIR $APP_HOSTNAME $APP_NAME $APP_VERSION $APP_PORT $APP_CALLBACK_PATH $APP_PATH_PREFIX $OIDC_AGENTNAME $OIDC_PASSWORD $OIDC_HOST_URL $RESOLVER $REDIS_HOST $REDIS_PORT $SESSION_STORAGE $APP_URL_SPION' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
 
 # find all env start with APP_
 export SUBS=$(echo $(env | cut -d= -f1 | grep "^APP_" | sed -e 's/^/\$/'))
