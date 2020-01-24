@@ -1,4 +1,0 @@
-# Simple Proxy to backend
-location  /api/ {
-    proxy_pass "${APP_URL_SPION}/api/";
-}

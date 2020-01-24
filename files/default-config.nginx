@@ -110,7 +110,7 @@ server {
 
     # To make sure any assets can get through :)
     location "${APP_PATH_PREFIX}/" {
-        access_by_lua_file oidc_protected.lua;
+#        access_by_lua_file oidc_protected.lua;
         try_files $uri @rewrites;
     }
 
@@ -143,6 +143,11 @@ server {
         default_type application/json;
         return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
     }
+
+    location  /api/ {
+        proxy_pass "${APP_URL_SPION}/api/";
+    }
+
 
     include /nginx/*.nginx;
 }

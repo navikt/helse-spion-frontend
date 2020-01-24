@@ -2,6 +2,7 @@ FROM openresty/openresty:alpine-fat
 
 # User env var is needed for luarocks to not complain.
 ENV APP_DIR="/app" \
+    APP_PATH_PREFIX="" \
     USER="root"
 
 
@@ -13,8 +14,7 @@ COPY files/start-nginx.sh       /usr/sbin/start-nginx
 RUN chmod u+x /usr/sbin/start-nginx
 RUN mkdir -p /nginx
 
-COPY build /app/spion
-COPY deploy/proxy.nginx      /nginx/proxy.nginx
+COPY build /app
 
 EXPOSE 9000 8012 443
 
