@@ -81,13 +81,13 @@ server {
     sendfile                off;
 
     # Health check for NAIS
-    location = "${APP_PATH_PREFIX}/health/is-alive" {
+    location = "/health/is-alive" {
         return 200 "Application:UP";
         default_type text/plain;
     }
 
     # Readiness check for NAIS
-    location = "${APP_PATH_PREFIX}/health/is-ready" {
+    location = "/health/is-ready" {
         return 200 "Application:READY";
         default_type text/plain;
     }
@@ -108,20 +108,20 @@ server {
 #        return 301 "${APP_PATH_PREFIX}/";
 #    }
 
-    # To make sure any assets can get through :)
-    location "${APP_PATH_PREFIX}/" {
-#        access_by_lua_file oidc_protected.lua;
-        try_files $uri @rewrites;
-    }
+#    # To make sure any assets can get through :)
+#    location "/" {
+##        access_by_lua_file oidc_protected.lua;
+#        try_files $uri @rewrites;
+#    }
 
-    # The Callback path should allways be
-    location "${APP_CALLBACK_PATH}" {
-        access_by_lua_file oidc_protected.lua;
-    }
+#    # The Callback path should allways be
+#    location "${APP_CALLBACK_PATH}" {
+#        access_by_lua_file oidc_protected.lua;
+#    }
 
     # If no asset matches, send it to your javascript app. Hopefully it's a route in the app!
     location @rewrites {
-        rewrite ^(.+)$ "${APP_PATH_PREFIX}/index.html" last;
+        rewrite ^(.+)$ "/index.html" last;
     }
 
     location @401_json {
