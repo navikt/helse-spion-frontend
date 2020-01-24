@@ -3,6 +3,7 @@ FROM openresty/openresty:alpine-fat
 # User env var is needed for luarocks to not complain.
 ENV APP_DIR="/app" \
     APP_PATH_PREFIX="" \
+    APP_URL_SPION="https://helse-spion.nais.preprod.local" \
     USER="root"
 
 
