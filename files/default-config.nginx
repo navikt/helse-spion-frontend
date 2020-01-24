@@ -133,8 +133,7 @@ server {
     }
 
     location @rewrites {
-        rewrite ^din-refusjon$ "/" last;
+        rewrite ^(/din-refusjon).*$ "/" last;
     }
 
-    include /nginx/*.nginx;
 }
