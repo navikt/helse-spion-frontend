@@ -103,22 +103,6 @@ server {
         open_file_cache_errors off;
     }
 
-    # Just slap frontend directly to the prefix
-#    location = / {
-#        return 301 "${APP_PATH_PREFIX}/";
-#    }
-
-#    # To make sure any assets can get through :)
-#    location "/" {
-##        access_by_lua_file oidc_protected.lua;
-#        try_files $uri @rewrites;
-#    }
-
-#    # The Callback path should allways be
-#    location "${APP_CALLBACK_PATH}" {
-#        access_by_lua_file oidc_protected.lua;
-#    }
-
     # If no asset matches, send it to your javascript app. Hopefully it's a route in the app!
     location @rewrites {
         rewrite ^(.+)$ "/index.html" last;
@@ -145,9 +129,8 @@ server {
     }
 
     location  /api/ {
-        proxy_pass "${APP_URL_SPION}/api/";
+        proxy_pass "${APP_URL_BACKEND}/api/";
     }
-
 
     include /nginx/*.nginx;
 }
