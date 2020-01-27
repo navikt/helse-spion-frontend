@@ -133,7 +133,7 @@ server {
     }
 
     location /din-refusjon {
-        rewrite ^/din-refusjon$ http://www.vg.no/ redirect;
+        return 301 /;
     }
 
 }
