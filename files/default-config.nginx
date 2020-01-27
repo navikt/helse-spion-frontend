@@ -132,8 +132,8 @@ server {
         proxy_pass "${APP_URL_BACKEND}/api/";
     }
 
-    location @rewrites {
-        rewrite ^(/din-refusjon).*$ "/" last;
+    location /din-refusjon {
+        rewrite ^/din-refusjon$ http://www.vg.no/ redirect;
     }
 
 }
