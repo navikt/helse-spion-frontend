@@ -7,21 +7,22 @@ metadata:
     team: {{team}}
 spec:
   image: {{image}}:{{tag}}
-  port: 3000
+  port: 443
   liveness:
-    path: isalive
+    path: /health/is-alive
     initialDelay: 15
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
   readiness:
-    path: isready
+    path: /health/is-ready
     initialDelay: 15
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
   ingresses:
     - https://helse-spion-frontend.nais.preprod.local
+    - https://arbeidsgiver-q.nav.no/din-refusjon
   replicas:
     max: 1
     min: 1
@@ -32,6 +33,6 @@ spec:
     requests:
       cpu: 400m
       memory: 256Mi
-    env:
-      - name: PROXY
-        value: http://helse-spion.default.svc.nais.local
+  env:
+  - name: APP_URL_BACKEND
+    value: http://helse-spion

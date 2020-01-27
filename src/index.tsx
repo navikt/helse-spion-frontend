@@ -9,6 +9,7 @@ import { rootReducers } from "./store/rootState";
 import ArbeidsgiverPeriodeTabell from "./components/ArbeidsgiverPeriodeTabell";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./locales/i18n";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
 export const store = createStore(rootReducers, composeEnhancers(applyMiddleware(thunk)));
