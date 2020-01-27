@@ -82,9 +82,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   
   getClassnameFromStatus = (status: Status): string => {
     switch (status) {
-      case Status.UNDER_BEHANDLING: return 'under-behandling';
-      case Status.AVSLÅTT: return 'avslått';
-      case Status.INNVILGET: return 'innvilget';
+      case Status.PENDING: return 'under-behandling';
+      case Status.DECLINED: return 'avslått';
+      case Status.APPROVED: return 'innvilget';
       default: return '';
     }
   };
@@ -94,10 +94,10 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
     
     const filteredYtelsesperioder: Ytelsesperiode[] = sak?.ytelsesperioder.filter(ytelsesperiode => fom
-      ? ytelsesperiode[0].fom > fom!
+      ? ytelsesperiode.periode.fom > fom!
       : ytelsesperiode
     ).filter(ytelsesperiode => tom
-      ? ytelsesperiode[0].tom < tom!
+      ? ytelsesperiode.periode.tom < tom!
       : ytelsesperiode
     ) ?? [];
     
@@ -117,23 +117,30 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           sort = b.status.localeCompare(a.status);
           break;
         case 2:
-          sort = b.refusjonsbeløp - a.refusjonsbeløp;
-          break;
-        case 3:
           sort = b.ytelse.localeCompare(a.ytelse);
           break;
-        case 4:
+        case 3:
           sort = (b.grad ?? -1) - (a.grad ?? 0);
           break;
-        case 5:
+        case 4:
           sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
+          break;
+        case 5:
+          sort = b.refusjonsbeløp - a.refusjonsbeløp;
           break;
         default: break;
       }
       return sortDescending ? sort : -sort;
     });
     
-    const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
+    const columnHeaders: string[] = [
+      t(Keys.PERIOD),
+      t(Keys.STATUS),
+      t(Keys.BENEFIT),
+      t(Keys.GRADE),
+      t(Keys.MARK),
+      t(Keys.REFUND)
+    ];
     
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
@@ -159,12 +166,12 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
               <td>{ytelsesperiode.periode.fom.toLocaleDateString('nb')} - {ytelsesperiode.periode.tom.toLocaleDateString('nb')}</td>
               <td>
                 <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(ytelsesperiode.status)}/>
-                {ytelsesperiode.status}
+                {t(ytelsesperiode.status)}
               </td>
-              <td>{ytelsesperiode.refusjonsbeløp}</td>
               <td>{ytelsesperiode.ytelse}</td>
               <td>{ytelsesperiode.grad}</td>
               <td>{ytelsesperiode.merknad}</td>
+              <td>{ytelsesperiode.refusjonsbeløp}</td>
             </tr>
           )
         }
@@ -187,7 +194,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   </Normaltekst>
                   <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
                   <Normaltekst>
-                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">Endre</Lenke>
+                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
                   </Normaltekst>
                 </div>
               </div>
@@ -204,7 +211,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     sak &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Fødselsnummer: {identityNumberSeparation(sak?.arbeidsgiver.identitetsnummer ?? '')}
+                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(sak?.arbeidsgiver.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                         {sak?.person.fornavn} {sak?.person.etternavn}
@@ -215,8 +222,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <div className="arbeidsgiver-periode-tabell--søke-gruppe">
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
-                    label="Finn en annen ansatt"
-                    placeholder="Fødselsnummer 11 siffer"
+                    label={t(Keys.FIND_OTHER_EMPLOYEE)}
+                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                     onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
                     value={identityNumberSeparation(identitetsnummerSøk)}
                     onKeyDown={this.onEnterClick}
@@ -224,15 +231,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Søkeknapp
                     className="arbeidsgiver-periode-tabell--søke-knapp"
                     onClick={this.submitSøk}
-                  />
+                  >
+                    <span>{t(Keys.SEARCH)}</span>
+                  </Søkeknapp>
                 </div>
               </div>
               {
                 error
-                ? <AlertStripe type="feil">En feil har skjedd. Prøv igjen senere</AlertStripe>
+                ? <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe>
                 : <>
                     <div className="arbeidsgiver-periode-tabell--periode-velger">
-                      <div id="periode">Periode:</div>
+                      <div id="periode">{t(Keys.PERIOD)}:</div>
                       <DatePicker
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
@@ -251,7 +260,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                         ariaLabelledBy="periode"
                       />
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
-                        Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
+                        {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalBeløp)}</b>
                       </div>
                       <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
                     </div>

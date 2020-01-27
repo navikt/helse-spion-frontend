@@ -43,9 +43,9 @@ export interface Ytelsesperiode {
 }
 
 export enum Status {
-  UNDER_BEHANDLING = 'UNDER BEHANDLING',
-  AVSLÅTT = 'AVSLÅTT',
-  INNVILGET = 'INNVILGET',
+  PENDING = 'UNDER BEHANDLING',
+  DECLINED = 'AVSLÅTT',
+  APPROVED = 'INNVILGET',
 }
 
 export enum HelseSpionTypes {
