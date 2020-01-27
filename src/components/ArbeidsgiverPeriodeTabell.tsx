@@ -19,8 +19,15 @@ import { fetchPerson } from "../store/thunks/fetchPerson";
 import { thousandSeparation } from "../util/thousandSeparation";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
+import { withTranslation } from "react-i18next";
+import { Keys } from "../locales/keys";
 
 registerLocale('nb', nb);
+
+type OwnProps = {
+  t: (string) => string
+  i18n: any
+}
 
 type StateProps = {
   sak?: Sak
@@ -31,7 +38,7 @@ type DispatchProps = {
   fetchPerson: (identitetsnummerSøk: string) => void
 }
 
-type Props = StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
   identitetsnummerSøk: string
@@ -83,7 +90,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
 
   render() {
-    const { sak, error, } = this.props;
+    const { i18n, t, sak, error, } = this.props;
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
     
     const filteredYtelsesperioder: Ytelsesperiode[] = sak?.ytelsesperioder.filter(ytelsesperiode => fom
@@ -170,7 +177,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           <div className="container">
             <div className="row arbeidsgiver-periode-tabell--banner-rad">
               <div className="col-sm-8">
-                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">Min side - refusjoner</Sidetittel>
+                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">{t(Keys.MY_PAGE)}</Sidetittel>
               </div>
               <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
                 <Ikon kind="info-sirkel-fyll"></Ikon>
@@ -190,7 +197,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <Lenke href="">&lt;&lt; Alle refusjoner</Lenke>
+              <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
               <div className="arbeidsgiver-periode-tabell--header">
                 <div className="arbeidsgiver-periode-tabell--info-gruppe">
                   {
@@ -268,4 +275,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCrea
   fetchPerson: fetchPerson,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell));

@@ -54,7 +54,7 @@ export enum HelseSpionTypes {
   FETCH_PERSON_ERROR = 'FETCH_PERSON_ERROR',
 }
 
-export type HelseSpionActions =
+export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
   | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, sak: Sak }
   | { type: HelseSpionTypes.FETCH_PERSON_ERROR };
