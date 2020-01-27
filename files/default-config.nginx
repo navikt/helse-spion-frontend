@@ -132,7 +132,7 @@ server {
         proxy_pass "${APP_URL_BACKEND}/api/";
     }
 
-    location /din-refusjon {
+    location /din-refusjon/ {
         return 301 /;
     }
 
