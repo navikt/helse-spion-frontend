@@ -21,7 +21,6 @@ spec:
     periodSeconds: 3
     failureThreshold: 10
   ingresses:
-    - https://helse-spion-frontend.nais.preprod.local
     - https://arbeidsgiver-q.nav.no/din-refusjon/
   replicas:
     max: 1
