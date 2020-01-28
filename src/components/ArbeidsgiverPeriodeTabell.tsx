@@ -23,7 +23,8 @@ import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
 import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
 import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
-import {totalRefundInYtelsesperioder} from "../util/totalRefundInYtelsesperioder";
+import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
+import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
 
 registerLocale('nb', nb);
 
@@ -82,15 +83,6 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true })
   };
-  
-  getClassnameFromStatus = (status: Status): string => {
-    switch (status) {
-      case Status.PENDING: return 'under-behandling';
-      case Status.DECLINED: return 'avslått';
-      case Status.APPROVED: return 'innvilget';
-      default: return '';
-    }
-  };
 
   render() {
     const { i18n, t, sak, error, } = this.props;
@@ -132,7 +124,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
             <tr key={index}>
               <td>{ytelsesperiode.periode.fom.toLocaleDateString('nb')} - {ytelsesperiode.periode.tom.toLocaleDateString('nb')}</td>
               <td>
-                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(ytelsesperiode.status)}/>
+                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+getClassnameFromStatus(ytelsesperiode.status)}/>
                 {t(ytelsesperiode.status)}
               </td>
               <td>{ytelsesperiode.ytelse}</td>
