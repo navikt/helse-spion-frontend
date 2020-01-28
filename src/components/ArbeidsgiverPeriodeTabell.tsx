@@ -21,6 +21,7 @@ import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
 import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
+import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
 
 registerLocale('nb', nb);
 
@@ -93,13 +94,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     const { i18n, t, sak, error, } = this.props;
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
     
-    const filteredYtelsesperioder: Ytelsesperiode[] = sak?.ytelsesperioder.filter(ytelsesperiode => fom
-      ? ytelsesperiode.periode.fom > fom!
-      : ytelsesperiode
-    ).filter(ytelsesperiode => tom
-      ? ytelsesperiode.periode.tom < tom!
-      : ytelsesperiode
-    ) ?? [];
+    const filteredYtelsesperioder = filterYtelsesperioder(sak?.ytelsesperioder ?? [], fom, tom);
     
     let totalBeløp: number = 0;
     

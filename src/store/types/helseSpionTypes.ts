@@ -24,7 +24,6 @@ export interface Oppsummering {
 export interface Periode {
   fom: Date
   tom: Date
-  refusjonsbeløp: number
 }
 
 export interface Person {
