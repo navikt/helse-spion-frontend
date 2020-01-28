@@ -23,6 +23,7 @@ import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
 import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
 import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
+import {totalRefundInYtelsesperioder} from "../util/totalRefundInYtelsesperioder";
 
 registerLocale('nb', nb);
 
@@ -96,11 +97,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
     
     const filteredYtelsesperioder = filterYtelsesperioder(sak?.ytelsesperioder ?? [], fom, tom);
-    
-    let totalBeløp: number = 0;
-    
-    filteredYtelsesperioder.map((ytelsesperiode) => totalBeløp += ytelsesperiode.refusjonsbeløp);
-    
+    const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
     const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
     
     const columnHeaders: string[] = [
@@ -230,7 +227,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                         ariaLabelledBy="periode"
                       />
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
-                        {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalBeløp)}</b>
+                        {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalRefund)}</b>
                       </div>
                       <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
                     </div>
