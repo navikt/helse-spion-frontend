@@ -25,6 +25,7 @@ import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
 import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
 import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
 import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
+import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 
 registerLocale('nb', nb);
 
@@ -62,8 +63,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   setIdentitetsnummerSøk = (input: string) => {
-    input = input.replace(/\D/g,'').substring(0, 11);
-    this.setState({ identitetsnummerSøk: input });
+    const filteredInput = filterStringToNumbersOnly(input, 11);
+    this.setState({ identitetsnummerSøk: filteredInput });
   };
 
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {

@@ -38,4 +38,3 @@ describe('filterYtelsesperioder', () => {
 		expect(input).toEqual([mockYtelsesperiode2]);
 	});
 });
-
