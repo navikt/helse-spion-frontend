@@ -21,7 +21,7 @@ spec:
     periodSeconds: 3
     failureThreshold: 10
   ingresses:
-    - https://arbeidsgiver-q.nav.no{{path_prefix}}
+    - https://arbeidsgiver-q.nav.no/min-side-refusjon/
   replicas:
     max: 1
     min: 1
@@ -35,3 +35,5 @@ spec:
   env:
   - name: APP_URL_BACKEND
     value: http://helse-spion
+  - name: LOGIN_URL
+    value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/
