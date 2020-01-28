@@ -22,6 +22,7 @@ import AlertStripe from "nav-frontend-alertstriper";
 import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
 import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
+import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
 
 registerLocale('nb', nb);
 
@@ -76,7 +77,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   setSort = (index: number): void => {
-    this.state.sortColumn == index
+    this.state.sortColumn === index
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true })
   };
@@ -98,35 +99,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     
     let totalBeløp: number = 0;
     
-    filteredYtelsesperioder.map((ytelsesperiode) => {
-      totalBeløp += ytelsesperiode.refusjonsbeløp;
-    });
+    filteredYtelsesperioder.map((ytelsesperiode) => totalBeløp += ytelsesperiode.refusjonsbeløp);
     
-    const sortedYtelsesperioder: Ytelsesperiode[] = filteredYtelsesperioder.sort((a, b) => {
-      let sort: number = 0;
-      switch (sortColumn) {
-        case 0:
-          sort = b.periode.fom.getTime() - a.periode.fom.getTime();
-          break;
-        case 1:
-          sort = b.status.localeCompare(a.status);
-          break;
-        case 2:
-          sort = b.ytelse.localeCompare(a.ytelse);
-          break;
-        case 3:
-          sort = (b.grad ?? -1) - (a.grad ?? 0);
-          break;
-        case 4:
-          sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
-          break;
-        case 5:
-          sort = b.refusjonsbeløp - a.refusjonsbeløp;
-          break;
-        default: break;
-      }
-      return sortDescending ? sort : -sort;
-    });
+    const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
     
     const columnHeaders: string[] = [
       t(Keys.PERIOD),
@@ -143,7 +118,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <tr>
           {
             columnHeaders.map((columnHeader, index) => {
-              if (sortColumn == index) {
+              if (sortColumn === index) {
                 return sortDescending
                   ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
                   : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
