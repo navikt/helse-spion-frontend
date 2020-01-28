@@ -105,7 +105,7 @@ server {
 
     # If no asset matches, send it to your javascript app. Hopefully it's a route in the app!
     location @rewrites {
-        rewrite ^(.+)$ "/index.html" last;
+        rewrite ^(.+)$ "${APP_PATH_PREFIX}/index.html" last;
     }
 
     location @401_json {
@@ -129,7 +129,7 @@ server {
     }
 
     location  /api/ {
-        proxy_pass "${APP_URL_BACKEND}/api/";
+        proxy_pass "${APP_PATH_PREFIX}${APP_URL_BACKEND}/api/";
     }
 
 }
