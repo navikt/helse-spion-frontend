@@ -3,6 +3,7 @@ FROM openresty/openresty:alpine-fat
 # User env var is needed for luarocks to not complain.
 ENV APP_DIR="/app" \
 	APP_PATH_PREFIX="/min-side-refusjon" \
+	USER="root"
 
 # Copying over the config-files.
 COPY files/default-config.nginx /etc/nginx/conf.d/app.conf.template
