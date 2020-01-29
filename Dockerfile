@@ -10,7 +10,6 @@ COPY files/default-config.nginx /etc/nginx/conf.d/app.conf.template
 COPY files/start-nginx.sh       /usr/sbin/start-nginx
 RUN chmod u+x /usr/sbin/start-nginx
 RUN mkdir -p /nginx
-
 COPY build /app/min-side-refusjon/
 
 EXPOSE 9000 8012 443
