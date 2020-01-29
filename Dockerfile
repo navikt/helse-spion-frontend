@@ -13,7 +13,6 @@ RUN mkdir -p /nginx
 COPY build /app/min-side-refusjon/
 
 EXPOSE 9000 8012 443
-
 WORKDIR ${APP_DIR}
 
 CMD ["start-nginx"]
