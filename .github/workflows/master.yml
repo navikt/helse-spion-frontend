@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
           AWAIT_SECONDS: 0
         with:
-          cluster: dev-fss
+          cluster: dev-sbs
           team: helsearbeidsgiver
           resources: deploy/dev.yaml
       - name: deploy to prod
