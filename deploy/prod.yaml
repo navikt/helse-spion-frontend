@@ -20,8 +20,6 @@ spec:
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
-  ingresses:
-    - https://helse-spion-frontend.nais.adeo.no
   replicas:
     max: 1
     min: 1
