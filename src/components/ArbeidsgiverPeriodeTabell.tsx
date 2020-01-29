@@ -30,7 +30,7 @@ import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 registerLocale('nb', nb);
 
 type OwnProps = {
-  t: (string) => string
+  t: (str: string) => string
   i18n: any
 }
 
@@ -62,10 +62,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     tom: undefined,
   };
   
-  setIdentitetsnummerSøk = (input: string) => {
-    const filteredInput = filterStringToNumbersOnly(input, 11);
-    this.setState({ identitetsnummerSøk: filteredInput });
-  };
+  setIdentitetsnummerSøk = (input: string) =>
+    this.setState({ identitetsnummerSøk: filterStringToNumbersOnly(input, 11) });
 
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
@@ -75,19 +73,16 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     }
   };
 
-  submitSøk = (): void => {
-    this.props.fetchPerson(this.state.identitetsnummerSøk);
-  };
+  submitSøk = (): void => this.props.fetchPerson(this.state.identitetsnummerSøk);
   
-  setSort = (index: number): void => {
+  setSort = (index: number): void =>
     this.state.sortColumn === index
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true })
-  };
 
   render() {
-    const { i18n, t, sak, error, } = this.props;
-    const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
+    const { i18n, t, sak, error } = this.props;
+    const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom } = this.state;
     
     const filteredYtelsesperioder = filterYtelsesperioder(sak?.ytelsesperioder ?? [], fom, tom);
     const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
@@ -99,7 +94,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       t(Keys.BENEFIT),
       t(Keys.GRADE),
       t(Keys.MARK),
-      t(Keys.REFUND)
+      t(Keys.REFUND),
     ];
     
     const table =
@@ -110,10 +105,29 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
             columnHeaders.map((columnHeader, index) => {
               if (sortColumn === index) {
                 return sortDescending
-                  ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
-                  : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+                  ? <th
+                    key={index}
+                    role="columnheader"
+                    className="tabell__th--sortert-desc"
+                    aria-sort="descending"
+                    onClick={() => this.setSort(index)}>
+                    <a>{columnHeader}</a>
+                  </th>
+                  : <th
+                    key={index}
+                    role="columnheader"
+                    className="tabell__th--sortert-asc"
+                    aria-sort="ascending"
+                    onClick={() => this.setSort(index)}>
+                    <a>{columnHeader}</a>
+                  </th>
               } else {
-                return <th key={index} role="columnheader" aria-sort="none" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
+                return <th
+                  key={index}
+                  role="columnheader"
+                  aria-sort="none"
+                  onClick={() => this.setSort(index)}>
+                  <a>{columnHeader}</a></th>
               }
             })
           }
@@ -123,9 +137,15 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         {
           sortedYtelsesperioder.map((ytelsesperiode, index ) =>
             <tr key={index}>
-              <td>{ytelsesperiode.periode.fom.toLocaleDateString('nb')} - {ytelsesperiode.periode.tom.toLocaleDateString('nb')}</td>
               <td>
-                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+getClassnameFromStatus(ytelsesperiode.status)}/>
+                {ytelsesperiode.periode.fom.toLocaleDateString('nb')} -
+                {ytelsesperiode.periode.tom.toLocaleDateString('nb')}
+              </td>
+              <td>
+                <span
+                  className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--" +
+                  getClassnameFromStatus(ytelsesperiode.status)}
+                />
                 {t(ytelsesperiode.status)}
               </td>
               <td>{ytelsesperiode.ytelse}</td>
@@ -154,7 +174,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   </Normaltekst>
                   <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
                   <Normaltekst>
-                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
+                    org. nr. 12345678912
+                    <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
                   </Normaltekst>
                 </div>
               </div>
@@ -222,7 +243,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
                         {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalRefund)}</b>
                       </div>
-                      <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
+                      <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">
+                        Maxdato: <b>15.03.20</b>
+                      </div>
                     </div>
                     {table}
                   </>
@@ -241,7 +264,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
-  fetchPerson: fetchPerson,
+  fetchPerson,
 }, dispatch);
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell));
