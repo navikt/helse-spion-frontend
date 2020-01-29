@@ -1,4 +1,4 @@
-import {combineReducers, Reducer} from "redux";
+import { combineReducers, Reducer } from "redux";
 import { HelseSpionState } from "./types/helseSpionTypes";
 import { helseSpionReducer } from "./reducers/helseSpionReducers";
 

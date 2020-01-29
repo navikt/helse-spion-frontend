@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { ArbeidsgiverPeriode, Person, Status } from "../store/types/helseSpionTypes";
+import { Sak, Status, Ytelsesperiode } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -16,15 +16,26 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
-import { stripToInt } from "../util/stripToInt";
 import { thousandSeparation } from "../util/thousandSeparation";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
+import { withTranslation } from "react-i18next";
+import { Keys } from "../locales/keys";
+import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
+import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
+import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
+import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
+import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 
 registerLocale('nb', nb);
 
+type OwnProps = {
+  t: (string) => string
+  i18n: any
+}
+
 type StateProps = {
-  person?: Person
+  sak?: Sak
   error: boolean
 }
 
@@ -32,7 +43,7 @@ type DispatchProps = {
   fetchPerson: (identitetsnummerSøk: string) => void
 }
 
-type Props = StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
   identitetsnummerSøk: string
@@ -52,8 +63,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   setIdentitetsnummerSøk = (input: string) => {
-    input = input.replace(/\D/g,'').substring(0, 11);
-    this.setState({ identitetsnummerSøk: input });
+    const filteredInput = filterStringToNumbersOnly(input, 11);
+    this.setState({ identitetsnummerSøk: filteredInput });
   };
 
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -69,65 +80,27 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   setSort = (index: number): void => {
-    this.state.sortColumn == index
+    this.state.sortColumn === index
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true })
   };
-  
-  getClassnameFromStatus = (status: Status): string => {
-    switch (status) {
-      case Status.UNDER_BEHANDLING: return 'under-behandling';
-      case Status.AVSLÅTT: return 'avslått';
-      case Status.INNVILGET: return 'innvilget';
-      default: return '';
-    }
-  };
 
   render() {
-    const { person, error, } = this.props;
+    const { i18n, t, sak, error, } = this.props;
     const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom, } = this.state;
-  
-    const filteredPerioder: ArbeidsgiverPeriode[] = person?.arbeidsgiverPerioder.filter(periode => fom
-      ? periode.fom > fom!
-      : periode
-    ).filter(periode => tom
-      ? periode.tom < tom!
-      : periode
-    ) ?? [];
     
-    let totalBeløp: number = 0;
+    const filteredYtelsesperioder = filterYtelsesperioder(sak?.ytelsesperioder ?? [], fom, tom);
+    const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
+    const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
     
-    filteredPerioder.map((periode) => {
-      totalBeløp += stripToInt(periode.referanseBeløp) ?? 0;
-    });
-    
-    const sortedPerioder: ArbeidsgiverPeriode[] = filteredPerioder.sort((a, b) => {
-      let sort: number = 0;
-      switch (sortColumn) {
-        case 0:
-          sort = b.fom.getTime() - a.fom.getTime();
-          break;
-        case 1:
-          sort = b.status.localeCompare(a.status);
-          break;
-        case 2:
-          sort = (stripToInt(b.referanseBeløp) ?? -1) - (stripToInt(a.referanseBeløp) ?? 0);
-          break;
-        case 3:
-          sort = b.ytelse.localeCompare(a.ytelse);
-          break;
-        case 4:
-          sort = (stripToInt(b.grad ?? '') ?? -1) - (stripToInt(a.grad ?? '') ?? 0);
-          break;
-        case 5:
-          sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
-          break;
-        default: break;
-      }
-      return sortDescending ? sort : -sort;
-    });
-    
-    const columnHeaders: string[] = ['Periode', 'Status', 'Beløp', 'Ytelse', 'Grad', 'Merknad'];
+    const columnHeaders: string[] = [
+      t(Keys.PERIOD),
+      t(Keys.STATUS),
+      t(Keys.BENEFIT),
+      t(Keys.GRADE),
+      t(Keys.MARK),
+      t(Keys.REFUND)
+    ];
     
     const table =
       <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
@@ -135,7 +108,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <tr>
           {
             columnHeaders.map((columnHeader, index) => {
-              if (sortColumn == index) {
+              if (sortColumn === index) {
                 return sortDescending
                   ? <th key={index} role="columnheader" className="tabell__th--sortert-desc" aria-sort="descending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
                   : <th key={index} role="columnheader" className="tabell__th--sortert-asc" aria-sort="ascending" onClick={() => this.setSort(index)}><a>{columnHeader}</a></th>
@@ -148,17 +121,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         </thead>
         <tbody>
         {
-          sortedPerioder.map((periode, index ) =>
+          sortedYtelsesperioder.map((ytelsesperiode, index ) =>
             <tr key={index}>
-              <td>{periode.fom.toLocaleDateString('nb')} - {periode.tom.toLocaleDateString('nb')}</td>
+              <td>{ytelsesperiode.periode.fom.toLocaleDateString('nb')} - {ytelsesperiode.periode.tom.toLocaleDateString('nb')}</td>
               <td>
-                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+this.getClassnameFromStatus(periode.status)}/>
-                {periode.status}
+                <span className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--"+getClassnameFromStatus(ytelsesperiode.status)}/>
+                {t(ytelsesperiode.status)}
               </td>
-              <td>{periode.referanseBeløp}</td>
-              <td>{periode.ytelse}</td>
-              <td>{periode.grad}</td>
-              <td>{periode.merknad}</td>
+              <td>{ytelsesperiode.ytelse}</td>
+              <td>{ytelsesperiode.grad}</td>
+              <td>{ytelsesperiode.merknad}</td>
+              <td>{ytelsesperiode.refusjonsbeløp}</td>
             </tr>
           )
         }
@@ -171,7 +144,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           <div className="container">
             <div className="row arbeidsgiver-periode-tabell--banner-rad">
               <div className="col-sm-8">
-                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">Min side - refusjoner</Sidetittel>
+                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">{t(Keys.MY_PAGE)}</Sidetittel>
               </div>
               <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
                 <Ikon kind="info-sirkel-fyll"></Ikon>
@@ -181,7 +154,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   </Normaltekst>
                   <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
                   <Normaltekst>
-                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">Endre</Lenke>
+                    org. nr. 12345678912 <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
                   </Normaltekst>
                 </div>
               </div>
@@ -191,17 +164,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <Lenke href="">&lt;&lt; Alle refusjoner</Lenke>
+              <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
               <div className="arbeidsgiver-periode-tabell--header">
                 <div className="arbeidsgiver-periode-tabell--info-gruppe">
                   {
-                    person &&
+                    sak &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        Fødselsnummer: {identityNumberSeparation(person?.identitetsnummer ?? '')}
+                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(sak?.arbeidsgiver.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {person?.fornavn} {person?.etternavn}
+                        {sak?.person.fornavn} {sak?.person.etternavn}
                       </Innholdstittel>
                     </>
                   }
@@ -209,8 +182,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <div className="arbeidsgiver-periode-tabell--søke-gruppe">
                   <Input
                     className="arbeidsgiver-periode-tabell--søke-input"
-                    label="Finn en annen ansatt"
-                    placeholder="Fødselsnummer 11 siffer"
+                    label={t(Keys.FIND_OTHER_EMPLOYEE)}
+                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                     onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
                     value={identityNumberSeparation(identitetsnummerSøk)}
                     onKeyDown={this.onEnterClick}
@@ -218,20 +191,24 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <Søkeknapp
                     className="arbeidsgiver-periode-tabell--søke-knapp"
                     onClick={this.submitSøk}
-                  />
+                  >
+                    <span>{t(Keys.SEARCH)}</span>
+                  </Søkeknapp>
                 </div>
               </div>
               {
                 error
-                ? <AlertStripe type="feil">En feil har skjedd. Prøv igjen senere</AlertStripe>
+                ? <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe>
                 : <>
                     <div className="arbeidsgiver-periode-tabell--periode-velger">
-                      <div>Periode:</div>
+                      <div id="periode">{t(Keys.PERIOD)}:</div>
                       <DatePicker
                         locale="nb"
                         dateFormat="dd.MM.yyyy"
                         selected={fom}
                         onChange={e => this.setState({ fom: e })}
+                        showYearDropdown
+                        ariaLabelledBy="periode"
                       />
                       <b>-</b>
                       <DatePicker
@@ -239,9 +216,11 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                         dateFormat="dd.MM.yyyy"
                         selected={tom}
                         onChange={e => this.setState({ tom: e })}
+                        showYearDropdown
+                        ariaLabelledBy="periode"
                       />
                       <div className="arbeidsgiver-periode-tabell--periode-velger-total">
-                        Total refundert: <b>{thousandSeparation(totalBeløp)}</b>
+                        {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalRefund)}</b>
                       </div>
                       <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">Maxdato: <b>15.03.20</b></div>
                     </div>
@@ -257,7 +236,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  person: state.helseSpionState.person,
+  sak: state.helseSpionState.sak,
   error: state.helseSpionState.error,
 });
 
@@ -265,4 +244,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCrea
   fetchPerson: fetchPerson,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell));

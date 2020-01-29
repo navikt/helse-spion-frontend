@@ -1,31 +1,50 @@
 export interface HelseSpionState {
-  person?: Person
+  sak?: Sak
   error: boolean
 }
 
-export interface Person {
-  fornavn: string
-  etternavn: string
-  identitetsnummer: string
-  virksomhetsNr: string
-  virksomhetsNavn: string
-  arbeidsgiverPerioder: ArbeidsgiverPeriode[]
+export interface Sak {
+  arbeidsgiver: Arbeidsgiver
+  oppsummering: Oppsummering
+  person: Person
+  ytelsesperioder: Ytelsesperiode[]
 }
 
-export interface ArbeidsgiverPeriode {
+export interface Arbeidsgiver {
+  identitetsnummer: string
+  navn: string
+  orgnr: string
+}
+
+export interface Oppsummering {
+  maxdato: Date
+  periode: Periode
+}
+
+export interface Periode {
   fom: Date
   tom: Date
+}
+
+export interface Person {
+  aktørId: string
+  etternavn: string
+  fornavn: string
+}
+
+export interface Ytelsesperiode {
+  grad?: number
+  merknad?: string // todo: enum
+  periode: Periode
+  refusjonsbeløp: number
   status: Status
-  referanseBeløp: string // todo: Enum
-  ytelse: string // todo: Enum
-  grad?: string
-  merknad?: string
+  ytelse: string // todo: enum
 }
 
 export enum Status {
-  UNDER_BEHANDLING = 'Under behandling',
-  AVSLÅTT = 'Avslått',
-  INNVILGET = 'Innvilget',
+  PENDING = 'UNDER BEHANDLING',
+  DECLINED = 'AVSLÅTT',
+  APPROVED = 'INNVILGET',
 }
 
 export enum HelseSpionTypes {
@@ -34,8 +53,8 @@ export enum HelseSpionTypes {
   FETCH_PERSON_ERROR = 'FETCH_PERSON_ERROR',
 }
 
-export type HelseSpionActions =
+export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
-  | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, person: Person }
+  | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, sak: Sak }
   | { type: HelseSpionTypes.FETCH_PERSON_ERROR };
 

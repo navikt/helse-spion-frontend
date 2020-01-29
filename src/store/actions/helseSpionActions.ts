@@ -1,19 +1,19 @@
-import { HelseSpionActions, HelseSpionTypes, Person } from "../types/helseSpionTypes";
+import { HelseSpionActionTypes, HelseSpionTypes, Sak } from "../types/helseSpionTypes";
 
-export const fetchPersonStarted = (): HelseSpionActions => {
+export const fetchPersonStarted = (): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_STARTED,
   }
 };
 
-export const fetchPersonSuccess = (person: Person): HelseSpionActions => {
+export const fetchPersonSuccess = (sak: Sak): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_SUCCESS,
-    person: person,
+    sak: sak,
   }
 };
 
-export const fetchPersonError = (): HelseSpionActions => {
+export const fetchPersonError = (): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_ERROR,
   }
