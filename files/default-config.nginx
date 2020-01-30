@@ -37,7 +37,7 @@ server {
     server_name  _;
 
     # Set some varable for usage in OpenResty modules.
-    set $app_baseurl                https://$host;
+    set $app_baseurl                https://arbeidsgiver-q.nav.no/min-side-refusjon/;
     set $app_callback_path          "${APP_CALLBACK_PATH}";
     set $app_hostname               "${APP_HOSTNAME}";
     set $app_path_prefix            "${APP_PATH_PREFIX}";
