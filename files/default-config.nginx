@@ -129,7 +129,7 @@ server {
     }
 
     location  /api/ {
-        proxy_pass "${APP_URL_BACKEND}/api/";
+        proxy_pass "http://helse-spion/api/";
     }
 
 }
