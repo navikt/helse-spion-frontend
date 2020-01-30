@@ -30,14 +30,8 @@
 
   &--periode-velger {
     margin-top: 25px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid black;
     display: grid;
-    grid-template-columns: min-content min-content min-content min-content auto auto;
-
-    &-total, &-max-dato {
-      justify-self: end;
-    }
+    grid-template-columns: min-content min-content min-content min-content;
   }
 
   .react-datepicker-wrapper {
@@ -52,44 +46,21 @@
 
   &--søke-gruppe {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+    align-items: end;
   }
 
   &--søke-input {
     width: 240px;
     margin-bottom: 0;
+    justify-self: end;
+    padding-right: 15px;
   }
 
   &--søke-knapp {
     align-self: end;
-  }
-
-  &--tabell {
-    margin-top: 15px;
-
-    a {
-      cursor: pointer;
-    }
-  }
-
-  &__sirkel {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-
-    &--under-behandling {
-      background-color: @navLysBla;
-    }
-
-    &--avslått {
-      background-color: @redError;
-    }
-
-    &--innvilget {
-      background-color: @navGronn;
-    }
   }
 
   .alertstripe {
