@@ -12,9 +12,8 @@ import Lenke from "nav-frontend-lenker";
 import { Innholdstittel, Normaltekst, Sidetittel } from "nav-frontend-typografi";
 import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
@@ -23,11 +22,8 @@ import { Keys } from "../locales/keys";
 import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 import YtelsesperiodeTable from "./YtelsesperiodeTable";
 
-registerLocale('nb', nb);
-
 type OwnProps = {
   t: (str: string) => string
-  i18n: any
 }
 
 type StateProps = {
@@ -36,41 +32,41 @@ type StateProps = {
 }
 
 type DispatchProps = {
-  fetchPerson: (identitetsnummerSøk: string) => void
+  fetchPerson: (identityNumber: string) => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
-  identitetsnummerSøk: string
+  identityNumberInput: string
   fom?: Date
   tom?: Date
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   state: State = {
-    identitetsnummerSøk: '',
+    identityNumberInput: '',
   };
   
-  setIdentitetsnummerSøk = (input: string) =>
-    this.setState({ identitetsnummerSøk: filterStringToNumbersOnly(input, 11) });
+  setIdentityNumberInput = (input: string) =>
+    this.setState({ identityNumberInput: filterStringToNumbersOnly(input, 11) });
   
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.submitSøk();
+      this.submitSearch();
     }
   };
   
-  submitSøk = (): void => {
+  submitSearch = (): void => {
     this.setState({ fom: undefined, tom: undefined });
-    this.props.fetchPerson(this.state.identitetsnummerSøk);
+    this.props.fetchPerson(this.state.identityNumberInput);
   };
   
   render() {
-    const { i18n, t, sak, error } = this.props;
-    const { identitetsnummerSøk, fom, tom } = this.state;
+    const { t, sak, error } = this.props;
+    const { identityNumberInput, fom, tom } = this.state;
     
     return (
       <div className="arbeidsgiver-periode-tabell">
@@ -81,7 +77,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <Sidetittel id="arbeidsgiver-periode-tabell--tittel">{t(Keys.MY_PAGE)}</Sidetittel>
               </div>
               <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
-                <Ikon kind="info-sirkel-fyll"></Ikon>
+                <Ikon kind="info-sirkel-fyll"/>
                 <div>
                   <Normaltekst className="arbeidsgiver-periode-tabell--email">
                     <u>bjørn.byråkrat@oslo.kommune.no</u>
@@ -124,7 +120,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     selected={fom}
                     onChange={e => this.setState({ fom: e })}
                     showYearDropdown
-                    ariaLabelledBy="periode"
+                    ariaLabelledBy="periode fra"
                   />
                   <b>-</b>
                   <DatePicker
@@ -133,20 +129,20 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     selected={tom}
                     onChange={e => this.setState({ tom: e })}
                     showYearDropdown
-                    ariaLabelledBy="periode"
+                    ariaLabelledBy="periode til"
                   />
                 </div>
                 <Input
                   className="arbeidsgiver-periode-tabell--søke-input"
                   label={t(Keys.FIND_OTHER_EMPLOYEE)}
                   placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                  onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
-                  value={identityNumberSeparation(identitetsnummerSøk)}
+                  onChange={e => this.setIdentityNumberInput(e.target.value)}
+                  value={identityNumberSeparation(identityNumberInput)}
                   onKeyDown={this.onEnterClick}
                 />
                 <Søkeknapp
                   className="arbeidsgiver-periode-tabell--søke-knapp"
-                  onClick={this.submitSøk}
+                  onClick={this.submitSearch}
                 >
                   <span>{t(Keys.SEARCH)}</span>
                 </Søkeknapp>

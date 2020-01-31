@@ -38,7 +38,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
     
     const { ytelsesperioder, fom, tom, t } = this.props;
     const { sortColumn, sortDescending } = this.state;
-  
+    
     const filteredYtelsesperioder = filterYtelsesperioder(ytelsesperioder, fom, tom);
     const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
     const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
@@ -51,13 +51,10 @@ class YtelsesperiodeTable extends Component<Props, State> {
       t(Keys.MARK),
       t(Keys.REFUND),
     ];
-  
+    
     const items: JSX.Element[] = sortedYtelsesperioder.map((ytelsesperiode, index ) =>
       <tr key={index}>
-        <td>
-          {ytelsesperiode.periode.fom.toLocaleDateString('nb')} -
-          {ytelsesperiode.periode.tom.toLocaleDateString('nb')}
-        </td>
+        <td>{`${dateToString(ytelsesperiode.periode.fom)} - ${dateToString(ytelsesperiode.periode.tom)}`}</td>
         <td>
           <span
             className={"ytelsesperiode-tabell__sirkel ytelsesperiode-tabell__sirkel--" +
@@ -112,19 +109,17 @@ class YtelsesperiodeTable extends Component<Props, State> {
       </tbody>
     </table>;
   
-    return <>
-      <Pagination wrapperFunction={wrapperFunction} items={items}>
-        <div className="ytelsesperiode-tabell--footer">
-          <div className="ytelsesperiode-tabell--max-dato">
-            Maxdato: <b>15.03.20</b>
-          </div>
-          <div className="ytelsesperiode-tabell--total">
-            {t(Keys.TOTAL_REFUNDED)}{fom && tom ? ` ${dateToString(fom)} - ${dateToString(tom)}` : ''}
-            : <b>{thousandSeparation(totalRefund)}</b>
-          </div>
+    return <Pagination wrapperFunction={wrapperFunction} items={items}>
+      <div className="ytelsesperiode-tabell--footer">
+        <div className="ytelsesperiode-tabell--max-dato">
+          Maxdato: <b>15.03.20</b>
         </div>
-      </Pagination>
-    </>
+        <div className="ytelsesperiode-tabell--total">
+          {t(Keys.TOTAL_REFUNDED)}{fom && tom ? ` ${dateToString(fom)} - ${dateToString(tom)}` : ''}
+          : <b>{thousandSeparation(totalRefund)}</b>
+        </div>
+      </div>
+    </Pagination>
   }
 }
 
