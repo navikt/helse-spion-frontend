@@ -9,6 +9,7 @@ import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
 import { thousandSeparation } from "../util/thousandSeparation";
 import Pagination from "./Pagination";
 import './YtelsesperiodeTable.less';
+import { dateToString } from "../util/dateToString";
 
 interface Props extends WithTranslation{
   ytelsesperioder: Ytelsesperiode[]
@@ -118,7 +119,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
             Maxdato: <b>15.03.20</b>
           </div>
           <div className="ytelsesperiode-tabell--total">
-            {t(Keys.TOTAL_REFUNDED)+(( fom?.getDate() && tom?.getDate()) ?? '')}
+            {t(Keys.TOTAL_REFUNDED)}{fom && tom ? ` ${dateToString(fom)} - ${dateToString(tom)}` : ''}
             : <b>{thousandSeparation(totalRefund)}</b>
           </div>
         </div>
