@@ -118,7 +118,8 @@ class YtelsesperiodeTable extends Component<Props, State> {
             Maxdato: <b>15.03.20</b>
           </div>
           <div className="ytelsesperiode-tabell--total">
-            {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalRefund)}</b>
+            {t(Keys.TOTAL_REFUNDED)+(( fom?.getDate() && tom?.getDate()) ?? '')}
+            : <b>{thousandSeparation(totalRefund)}</b>
           </div>
         </div>
       </Pagination>

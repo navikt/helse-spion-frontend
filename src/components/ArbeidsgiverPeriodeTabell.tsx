@@ -120,7 +120,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <div id="periode">{t(Keys.PERIOD)}:</div>
                   <DatePicker
                     locale="nb"
-                    dateFormat="dd.MM.yyyy"
+                    dateFormat="dd.MM.yy"
                     selected={fom}
                     onChange={e => this.setState({ fom: e })}
                     showYearDropdown
@@ -129,7 +129,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <b>-</b>
                   <DatePicker
                     locale="nb"
-                    dateFormat="dd.MM.yyyy"
+                    dateFormat="dd.MM.yy"
                     selected={tom}
                     onChange={e => this.setState({ tom: e })}
                     showYearDropdown
