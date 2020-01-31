@@ -37,4 +37,13 @@ describe('filterYtelsesperioder', () => {
 		);
 		expect(input).toEqual([mockYtelsesperiode2]);
 	});
+	
+	it('doesnt filter dates based on equal date filters', () => {
+		const input = filterYtelsesperioder(
+			[mockYtelsesperiode2],
+			mockYtelsesperiode2.periode.fom,
+			mockYtelsesperiode2.periode.tom,
+		);
+		expect(input).toEqual([mockYtelsesperiode2]);
+	});
 });
