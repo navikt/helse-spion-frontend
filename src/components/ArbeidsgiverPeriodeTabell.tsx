@@ -151,12 +151,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <span>{t(Keys.SEARCH)}</span>
                 </Søkeknapp>
               </div>
-              {
-                error && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe>
-              }
-              {
-                sak && <YtelsesperiodeTable ytelsesperioder={sak.ytelsesperioder} fom={fom} tom={tom}/>
-              }
+              { error && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
+              { sak && <YtelsesperiodeTable ytelsesperioder={sak.ytelsesperioder} fom={fom} tom={tom}/> }
             </div>
           </div>
         </div>

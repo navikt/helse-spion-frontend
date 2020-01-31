@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import './Pagination.less';
+import { Keys } from "../locales/keys";
+import { WithTranslation, withTranslation } from "react-i18next";
 
-type Props = {
+interface Props extends WithTranslation {
   items: JSX.Element[]
   wrapperFunction?: (items: JSX.Element[]) => JSX.Element
   itemsPerPage?: number
   pageRangeDisplayed?: number
   marginPagesDisplayed?: number
+  t: (str: string) => string
 }
 
 type State = {
@@ -37,6 +40,7 @@ class Pagination extends Component<Props, State> {
       pageRangeDisplayed = 3,
       marginPagesDisplayed = 1,
       children,
+      t,
     } = this.props;
     const { currentPageIndex } = this.state;
     
@@ -58,8 +62,8 @@ class Pagination extends Component<Props, State> {
       {
         pageCount > 1 &&
         <ReactPaginate
-          previousLabel={'previous'}
-          nextLabel={'next'}
+          previousLabel={t(Keys.PREVIOUS)}
+          nextLabel={t(Keys.NEXT)}
           breakLabel={'...'}
           breakClassName={'break-me'}
           pageCount={pageCount}
@@ -76,4 +80,4 @@ class Pagination extends Component<Props, State> {
   }
 }
 
-export default Pagination;
+export default withTranslation()(Pagination);
