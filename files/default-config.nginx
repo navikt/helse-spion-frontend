@@ -128,8 +128,8 @@ server {
         return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
     }
 
-    location  /api/ {
-        proxy_pass "http://helse-spion/api/";
-    }
+#    location  /api/ {
+#        proxy_pass "http://helse-spion/api/";
+#    }
 
 }
