@@ -1,5 +1,4 @@
-access_log off; # Handled by trafic
-error_log /dev/stdout info;
+error_log /dev/stdout;
 charset utf-8;
 client_body_buffer_size 10M; # Default er satt veldig lavt. Får problemer med enkelte dokument queries.
 lua_package_path '~/lua/?.lua;;';
@@ -36,6 +35,8 @@ server {
     root "${APP_DIR}";
     server_name  _;
 
+    access_log /dev/stdout;
+
     # Set some varable for usage in OpenResty modules.
     set $app_baseurl                https://arbeidsgiver-q.nav.no/min-side-refusjon/;
     set $app_callback_path          "${APP_CALLBACK_PATH}";
@@ -44,6 +45,8 @@ server {
     set $oidc_agentname             "${OIDC_AGENTNAME}";
     set $oidc_host_url              "${OIDC_HOST_URL}";
     set $oidc_password              "${OIDC_PASSWORD}";
+    set $apigw_api_key              "${API_GW_API_KEY}";
+    set $apigw_url                  "${API_GATEWAY}";
     set $proxy_cookie               "";
     set $session_check_scheme       off;
     set $session_check_ua           off;
@@ -128,8 +131,8 @@ server {
         return 504 '{"feilmelding":"Timet ut","type":"GENERELL_FEIL"}';
     }
 
-#    location  /api/ {
-#        proxy_pass "http://helse-spion/api/";
-#    }
-
+    location  /api/ {
+        proxy_set_header "x-nav-apiKey" $apigw_api_key;
+        proxy_pass "${API_GATEWAY}/api/";
+    }
 }

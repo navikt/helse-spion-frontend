@@ -32,7 +32,14 @@ spec:
     requests:
       cpu: 400m
       memory: 256Mi
+  vault:
+    enabled: true
+    paths:
+      - kvPath: apigw/dev/helse-spion/helse-spion-frontend_q1
+        mountPath: /apigw/helse-spion
   env:
+  - name: API_GATEWAY
+    value: https://api-gw-q1.oera.no
   - name: APP_URL_BACKEND
     value: http://helse-spion
   - name: LOGIN_URL

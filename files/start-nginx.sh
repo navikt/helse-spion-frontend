@@ -12,6 +12,11 @@ then
     done
 fi
 
+if test -d /apigw/helse-spion;
+then
+  export API_GW_API_KEY=$(cat /apigw/helse-spion)
+fi
+
 # Setting default environment variables
 export APP_CALLBACK_PATH="${APP_CALLBACK_PATH:-/callback}"
 export APP_DIR="${APP_DIR:-/app}"
@@ -19,6 +24,8 @@ export APP_HOSTNAME="${HOSTNAME:-localhost}"
 export APP_NAME="${APP_NAME:-devimg}"
 export APP_PATH_PREFIX="${APP_PATH_PREFIX:-/app-prefix}"
 export APP_PORT="${APP_PORT:-443}"
+export API_GW_API_KEY="${API_GW_API_KEY:-dummykey}"
+export API_GATEWAY="${API_GATEWAY:-http://localhost:8080}"
 export APP_VERSION="${APP_VERSION:-localhost}"
 export REDIS_HOST="${REDIS_HOST:-0.0.0.0}"
 export REDIS_PORT="${REDIS_PORT:-6379}"
@@ -32,7 +39,7 @@ echo -e "Startup:" ${APP_PATH_PREFIX} \n"\
  App version:" ${APP_VERSION}
 
 # replace env for nginx conf
-envsubst '$APP_DIR $APP_HOSTNAME $APP_NAME $APP_VERSION $APP_PORT $APP_CALLBACK_PATH $APP_PATH_PREFIX $OIDC_AGENTNAME $OIDC_PASSWORD $OIDC_HOST_URL $RESOLVER $REDIS_HOST $REDIS_PORT $SESSION_STORAGE $APP_URL_BACKEND' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '$API_GW_API_KEY $APP_DIR $APP_HOSTNAME $APP_NAME $APP_VERSION $APP_PORT $APP_CALLBACK_PATH $APP_PATH_PREFIX $OIDC_AGENTNAME $OIDC_PASSWORD $OIDC_HOST_URL $RESOLVER $REDIS_HOST $REDIS_PORT $SESSION_STORAGE $APP_URL_BACKEND $API_GATEWAY' < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/default.conf
 
 # find all env start with APP_
 export SUBS=$(echo $(env | cut -d= -f1 | grep "^APP_" | sed -e 's/^/\$/'))
