@@ -35,7 +35,7 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: apigw/dev/helse-spion/helse-spion-frontend_q1
+      - kvPath: apikey/apigw/dev/helse-spion/helse-spion-frontend_q1
         mountPath: /apigw/helse-spion
   env:
   - name: API_GATEWAY
