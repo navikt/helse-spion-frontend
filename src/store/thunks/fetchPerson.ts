@@ -3,7 +3,7 @@ import { Sak } from "../types/helseSpionTypes";
 import { stringToDate } from "../../util/stringToDate";
 import { Dispatch } from "redux";
 
-export function fetchPerson(identitetsnummerSøk?: string): (dispatch: Dispatch) => Promise<void> {
+export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchPersonStarted());
     await fetch('http://localhost:3000/api/v1/saker/oppslag', {
@@ -13,7 +13,7 @@ export function fetchPerson(identitetsnummerSøk?: string): (dispatch: Dispatch)
       },
       method: 'POST',
       body: JSON.stringify({
-        "identitetsnummer": identitetsnummerSøk,
+        "identitetsnummer": identityNumber,
         "arbeidsgiverOrgnr": "2"
       }),
     }).then(response => {

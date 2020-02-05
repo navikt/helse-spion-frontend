@@ -16,6 +16,8 @@ export enum Keys {
 	GRADE = 'GRADE',
 	MARK = 'MARK',
 	REFUND = 'REFUND',
+	NEXT = 'NEXT',
+	PREVIOUS = 'PREVIOUS',
 }
 
 const translatedKeys: IncludedKeys = {
@@ -108,6 +110,18 @@ const translatedKeys: IncludedKeys = {
 		nn: 'Refusjon',
 		en: 'Refund',
 	},
+	
+	[Keys.NEXT]: {
+		nb: 'neste',
+		nn: 'neste',
+		en: 'next',
+	},
+	
+	[Keys.PREVIOUS]: {
+		nb: 'forrige',
+		nn: 'førre',
+		en: 'previous',
+	},
 };
 
 const translatedStatus: IncludedStatus = {
@@ -150,7 +164,7 @@ export enum Languages {
 	en = 'en',
 }
 
-export const translationsToJson = (lan: Languages): Object => {
+export const translationsToJson = (lan: Languages): {} => {
 	let translatedKeys = {};
 	Object.keys(allTranslations).map(e => translatedKeys[e] = allTranslations[e][lan]);
 	return translatedKeys;

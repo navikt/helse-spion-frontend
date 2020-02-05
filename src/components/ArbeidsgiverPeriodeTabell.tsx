@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Sak, Status, Ytelsesperiode } from "../store/types/helseSpionTypes";
+import { Sak } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -12,26 +12,18 @@ import Lenke from "nav-frontend-lenker";
 import { Innholdstittel, Normaltekst, Sidetittel } from "nav-frontend-typografi";
 import 'nav-frontend-alertstriper-style';
 import Ikon from 'nav-frontend-ikoner-assets';
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import nb from 'date-fns/locale/nb';
 import { fetchPerson } from "../store/thunks/fetchPerson";
-import { thousandSeparation } from "../util/thousandSeparation";
 import { identityNumberSeparation } from "../util/identityNumberSeparation";
 import AlertStripe from "nav-frontend-alertstriper";
 import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
-import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
-import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
-import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
-import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
 import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
-
-registerLocale('nb', nb);
+import YtelsesperiodeTable from "./YtelsesperiodeTable";
 
 type OwnProps = {
   t: (str: string) => string
-  i18n: any
 }
 
 type StateProps = {
@@ -40,123 +32,41 @@ type StateProps = {
 }
 
 type DispatchProps = {
-  fetchPerson: (identitetsnummerSøk: string) => void
+  fetchPerson: (identityNumber: string) => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
-  identitetsnummerSøk: string
-  sortColumn: number
-  sortDescending: boolean
+  identityNumberInput: string
   fom?: Date
   tom?: Date
 }
 
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
-  state = {
-    identitetsnummerSøk: '',
-    sortColumn: -1,
-    sortDescending: true,
-    fom: undefined,
-    tom: undefined,
+  state: State = {
+    identityNumberInput: '',
   };
   
-  setIdentitetsnummerSøk = (input: string) =>
-    this.setState({ identitetsnummerSøk: filterStringToNumbersOnly(input, 11) });
-
+  setIdentityNumberInput = (input: string) =>
+    this.setState({ identityNumberInput: filterStringToNumbersOnly(input, 11) });
+  
   onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.submitSøk();
+      this.submitSearch();
     }
   };
-
-  submitSøk = (): void => this.props.fetchPerson(this.state.identitetsnummerSøk);
   
-  setSort = (index: number): void =>
-    this.state.sortColumn === index
-      ? this.setState({ sortDescending: !this.state.sortDescending })
-      : this.setState({ sortColumn: index, sortDescending: true })
-
+  submitSearch = (): void => {
+    this.setState({ fom: undefined, tom: undefined });
+    this.props.fetchPerson(this.state.identityNumberInput);
+  };
+  
   render() {
-    const { i18n, t, sak, error } = this.props;
-    const { identitetsnummerSøk, sortColumn, sortDescending, fom, tom } = this.state;
-    
-    const filteredYtelsesperioder = filterYtelsesperioder(sak?.ytelsesperioder ?? [], fom, tom);
-    const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
-    const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
-    
-    const columnHeaders: string[] = [
-      t(Keys.PERIOD),
-      t(Keys.STATUS),
-      t(Keys.BENEFIT),
-      t(Keys.GRADE),
-      t(Keys.MARK),
-      t(Keys.REFUND),
-    ];
-    
-    const table =
-      <table className="tabell tabell--stripet arbeidsgiver-periode-tabell--tabell">
-        <thead>
-        <tr>
-          {
-            columnHeaders.map((columnHeader, index) => {
-              if (sortColumn === index) {
-                return sortDescending
-                  ? <th
-                    key={index}
-                    role="columnheader"
-                    className="tabell__th--sortert-desc"
-                    aria-sort="descending"
-                    onClick={() => this.setSort(index)}>
-                    <a>{columnHeader}</a>
-                  </th>
-                  : <th
-                    key={index}
-                    role="columnheader"
-                    className="tabell__th--sortert-asc"
-                    aria-sort="ascending"
-                    onClick={() => this.setSort(index)}>
-                    <a>{columnHeader}</a>
-                  </th>
-              } else {
-                return <th
-                  key={index}
-                  role="columnheader"
-                  aria-sort="none"
-                  onClick={() => this.setSort(index)}>
-                  <a>{columnHeader}</a></th>
-              }
-            })
-          }
-        </tr>
-        </thead>
-        <tbody>
-        {
-          sortedYtelsesperioder.map((ytelsesperiode, index ) =>
-            <tr key={index}>
-              <td>
-                {ytelsesperiode.periode.fom.toLocaleDateString('nb')} -
-                {ytelsesperiode.periode.tom.toLocaleDateString('nb')}
-              </td>
-              <td>
-                <span
-                  className={"arbeidsgiver-periode-tabell__sirkel arbeidsgiver-periode-tabell__sirkel--" +
-                  getClassnameFromStatus(ytelsesperiode.status)}
-                />
-                {t(ytelsesperiode.status)}
-              </td>
-              <td>{ytelsesperiode.ytelse}</td>
-              <td>{ytelsesperiode.grad}</td>
-              <td>{ytelsesperiode.merknad}</td>
-              <td>{ytelsesperiode.refusjonsbeløp}</td>
-            </tr>
-          )
-        }
-        </tbody>
-      </table>;
+    const { t, sak, error } = this.props;
+    const { identityNumberInput, fom, tom } = this.state;
     
     return (
       <div className="arbeidsgiver-periode-tabell">
@@ -167,7 +77,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <Sidetittel id="arbeidsgiver-periode-tabell--tittel">{t(Keys.MY_PAGE)}</Sidetittel>
               </div>
               <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
-                <Ikon kind="info-sirkel-fyll"></Ikon>
+                <Ikon kind="info-sirkel-fyll"/>
                 <div>
                   <Normaltekst className="arbeidsgiver-periode-tabell--email">
                     <u>bjørn.byråkrat@oslo.kommune.no</u>
@@ -192,64 +102,53 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     sak &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(sak?.arbeidsgiver.identitetsnummer ?? '')}
+                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(sak.arbeidsgiver.identitetsnummer ?? '')}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {sak?.person.fornavn} {sak?.person.etternavn}
+                        {sak.person.fornavn} {sak.person.etternavn}
                       </Innholdstittel>
                     </>
                   }
                 </div>
-                <div className="arbeidsgiver-periode-tabell--søke-gruppe">
-                  <Input
-                    className="arbeidsgiver-periode-tabell--søke-input"
-                    label={t(Keys.FIND_OTHER_EMPLOYEE)}
-                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                    onChange={e => this.setIdentitetsnummerSøk(e.target.value)}
-                    value={identityNumberSeparation(identitetsnummerSøk)}
-                    onKeyDown={this.onEnterClick}
-                  />
-                  <Søkeknapp
-                    className="arbeidsgiver-periode-tabell--søke-knapp"
-                    onClick={this.submitSøk}
-                  >
-                    <span>{t(Keys.SEARCH)}</span>
-                  </Søkeknapp>
-                </div>
               </div>
-              {
-                error
-                ? <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe>
-                : <>
-                    <div className="arbeidsgiver-periode-tabell--periode-velger">
-                      <div id="periode">{t(Keys.PERIOD)}:</div>
-                      <DatePicker
-                        locale="nb"
-                        dateFormat="dd.MM.yyyy"
-                        selected={fom}
-                        onChange={e => this.setState({ fom: e })}
-                        showYearDropdown
-                        ariaLabelledBy="periode"
-                      />
-                      <b>-</b>
-                      <DatePicker
-                        locale="nb"
-                        dateFormat="dd.MM.yyyy"
-                        selected={tom}
-                        onChange={e => this.setState({ tom: e })}
-                        showYearDropdown
-                        ariaLabelledBy="periode"
-                      />
-                      <div className="arbeidsgiver-periode-tabell--periode-velger-total">
-                        {t(Keys.TOTAL_REFUNDED)}: <b>{thousandSeparation(totalRefund)}</b>
-                      </div>
-                      <div className="arbeidsgiver-periode-tabell--periode-velger-max-dato">
-                        Maxdato: <b>15.03.20</b>
-                      </div>
-                    </div>
-                    {table}
-                  </>
-              }
+              <div className="arbeidsgiver-periode-tabell--søke-gruppe">
+                <div className="arbeidsgiver-periode-tabell--periode-velger">
+                  <div id="periode">{t(Keys.PERIOD)}:</div>
+                  <DatePicker
+                    locale="nb"
+                    dateFormat="dd.MM.yy"
+                    selected={fom}
+                    onChange={e => this.setState({ fom: e })}
+                    showYearDropdown
+                    ariaLabelledBy="periode fra"
+                  />
+                  <b>-</b>
+                  <DatePicker
+                    locale="nb"
+                    dateFormat="dd.MM.yy"
+                    selected={tom}
+                    onChange={e => this.setState({ tom: e })}
+                    showYearDropdown
+                    ariaLabelledBy="periode til"
+                  />
+                </div>
+                <Input
+                  className="arbeidsgiver-periode-tabell--søke-input"
+                  label={t(Keys.FIND_OTHER_EMPLOYEE)}
+                  placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
+                  onChange={e => this.setIdentityNumberInput(e.target.value)}
+                  value={identityNumberSeparation(identityNumberInput)}
+                  onKeyDown={this.onEnterClick}
+                />
+                <Søkeknapp
+                  className="arbeidsgiver-periode-tabell--søke-knapp"
+                  onClick={this.submitSearch}
+                >
+                  <span>{t(Keys.SEARCH)}</span>
+                </Søkeknapp>
+              </div>
+              { error && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
+              { sak && <YtelsesperiodeTable ytelsesperioder={sak.ytelsesperioder} fom={fom} tom={tom}/> }
             </div>
           </div>
         </div>
