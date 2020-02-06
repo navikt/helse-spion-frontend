@@ -39,8 +39,6 @@ spec:
         mountPath: /apigw/helse-spion
   env:
   - name: API_GATEWAY
-    value: https://api-gw-q1.oera.no
-  - name: APP_URL_BACKEND
-    value: http://helse-spion
+    value: https://api-gw-q1.oera.no/helse-spion
   - name: LOGIN_URL
     value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/

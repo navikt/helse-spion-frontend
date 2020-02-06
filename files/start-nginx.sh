@@ -14,7 +14,7 @@ fi
 
 if test -d /apigw/helse-spion;
 then
-  export API_GW_API_KEY=$(cat /apigw/helse-spion)
+  export API_GW_API_KEY=$(cat /apigw/helse-spion/x-nav-apiKey)
 fi
 
 # Setting default environment variables
