@@ -142,6 +142,12 @@ const translatedStatus: IncludedStatus = {
 		nn: 'Under behandling',
 		en: 'Declined',
 	},
+	
+	[Status.HENLAGT]: {
+		nb: 'Henlagt',
+		nn: 'Henlagt',
+		en: 'Archived',
+	},
 };
 
 type IncludedKeys = {

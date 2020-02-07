@@ -65,6 +65,7 @@ export enum Status {
   UNDER_BEHANDLING = 'UNDER BEHANDLING',
   AVSLÅTT = 'AVSLÅTT',
   INNVILGET = 'INNVILGET',
+  HENLAGT = 'HENLAGT',
 }
 
 export enum HelseSpionTypes {
