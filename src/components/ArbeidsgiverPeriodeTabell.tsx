@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Sak } from "../store/types/helseSpionTypes";
+import { Arbeidsgiver, Ytelsesperiode } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -21,18 +21,24 @@ import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
 import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 import YtelsesperiodeTable from "./YtelsesperiodeTable";
+import { fetchToken } from "../store/thunks/fetchToken";
+import { fetchArbeidsgivere } from "../store/thunks/fetchArbeidsgivere";
 
 type OwnProps = {
   t: (str: string) => string
 }
 
 type StateProps = {
-  sak?: Sak
-  error: boolean
+  arbeidsgivere: Arbeidsgiver[]
+  ytelsesperioder?: Ytelsesperiode
+  personError: boolean
+  tokenFetched: boolean
 }
 
 type DispatchProps = {
   fetchPerson: (identityNumber: string) => void
+  fetchToken: () => void
+  fetchArbeidsgivere: () => void
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
@@ -46,6 +52,13 @@ type State = {
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   state: State = {
     identityNumberInput: '',
+  };
+  
+  componentDidMount = async (): Promise<void> => {
+    await this.props.fetchToken();
+    if (this.props.tokenFetched) {
+      this.props.fetchArbeidsgivere();
+    }
   };
   
   setIdentityNumberInput = (input: string) =>
@@ -65,8 +78,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   render() {
-    const { t, sak, error } = this.props;
+    const { t, arbeidsgivere, ytelsesperioder, personError } = this.props;
     const { identityNumberInput, fom, tom } = this.state;
+    const arbeidstaker = ytelsesperioder?.arbeidsforhold.arbeidstaker;
     
     return (
       <div className="arbeidsgiver-periode-tabell">
@@ -80,11 +94,11 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 <Ikon kind="info-sirkel-fyll"/>
                 <div>
                   <Normaltekst className="arbeidsgiver-periode-tabell--email">
-                    <u>bjørn.byråkrat@oslo.kommune.no</u>
+                    <u>[todo: email?]</u>
                   </Normaltekst>
-                  <Normaltekst>Grünerløkka pleiehjem</Normaltekst>
+                  <Normaltekst>{arbeidsgivere[0]?.name ?? ''}</Normaltekst>
                   <Normaltekst>
-                    org. nr. 12345678912
+                    org. nr. {arbeidsgivere[0]?.organizationNumber}
                     <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
                   </Normaltekst>
                 </div>
@@ -99,13 +113,13 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
               <div className="arbeidsgiver-periode-tabell--header">
                 <div className="arbeidsgiver-periode-tabell--info-gruppe">
                   {
-                    sak &&
+                    arbeidstaker &&
                     <>
                       <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(sak.arbeidsgiver.identitetsnummer ?? '')}
+                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
                       </div>
                       <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {sak.person.fornavn} {sak.person.etternavn}
+                        {arbeidstaker.fornavn} {arbeidstaker.etternavn}
                       </Innholdstittel>
                     </>
                   }
@@ -147,8 +161,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   <span>{t(Keys.SEARCH)}</span>
                 </Søkeknapp>
               </div>
-              { error && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
-              { sak && <YtelsesperiodeTable ytelsesperioder={sak.ytelsesperioder} fom={fom} tom={tom}/> }
+              { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
+              { ytelsesperioder && <YtelsesperiodeTable ytelsesperioder={[ytelsesperioder]} fom={fom} tom={tom}/> }
             </div>
           </div>
         </div>
@@ -158,12 +172,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  sak: state.helseSpionState.sak,
-  error: state.helseSpionState.error,
+  arbeidsgivere: state.helseSpionState.arbeidsgivere,
+  ytelsesperioder: state.helseSpionState.ytelsesperioder,
+  personError: state.helseSpionState.personError,
+  tokenFetched: state.helseSpionState.tokenFetched,
+  
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
   fetchPerson,
+  fetchToken,
+  fetchArbeidsgivere,
 }, dispatch);
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell));

@@ -2,8 +2,15 @@ import { HelseSpionActionTypes, HelseSpionState, HelseSpionTypes } from "../type
 import { Action } from "redux";
 
 const initialHelseSpionState: HelseSpionState = {
-  sak: undefined,
-  error: false,
+  arbeidsgivere: [],
+  ytelsesperioder: undefined,
+  personLoading: false,
+  personError: false,
+  tokenLoading: false,
+  tokenFetched: false,
+  tokenError: false,
+  arbeidsgivereLoading: false,
+  arbeidsgivereError: false
 };
 
 export function helseSpionReducer (
@@ -12,22 +19,68 @@ export function helseSpionReducer (
 ): HelseSpionState {
   const action = incomingAction as HelseSpionActionTypes;
   switch (action.type) {
+    case HelseSpionTypes.FETCH_TOKEN_STARTED:
+      return {
+        ...state,
+        tokenLoading: true,
+        tokenFetched: false,
+        tokenError: false,
+      };
+      
+    case HelseSpionTypes.FETCH_TOKEN_SUCCESS:
+      return {
+        ...state,
+        tokenLoading: false,
+        tokenFetched: true,
+      };
+      
+    case HelseSpionTypes.FETCH_TOKEN_ERROR:
+      return {
+        ...state,
+        tokenLoading: false,
+        tokenError: true,
+      };
+  
+    case HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED:
+      return {
+        ...state,
+        arbeidsgivereLoading: true,
+        arbeidsgivereError: false,
+      };
+  
+    case HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS:
+      return {
+        ...state,
+        arbeidsgivere: action.arbeidsgivere,
+        arbeidsgivereLoading: false,
+      };
+  
+    case HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR:
+      return {
+        ...state,
+        arbeidsgivereLoading: false,
+        arbeidsgivereError: true,
+      };
+  
     case HelseSpionTypes.FETCH_PERSON_STARTED:
       return {
         ...state,
-        error: false,
+        personLoading: true,
+        personError: false,
       };
   
     case HelseSpionTypes.FETCH_PERSON_SUCCESS:
       return {
         ...state,
-        sak: action.sak,
+        ytelsesperioder: action.ytelsesperioder,
+        personLoading: false,
       };
   
     case HelseSpionTypes.FETCH_PERSON_ERROR:
       return {
         ...state,
-        error: true,
+        personLoading: false,
+        personError: true,
       };
       
     default:

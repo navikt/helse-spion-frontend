@@ -1,20 +1,20 @@
 import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
-import { Sak } from "../types/helseSpionTypes";
+import { Ytelsesperiode } from "../types/helseSpionTypes";
 import { stringToDate } from "../../util/stringToDate";
 import { Dispatch } from "redux";
 
 export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchPersonStarted());
-    await fetch('http://localhost:3000/api/v1/saker/oppslag', {
+    await fetch('http://localhost:3000/api/v1/ytelsesperioder/oppslag', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify({
-        "identitetsnummer": identityNumber,
-        "arbeidsgiverOrgnr": "2"
+        'identitetsnummer': identityNumber,
+        'arbeidsgiverOrgnr': '910098896',
       }),
     }).then(response => {
       if (response.status === 401) {
@@ -33,23 +33,19 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
 }
 
 // todo: type safety
-const convertResponseDataToSak = (data): Sak => {
+const convertResponseDataToSak = (data): Ytelsesperiode => {
   return {
     ...data,
-    oppsummering: {
-      ...data.oppsummering,
-      periode: {
-        ...data.oppsummering.periode,
-        fom: stringToDate(data.oppsummering.periode.fom),
-        tom: stringToDate(data.oppsummering.periode.tom),
-      }
+    periode: {
+      fom: stringToDate(data.periode.fom),
+      tom: stringToDate(data.periode.tom),
     },
-    ytelsesperioder: data.ytelsesperioder.map(ytelsesperiode => {
+    ferieperioder: data.ferieperioder.map(ferieperioder => {
       return {
-        ...ytelsesperiode,
-        periode: {
-          fom: stringToDate(ytelsesperiode.periode.fom),
-          tom: stringToDate(ytelsesperiode.periode.tom),
+        ...ferieperioder,
+        ferieperioder: {
+          fom: stringToDate(ferieperioder.fom),
+          tom: stringToDate(ferieperioder.tom),
         }
       }
     })
