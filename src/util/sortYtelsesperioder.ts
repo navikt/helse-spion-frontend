@@ -35,6 +35,6 @@ const getStatusSortValue = (status: Status): number => {
 	switch (status) {
 		case Status.AVSLÅTT: return 0;
 		case Status.INNVILGET: return 1;
-		case Status.UNNER_BEHANDLING: return 2;
+		case Status.UNDER_BEHANDLING: return 2;
 	}
 };

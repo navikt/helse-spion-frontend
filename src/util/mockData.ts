@@ -51,7 +51,7 @@ export const mockYtelsesperiode3: Ytelsesperiode = {
 		tom: new Date(2020,1,1),
 	},
 	refusjonsbeløp: 30,
-	status: Status.UNNER_BEHANDLING,
+	status: Status.UNDER_BEHANDLING,
 	ytelse: 'FP',
 	grad: 50,
 	merknad: 'Mangler inntektsmld.'

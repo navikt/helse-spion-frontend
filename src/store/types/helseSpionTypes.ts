@@ -62,7 +62,7 @@ export interface Periode {
 }
 
 export enum Status {
-  UNNER_BEHANDLING = 'UNDER BEHANDLING',
+  UNDER_BEHANDLING = 'UNDER BEHANDLING',
   AVSLÅTT = 'AVSLÅTT',
   INNVILGET = 'INNVILGET',
 }

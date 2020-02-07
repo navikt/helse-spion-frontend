@@ -23,7 +23,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       } else if (response.status === 200) {
         // todo: type safety on data response
         return response.json().then(data =>
-          dispatch(fetchPersonSuccess(convertResponseDataToSak(data[0])))
+          dispatch(fetchPersonSuccess(convertResponseDataToYtelsesperiode(data[0])))
         );
       } else {
         return dispatch(fetchPersonError());
@@ -33,7 +33,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
 }
 
 // todo: type safety
-const convertResponseDataToSak = (data): Ytelsesperiode => {
+const convertResponseDataToYtelsesperiode = (data): Ytelsesperiode => {
   return {
     ...data,
     periode: {

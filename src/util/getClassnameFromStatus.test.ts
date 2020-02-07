@@ -3,7 +3,7 @@ import { Status } from "../store/types/helseSpionTypes";
 
 describe('getClassnameFromStatus', () => {
 	it('returns classname from pending status', () => {
-		const input = getClassnameFromStatus(Status.UNNER_BEHANDLING);
+		const input = getClassnameFromStatus(Status.UNDER_BEHANDLING);
 		expect(input).toEqual('under-behandling');
 	});
 	

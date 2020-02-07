@@ -137,7 +137,7 @@ const translatedStatus: IncludedStatus = {
 		en: 'Declined',
 	},
 	
-	[Status.UNNER_BEHANDLING]: {
+	[Status.UNDER_BEHANDLING]: {
 		nb: 'Under behandling',
 		nn: 'Under behandling',
 		en: 'Declined',
