@@ -6,7 +6,7 @@ export const fetchPersonStarted = (): HelseSpionActionTypes => {
   }
 };
 
-export const fetchPersonSuccess = (ytelsesperioder: Ytelsesperiode): HelseSpionActionTypes => {
+export const fetchPersonSuccess = (ytelsesperioder: Ytelsesperiode[]): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_SUCCESS,
     ytelsesperioder: ytelsesperioder,

@@ -30,7 +30,7 @@ type OwnProps = {
 
 type StateProps = {
   arbeidsgivere: Arbeidsgiver[]
-  ytelsesperioder?: Ytelsesperiode
+  ytelsesperioder: Ytelsesperiode[]
   personError: boolean
   tokenFetched: boolean
 }
@@ -80,7 +80,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   render() {
     const { t, arbeidsgivere, ytelsesperioder, personError } = this.props;
     const { identityNumberInput, fom, tom } = this.state;
-    const arbeidstaker = ytelsesperioder?.arbeidsforhold.arbeidstaker;
+    const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
     
     return (
       <div className="arbeidsgiver-periode-tabell">
@@ -162,7 +162,10 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 </Søkeknapp>
               </div>
               { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
-              { ytelsesperioder && <YtelsesperiodeTable ytelsesperioder={[ytelsesperioder]} fom={fom} tom={tom}/> }
+              {
+                ytelsesperioder.length > 0 &&
+                <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} fom={fom} tom={tom}/>
+              }
             </div>
           </div>
         </div>

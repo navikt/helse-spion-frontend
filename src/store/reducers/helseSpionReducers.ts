@@ -3,7 +3,7 @@ import { Action } from "redux";
 
 const initialHelseSpionState: HelseSpionState = {
   arbeidsgivere: [],
-  ytelsesperioder: undefined,
+  ytelsesperioder: [],
   personLoading: false,
   personError: false,
   tokenLoading: false,

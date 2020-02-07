@@ -1,6 +1,6 @@
 export interface HelseSpionState {
   arbeidsgivere: Arbeidsgiver[]
-  ytelsesperioder?: Ytelsesperiode
+  ytelsesperioder: Ytelsesperiode[]
   arbeidsgivereLoading: boolean
   arbeidsgivereError: boolean
   personLoading: boolean
@@ -85,7 +85,7 @@ export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS, arbeidsgivere: Arbeidsgiver[] }
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR }
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
-  | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode }
+  | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode[] }
   | { type: HelseSpionTypes.FETCH_PERSON_ERROR }
   | { type: HelseSpionTypes.FETCH_TOKEN_STARTED }
   | { type: HelseSpionTypes.FETCH_TOKEN_SUCCESS }

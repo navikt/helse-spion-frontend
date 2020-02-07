@@ -23,7 +23,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       } else if (response.status === 200) {
         // todo: type safety on data response
         return response.json().then(data =>
-          dispatch(fetchPersonSuccess(convertResponseDataToYtelsesperiode(data[0])))
+          dispatch(fetchPersonSuccess(convertResponseDataToYtelsesperioder(data)))
         );
       } else {
         return dispatch(fetchPersonError());
@@ -33,21 +33,23 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
 }
 
 // todo: type safety
-const convertResponseDataToYtelsesperiode = (data): Ytelsesperiode => {
-  return {
-    ...data,
-    periode: {
-      fom: stringToDate(data.periode.fom),
-      tom: stringToDate(data.periode.tom),
-    },
-    ferieperioder: data.ferieperioder.map(ferieperioder => {
-      return {
-        ...ferieperioder,
-        ferieperioder: {
-          fom: stringToDate(ferieperioder.fom),
-          tom: stringToDate(ferieperioder.tom),
+const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => {
+  return data.map(ytelsesperiode => {
+    return {
+      ...ytelsesperiode,
+      periode: {
+        fom: stringToDate(ytelsesperiode.periode.fom),
+        tom: stringToDate(ytelsesperiode.periode.tom),
+      },
+      ferieperioder: ytelsesperiode.ferieperioder.map(ferieperioder => {
+        return {
+          ...ferieperioder,
+          ferieperioder: {
+            fom: stringToDate(ferieperioder.fom),
+            tom: stringToDate(ferieperioder.tom),
+          }
         }
-      }
-    })
-  };
+      })
+    };
+  })
 };
