@@ -12,9 +12,12 @@ const devServerConfig = () => config => {
             '/api': {
                 target: process.env.PROXY || 'http://localhost:8080'
             },
+            '/local': {
+                target: process.env.PROXY || 'http://localhost:8080',
+            },
         },
     }
-}
+};
 
 module.exports = {
     webpack: override(
@@ -23,6 +26,5 @@ module.exports = {
     ),
     devServer: overrideDevServer(
         devServerConfig()
-
     )
 };

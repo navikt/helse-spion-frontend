@@ -33,8 +33,9 @@ export const sortYtelsesperioder = (
 
 const getStatusSortValue = (status: Status): number => {
 	switch (status) {
-		case Status.DECLINED: return 0;
-		case Status.APPROVED: return 1;
-		case Status.PENDING: return 2;
+		case Status.AVSLÅTT: return 0;
+		case Status.INNVILGET: return 1;
+		case Status.UNDER_BEHANDLING: return 2;
+		case Status.HENLAGT: return 3;
 	}
 };

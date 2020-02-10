@@ -15,6 +15,7 @@ module.exports = {
     }
   },
   rules: {
+    "no-console": "error",
     "max-len": ['error', 120, {
       ignoreUrls: true,
       ignoreComments: false,

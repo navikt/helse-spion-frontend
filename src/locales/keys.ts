@@ -125,22 +125,28 @@ const translatedKeys: IncludedKeys = {
 };
 
 const translatedStatus: IncludedStatus = {
-	[Status.APPROVED]: {
+	[Status.INNVILGET]: {
 		nb: 'Innvilget',
 		nn: 'Innvilga',
 		en: 'Approved',
 	},
 	
-	[Status.DECLINED]: {
+	[Status.AVSLÅTT]: {
 		nb: 'Avslått',
 		nn: 'Avslått',
 		en: 'Declined',
 	},
 	
-	[Status.PENDING]: {
+	[Status.UNDER_BEHANDLING]: {
 		nb: 'Under behandling',
 		nn: 'Under behandling',
 		en: 'Declined',
+	},
+	
+	[Status.HENLAGT]: {
+		nb: 'Henlagt',
+		nn: 'Henlagt',
+		en: 'Archived',
 	},
 };
 
