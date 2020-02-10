@@ -55,7 +55,7 @@
   "homepage": "/min-side-refusjon",
   "scripts": {
     "start": "set \"NODE_ICU_DATA=node_modules/full-icu jest --config jest.config.js\" && npm run lint && react-app-rewired start --development",
-    "build": "set \"NODE_ICU_DATA=node_modules/full-icu jest --config jest.config.js\" && react-app-rewired build",
+    "build": "set \"NODE_ICU_DATA=node_modules/full-icu jest --config jest.config.js\" && npm run lint && react-app-rewired build",
     "install": "react-app-rewired build",
     "test": "set \"NODE_ICU_DATA=node_modules/full-icu jest --config jest.config.js\" && react-app-rewired test --color --watchAll=false",
     "eject": "react-scripts eject",
