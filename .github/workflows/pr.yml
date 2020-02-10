@@ -1,0 +1,33 @@
+name: Bygg pull request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: create docker tag
+        env:
+          DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/helse-spion-frontend
+        run: |
+          echo $DOCKER_IMAGE > .docker_image
+          echo $(echo $GITHUB_SHA | cut -c1-7) > .docker_tag
+      - run: npm install
+      - run: npm build
+      - run: npm test
