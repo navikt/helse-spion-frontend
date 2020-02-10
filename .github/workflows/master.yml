@@ -1,4 +1,4 @@
-name: Bygg og deploy
+name: Bygg og deploy master
 
 on:
   push:
@@ -22,15 +22,15 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - run: npm install
+      - run: npm build
+      - run: npm test
       - name: create docker tag
         env:
           DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/helse-spion-frontend
         run: |
           echo $DOCKER_IMAGE > .docker_image
           echo $(echo $GITHUB_SHA | cut -c1-7) > .docker_tag
-      - run: npm install
-      - run: npm build
-      - run: npm test
       - name: build docker image
         run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
       - name: push docker image
