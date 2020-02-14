@@ -18,17 +18,6 @@ export enum OrganisationType {
   PERSON = 'Person',
 }
 
-// // fra Arbeidsgivere API
-// export interface Arbeidsgiver {
-//   name: string
-//   organizationForm?: string
-//   organizationNumber?: string
-//   parentOrganizationNumber?: string
-//   socialSecurityNumber?: string
-//   status?: string
-//   type: string
-// }
-
 export interface Ytelsesperiode {
   arbeidsforhold: Arbeidsforhold
   dagsats: number
