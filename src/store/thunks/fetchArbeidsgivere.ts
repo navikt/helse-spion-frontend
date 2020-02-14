@@ -23,15 +23,11 @@ export function fetchArbeidsgivere(): (dispatch: Dispatch) => Promise<void> {
 }
 
 // todo: type safety
-const convertResponseDataToOrganisasjon = (data): Organisasjon[] => {
-  return data.map(organisasjon => {
-    return {
-      Name: organisasjon.name,
-      Type: organisasjon.type,
-      OrganizationNumber: organisasjon.organizationNumber,
-      OrganizationForm: organisasjon.organizationForm,
-      Status: organisasjon.status,
-      ParentOrganizationNumber: organisasjon.parentOrganizationNumber,
-    }
-  })
-};
+const convertResponseDataToOrganisasjon = (data): Organisasjon[] => data.map(organisasjon => ({
+  Name: organisasjon.name,
+  Type: organisasjon.type,
+  OrganizationNumber: organisasjon.organizationNumber,
+  OrganizationForm: organisasjon.organizationForm,
+  Status: organisasjon.status,
+  ParentOrganizationNumber: organisasjon.parentOrganizationNumber,
+}));
