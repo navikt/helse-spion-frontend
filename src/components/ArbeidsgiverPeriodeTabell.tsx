@@ -4,14 +4,13 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Arbeidsgiver, Ytelsesperiode } from "../store/types/helseSpionTypes";
+import { Ytelsesperiode } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
 import Lenke from "nav-frontend-lenker";
-import { Innholdstittel, Normaltekst, Sidetittel } from "nav-frontend-typografi";
+import { Innholdstittel } from "nav-frontend-typografi";
 import 'nav-frontend-alertstriper-style';
-import Ikon from 'nav-frontend-ikoner-assets';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchPerson } from "../store/thunks/fetchPerson";
@@ -23,13 +22,19 @@ import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 import YtelsesperiodeTable from "./YtelsesperiodeTable";
 import { fetchToken } from "../store/thunks/fetchToken";
 import { fetchArbeidsgivere } from "../store/thunks/fetchArbeidsgivere";
+import Bedriftsmeny from '@navikt/bedriftsmeny';
+import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+import { withRouter } from 'react-router-dom';
+import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import { buildOrganisasjonstre } from "../util/buildOrganisasjonstre";
 
 type OwnProps = {
   t: (str: string) => string
+  history: History
 }
 
 type StateProps = {
-  arbeidsgivere: Arbeidsgiver[]
+  arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
   personError: boolean
   tokenFetched: boolean
@@ -78,34 +83,18 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   render() {
-    const { t, arbeidsgivere, ytelsesperioder, personError } = this.props;
+    const { t, history, arbeidsgivere, ytelsesperioder, personError } = this.props;
     const { identityNumberInput, fom, tom } = this.state;
     const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
     
     return (
       <div className="arbeidsgiver-periode-tabell">
-        <div className="arbeidsgiver-periode-tabell--banner">
-          <div className="container">
-            <div className="row arbeidsgiver-periode-tabell--banner-rad">
-              <div className="col-sm-8">
-                <Sidetittel id="arbeidsgiver-periode-tabell--tittel">{t(Keys.MY_PAGE)}</Sidetittel>
-              </div>
-              <div className="col-sm-4 alertstripe--info arbeidsgiver-periode-tabell--alertstripe">
-                <Ikon kind="info-sirkel-fyll"/>
-                <div>
-                  <Normaltekst className="arbeidsgiver-periode-tabell--email">
-                    <u>[todo: email?]</u>
-                  </Normaltekst>
-                  <Normaltekst>{arbeidsgivere[0]?.name ?? ''}</Normaltekst>
-                  <Normaltekst>
-                    org. nr. {arbeidsgivere[0]?.organizationNumber}
-                    <Lenke className="arbeidsgiver-periode-tabell--lenke" href="">{t(Keys.CHANGE)}</Lenke>
-                  </Normaltekst>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Bedriftsmeny
+          history={history}
+          onOrganisasjonChange={e => {}}
+          sidetittel={'Min side - refusjoner'}
+          organisasjonstre={buildOrganisasjonstre(arbeidsgivere)}
+        />
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
@@ -188,4 +177,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCrea
   fetchArbeidsgivere,
 }, dispatch);
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell));
+export default withRouter(withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ArbeidsgiverPeriodeTabell)));
