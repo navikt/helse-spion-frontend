@@ -1,4 +1,5 @@
-import { Arbeidsgiver, HelseSpionActionTypes, HelseSpionTypes, Ytelsesperiode } from "../types/helseSpionTypes";
+import { HelseSpionActionTypes, HelseSpionTypes, Ytelsesperiode } from "../types/helseSpionTypes";
+import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
 
 export const fetchPersonStarted = (): HelseSpionActionTypes => {
   return {
@@ -43,7 +44,7 @@ export const fetchArbeidsgivereStarted = (): HelseSpionActionTypes => {
   }
 };
 
-export const fetchArbeidsgivereSuccess = (arbeidsgivere: Arbeidsgiver[]): HelseSpionActionTypes => {
+export const fetchArbeidsgivereSuccess = (arbeidsgivere: Organisasjon[]): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS,
     arbeidsgivere: arbeidsgivere,

@@ -14,7 +14,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       method: 'POST',
       body: JSON.stringify({
         'identitetsnummer': identityNumber,
-        'arbeidsgiverOrgnr': '910098896',
+        'arbeidsgiverId': '910098896',
       }),
     }).then(response => {
       if (response.status === 401) {
@@ -33,23 +33,18 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
 }
 
 // todo: type safety
-const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => {
-  return data.map(ytelsesperiode => {
-    return {
-      ...ytelsesperiode,
-      periode: {
-        fom: stringToDate(ytelsesperiode.periode.fom),
-        tom: stringToDate(ytelsesperiode.periode.tom),
-      },
-      ferieperioder: ytelsesperiode.ferieperioder.map(ferieperioder => {
-        return {
-          ...ferieperioder,
-          ferieperioder: {
-            fom: stringToDate(ferieperioder.fom),
-            tom: stringToDate(ferieperioder.tom),
-          }
-        }
-      })
-    };
-  })
-};
+const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
+  ...ytelsesperiode,
+  periode: {
+    fom: stringToDate(ytelsesperiode.periode.fom),
+    tom: stringToDate(ytelsesperiode.periode.tom),
+  },
+  ferieperioder: ytelsesperiode.ferieperioder.map(ferieperioder => ({
+    ...ferieperioder,
+    ferieperioder: {
+      fom: stringToDate(ferieperioder.fom),
+      tom: stringToDate(ferieperioder.tom),
+    }
+  }))
+}));
+

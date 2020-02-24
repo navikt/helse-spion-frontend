@@ -1,5 +1,7 @@
+import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+
 export interface HelseSpionState {
-  arbeidsgivere: Arbeidsgiver[]
+  arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
   arbeidsgivereLoading: boolean
   arbeidsgivereError: boolean
@@ -10,15 +12,10 @@ export interface HelseSpionState {
   tokenFetched: boolean
 }
 
-// fra Arbeidsgivere API
-export interface Arbeidsgiver {
-  name: string
-  organizationForm?: string
-  organizationNumber?: string
-  parentOrganizationNumber?: string
-  socialSecurityNumber?: string
-  status?: string
-  type: string
+export enum OrganisationType {
+  ENTERPRISE = 'Enterprise',
+  BUSINESS = 'Business',
+  PERSON = 'Person',
 }
 
 export interface Ytelsesperiode {
@@ -82,13 +79,12 @@ export enum HelseSpionTypes {
 
 export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED }
-  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS, arbeidsgivere: Arbeidsgiver[] }
+  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS, arbeidsgivere: Organisasjon[] }
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR }
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
   | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode[] }
   | { type: HelseSpionTypes.FETCH_PERSON_ERROR }
   | { type: HelseSpionTypes.FETCH_TOKEN_STARTED }
   | { type: HelseSpionTypes.FETCH_TOKEN_SUCCESS }
-  | { type: HelseSpionTypes.FETCH_TOKEN_ERROR }
-  ;
+  | { type: HelseSpionTypes.FETCH_TOKEN_ERROR };
 
