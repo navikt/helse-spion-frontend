@@ -93,7 +93,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           history={history}
           onOrganisasjonChange={e => {}}
           sidetittel={'Min side - refusjoner'}
-          organisasjonstre={buildOrganisasjonstre(arbeidsgivere)}
+          organisasjoner={arbeidsgivere}
         />
         <div className="container">
           <div className="row">
