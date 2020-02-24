@@ -14,7 +14,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       method: 'POST',
       body: JSON.stringify({
         'identitetsnummer': identityNumber,
-        'arbeidsgiverOrgnr': '910098896',
+        'arbeidsgiverId': '910098896',
       }),
     }).then(response => {
       if (response.status === 401) {
