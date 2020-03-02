@@ -5,9 +5,9 @@ describe('totalRefundInYtelsesperioder', () => {
 	it('calculates total refund in ytelsesperioder', () => {
 		const input = totalRefundInYtelsesperioder(mockYtelsesperioder);
 		expect(input).toEqual(
-			mockYtelsesperiode1.refusjonsbeløp
-			+ mockYtelsesperiode2.refusjonsbeløp
-			+ mockYtelsesperiode3.refusjonsbeløp
+			mockYtelsesperiode1.refusjonsbeløp!
+			+ mockYtelsesperiode2.refusjonsbeløp!
+			+ mockYtelsesperiode3.refusjonsbeløp!
 		);
 	});
 });
