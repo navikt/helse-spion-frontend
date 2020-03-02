@@ -24,7 +24,7 @@ export const sortYtelsesperioder = (
 				sort = (b.merknad ?? '').localeCompare(a.merknad ?? '');
 				break;
 			case 5:
-				sort = b.refusjonsbeløp - a.refusjonsbeløp;
+				sort = (b.refusjonsbeløp ?? -1) - (a.refusjonsbeløp ?? 0);
 				break;
 			default: break;
 		}

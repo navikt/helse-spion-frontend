@@ -18,7 +18,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       }),
     }).then(response => {
       if (response.status === 401) {
-        alert("redirect");
+        alert("redirect"); // Todo: make redirect
         return dispatch(fetchPersonError());
       } else if (response.status === 200) {
         // todo: type safety on data response

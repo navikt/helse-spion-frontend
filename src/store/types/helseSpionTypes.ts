@@ -22,11 +22,11 @@ export interface Ytelsesperiode {
   arbeidsforhold: Arbeidsforhold
   dagsats: number
   ferieperioder: Periode[]
-  grad: number
+  grad?: number
   maxdato: Date
   merknad: string
   periode: Periode
-  refusjonsbeløp: number
+  refusjonsbeløp?: number
   sistEndret: Date
   status: Status
   vedtaksId: string
