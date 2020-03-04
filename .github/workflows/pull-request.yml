@@ -22,6 +22,8 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - run: pwd
+      - run: ls
       - run: npm install
       - run: npm run build:dev
       - run: npm test
