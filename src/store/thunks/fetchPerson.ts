@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchPersonStarted());
-    await fetch(process.env.REACT_APP_BASE_URL + 'api/v1/ytelsesperioder/oppslag', {
+    await fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
