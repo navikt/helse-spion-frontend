@@ -20,7 +20,6 @@ import { withTranslation } from "react-i18next";
 import { Keys } from "../locales/keys";
 import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
 import YtelsesperiodeTable from "./YtelsesperiodeTable";
-import { fetchToken } from "../store/thunks/fetchToken";
 import { fetchArbeidsgivere } from "../store/thunks/fetchArbeidsgivere";
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
@@ -36,12 +35,10 @@ type StateProps = {
   arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
   personError: boolean
-  tokenFetched: boolean
 }
 
 type DispatchProps = {
   fetchPerson: (identityNumber: string) => void
-  fetchToken: () => void
   fetchArbeidsgivere: () => void
 }
 
@@ -163,13 +160,10 @@ const mapStateToProps = (state: RootState): StateProps => ({
   arbeidsgivere: state.helseSpionState.arbeidsgivere,
   ytelsesperioder: state.helseSpionState.ytelsesperioder,
   personError: state.helseSpionState.personError,
-  tokenFetched: state.helseSpionState.tokenFetched,
-  
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
   fetchPerson,
-  fetchToken,
   fetchArbeidsgivere,
 }, dispatch);
 

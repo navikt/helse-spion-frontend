@@ -9,7 +9,7 @@ const devServerConfig = () => config => {
     return {
         ...config,
         proxy: {
-            '/api': {
+            '/min-side-refusjon/api': {
                 target: process.env.PROXY || 'http://localhost:8080'
             },
             '/local': {
