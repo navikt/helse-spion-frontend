@@ -1,6 +1,7 @@
 import { fetchTokenError, fetchTokenStarted, fetchTokenSuccess } from "../actions/helseSpionActions";
 import { Dispatch } from "redux";
 
+// Todo: delete?
 export function fetchToken(): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchTokenStarted());
