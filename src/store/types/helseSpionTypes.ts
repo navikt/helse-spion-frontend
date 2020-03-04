@@ -72,9 +72,6 @@ export enum HelseSpionTypes {
   FETCH_PERSON_STARTED = 'FETCH_PERSON_STARTED',
   FETCH_PERSON_SUCCESS = 'FETCH_PERSON_SUCCESS',
   FETCH_PERSON_ERROR = 'FETCH_PERSON_ERROR',
-  FETCH_TOKEN_STARTED = 'FETCH_TOKEN_STARTED',
-  FETCH_TOKEN_SUCCESS = 'FETCH_TOKEN_SUCCESS',
-  FETCH_TOKEN_ERROR = 'FETCH_TOKEN_ERROR',
 }
 
 export type HelseSpionActionTypes =
@@ -83,8 +80,5 @@ export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR }
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
   | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode[] }
-  | { type: HelseSpionTypes.FETCH_PERSON_ERROR }
-  | { type: HelseSpionTypes.FETCH_TOKEN_STARTED }
-  | { type: HelseSpionTypes.FETCH_TOKEN_SUCCESS }
-  | { type: HelseSpionTypes.FETCH_TOKEN_ERROR };
+  | { type: HelseSpionTypes.FETCH_PERSON_ERROR };
 

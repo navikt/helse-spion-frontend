@@ -20,24 +20,6 @@ export const fetchPersonError = (): HelseSpionActionTypes => {
   }
 };
 
-export const fetchTokenStarted = (): HelseSpionActionTypes => {
-  return {
-    type: HelseSpionTypes.FETCH_TOKEN_STARTED,
-  }
-};
-
-export const fetchTokenSuccess = (): HelseSpionActionTypes => {
-  return {
-    type: HelseSpionTypes.FETCH_TOKEN_SUCCESS,
-  }
-};
-
-export const fetchTokenError = (): HelseSpionActionTypes => {
-  return {
-    type: HelseSpionTypes.FETCH_TOKEN_ERROR,
-  }
-};
-
 export const fetchArbeidsgivereStarted = (): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED,

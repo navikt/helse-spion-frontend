@@ -19,28 +19,7 @@ export function helseSpionReducer (
 ): HelseSpionState {
   const action = incomingAction as HelseSpionActionTypes;
   switch (action.type) {
-    case HelseSpionTypes.FETCH_TOKEN_STARTED:
-      return {
-        ...state,
-        tokenLoading: true,
-        tokenFetched: false,
-        tokenError: false,
-      };
-      
-    case HelseSpionTypes.FETCH_TOKEN_SUCCESS:
-      return {
-        ...state,
-        tokenLoading: false,
-        tokenFetched: true,
-      };
-      
-    case HelseSpionTypes.FETCH_TOKEN_ERROR:
-      return {
-        ...state,
-        tokenLoading: false,
-        tokenError: true,
-      };
-  
+
     case HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED:
       return {
         ...state,
