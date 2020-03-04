@@ -18,8 +18,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       }),
     }).then(response => {
       if (response.status === 401) {
-        alert("redirect"); // Todo: make redirect
-        return dispatch(fetchPersonError());
+        window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
       } else if (response.status === 200) {
         // todo: type safety on data response
         return response.json().then(data =>
