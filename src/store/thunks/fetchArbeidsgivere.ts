@@ -9,7 +9,6 @@ import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
 export function fetchArbeidsgivere(): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchArbeidsgivereStarted());
-    console.log(process.env)
     await fetch(process.env.REACT_APP_BASE_URL + '/api/v1/arbeidsgivere')
       .then(response => {
         if (response.status === 401) {
