@@ -60,10 +60,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   componentDidMount = async (): Promise<void> => {
-    await this.props.fetchToken();
-    if (this.props.tokenFetched) {
-      this.props.fetchArbeidsgivere();
-    }
+    this.props.fetchArbeidsgivere();
   };
   
   setIdentityNumberInput = (input: string) =>
@@ -116,7 +113,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
               </div>
               <div className="arbeidsgiver-periode-tabell--søke-gruppe">
                 <div className="arbeidsgiver-periode-tabell--periode-velger">
-                  <div id="periode">{t(Keys.PERIOD)}:</div>
+                  <label id="periode">{t(Keys.PERIOD)}:</label>
                   <DatePicker
                     locale="nb"
                     dateFormat="dd.MM.yy"
