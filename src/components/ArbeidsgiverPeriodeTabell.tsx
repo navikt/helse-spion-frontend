@@ -26,7 +26,6 @@ import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { withRouter } from 'react-router-dom';
 import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
-import { buildOrganisasjonstre } from "../util/buildOrganisasjonstre";
 
 type OwnProps = {
   t: (str: string) => string

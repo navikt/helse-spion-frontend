@@ -1,2 +1,4 @@
-export const thousandSeparation = (number: number): string =>
-	number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+export const thousandSeparation = (number?: number): string =>
+	number
+		? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+		: '';
