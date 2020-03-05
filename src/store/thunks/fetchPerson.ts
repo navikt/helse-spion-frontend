@@ -3,7 +3,7 @@ import { Ytelsesperiode } from "../types/helseSpionTypes";
 import { stringToDate } from "../../util/stringToDate";
 import { Dispatch } from "redux";
 
-export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Promise<void> {
+export function fetchPerson(identityNumber?: string, arbeidsgiverId?: string): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
     dispatch(fetchPersonStarted());
     await fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
@@ -14,7 +14,7 @@ export function fetchPerson(identityNumber?: string): (dispatch: Dispatch) => Pr
       method: 'POST',
       body: JSON.stringify({
         'identitetsnummer': identityNumber,
-        'arbeidsgiverId': '910098896',
+        'arbeidsgiverId': arbeidsgiverId,
       }),
     }).then(response => {
       if (response.status === 401) {

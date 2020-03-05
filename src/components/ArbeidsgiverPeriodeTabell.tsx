@@ -38,7 +38,7 @@ type StateProps = {
 }
 
 type DispatchProps = {
-  fetchPerson: (identityNumber: string) => void
+  fetchPerson: (identityNumber?: string, arbeidsgiverId?: string) => void
   fetchArbeidsgivere: () => void
 }
 
@@ -72,7 +72,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   
   submitSearch = (): void => {
     this.setState({ fom: undefined, tom: undefined });
-    this.props.fetchPerson(this.state.identityNumberInput);
+    const search = window.location.search;
+    const arbeidsgiverId = search.substring(search.indexOf("=")+1);
+    this.props.fetchPerson(this.state.identityNumberInput, arbeidsgiverId);
   };
   
   render() {
@@ -85,7 +87,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <Bedriftsmeny
           history={history}
           onOrganisasjonChange={e => {}}
-          sidetittel={'Min side - refusjoner'}
+          sidetittel={t(Keys.MY_PAGE)}
           organisasjoner={arbeidsgivere}
         />
         <div className="container">
