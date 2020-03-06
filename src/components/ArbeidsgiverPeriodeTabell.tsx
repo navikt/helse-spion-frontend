@@ -46,6 +46,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 type State = {
   identityNumberInput: string
+  arbeidsgiverId: string
   fom?: Date
   tom?: Date
 }
@@ -53,6 +54,7 @@ type State = {
 class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   state: State = {
     identityNumberInput: '',
+    arbeidsgiverId: '',
   };
   
   componentDidMount = async (): Promise<void> => {
@@ -72,9 +74,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   
   submitSearch = (): void => {
     this.setState({ fom: undefined, tom: undefined });
-    const search = window.location.search;
-    const arbeidsgiverId = search.substring(search.indexOf("=")+1);
-    this.props.fetchPerson(this.state.identityNumberInput, arbeidsgiverId);
+    this.props.fetchPerson(this.state.identityNumberInput, this.state.arbeidsgiverId);
   };
   
   render() {
@@ -86,7 +86,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       <div className="arbeidsgiver-periode-tabell">
         <Bedriftsmeny
           history={history}
-          onOrganisasjonChange={e => {}}
+          onOrganisasjonChange={(org: Organisasjon) => this.setState({arbeidsgiverId: org.OrganizationNumber})}
           sidetittel={t(Keys.MY_PAGE)}
           organisasjoner={arbeidsgivere}
         />
