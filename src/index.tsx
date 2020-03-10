@@ -10,6 +10,7 @@ import ArbeidsgiverPeriodeTabell from "./components/ArbeidsgiverPeriodeTabell";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./locales/i18n";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Redirecter from "./components/Redirecter";
 
 const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
 export const store = createStore(rootReducers, composeEnhancers(applyMiddleware(thunk)));
@@ -20,6 +21,7 @@ render(
       <Router>
         <Switch>
           <Route exact path="/min-side-refusjon/" render={() => <ArbeidsgiverPeriodeTabell/>}/>
+          <Route exact path="/" render={() => <Redirecter/>}/>
           {/*<Route render={() => <404/>}/> // Todo: 404 fallback */}
         </Switch>
       </Router>
