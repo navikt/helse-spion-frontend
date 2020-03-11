@@ -149,7 +149,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 </Søkeknapp>
               </div>
               { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
-              { personLoading && <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>}
+              { personLoading &&
+                <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
+              }
               {
                 ytelsesperioder.length > 0 && !personLoading &&
                 <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} fom={fom} tom={tom}/>
