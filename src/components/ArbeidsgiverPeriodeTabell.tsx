@@ -25,6 +25,7 @@ import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { withRouter } from 'react-router-dom';
 import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import NavFrontendSpinner from 'nav-frontend-spinner';
 
 type OwnProps = {
   t: (str: string) => string
@@ -34,7 +35,8 @@ type OwnProps = {
 type StateProps = {
   arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
-  personError: boolean
+  personError: boolean,
+  personLoading: boolean,
 }
 
 type DispatchProps = {
@@ -78,7 +80,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   render() {
-    const { t, history, arbeidsgivere, ytelsesperioder, personError } = this.props;
+    const { t, history, arbeidsgivere, ytelsesperioder, personError, personLoading } = this.props;
     const { identityNumberInput, fom, tom } = this.state;
     const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
     
@@ -139,15 +141,17 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   onKeyDown={this.onEnterClick}
                 />
                 <Søkeknapp
-                  className="arbeidsgiver-periode-tabell--søke-knapp"
+                    disabled={this.state.identityNumberInput.length < 11 || personLoading }
+                    className="arbeidsgiver-periode-tabell--søke-knapp"
                   onClick={this.submitSearch}
                 >
                   <span>{t(Keys.SEARCH)}</span>
                 </Søkeknapp>
               </div>
               { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
+              { personLoading && <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>}
               {
-                ytelsesperioder.length > 0 &&
+                ytelsesperioder.length > 0 && !personLoading &&
                 <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} fom={fom} tom={tom}/>
               }
             </div>
@@ -162,6 +166,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   arbeidsgivere: state.helseSpionState.arbeidsgivere,
   ytelsesperioder: state.helseSpionState.ytelsesperioder,
   personError: state.helseSpionState.personError,
+  personLoading: state.helseSpionState.personLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => bindActionCreators({
