@@ -2,6 +2,8 @@ import { Status } from "../store/types/helseSpionTypes";
 
 export enum Keys {
 	MY_PAGE = 'MY_PAGE',
+	DOCUMENT_TITLE = 'DOCUMENT_TITLE',
+	REFUNDS = 'REFUNDS',
 	ALL_REFUNDS = 'ALL_REFUNDS',
 	CHANGE = 'CHANGE',
 	FIND_OTHER_EMPLOYEE = 'FIND_OTHER_EMPLOYEE',
@@ -25,6 +27,18 @@ const translatedKeys: IncludedKeys = {
 		nb: 'Min side - refusjoner',
 		nn: 'Mi side - refusjonar',
 		en: 'My page - refunds',
+	},
+	
+	[Keys.DOCUMENT_TITLE]: {
+		nb: 'Min side arbeidsgiver',
+		nn: 'Mi side arbeidsgivar',
+		en: 'My page employer',
+	},
+	
+	[Keys.REFUNDS]: {
+		nb: 'Refusjoner',
+		nn: 'Refusjonar',
+		en: 'Refunds',
 	},
 	
 	[Keys.ALL_REFUNDS]: {

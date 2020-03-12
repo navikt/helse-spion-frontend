@@ -84,6 +84,12 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
     const { identityNumberInput, fom, tom } = this.state;
     const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
     
+    if (arbeidstaker) {
+      document.title = `${t(Keys.REFUNDS)}/${arbeidstaker.fornavn} ${arbeidstaker.etternavn} - www.nav.no`;
+    } else {
+      document.title = `${t(Keys.DOCUMENT_TITLE)}/${t(Keys.REFUNDS)} - www.nav.no`;
+    }
+    
     return (
       <div className="arbeidsgiver-periode-tabell">
         <Bedriftsmeny
