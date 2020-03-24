@@ -5,6 +5,7 @@ import {
 } from "../actions/helseSpionActions";
 import { Dispatch } from "redux";
 import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import { ErrorType } from "../types/helseSpionTypes";
 
 export function fetchArbeidsgivere(): (dispatch: Dispatch) => Promise<void> {
   return async dispatch => {
@@ -17,8 +18,13 @@ export function fetchArbeidsgivere(): (dispatch: Dispatch) => Promise<void> {
           response.json().then(data =>
             dispatch(fetchArbeidsgivereSuccess(convertResponseDataToOrganisasjon(data)))
           );
+        } else if (response.status === 400) {
+          return response.json().then(data => dispatch(fetchArbeidsgivereError(
+            data.violations[0].validationType.toUpperCase(),
+            data.violations[0].message
+          )));
         } else {
-          dispatch(fetchArbeidsgivereError());
+          return dispatch(fetchArbeidsgivereError(ErrorType.UNKNOWN));
         }
       })
   };

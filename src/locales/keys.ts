@@ -1,4 +1,4 @@
-import { Status } from "../store/types/helseSpionTypes";
+import { ErrorType, Status } from "../store/types/helseSpionTypes";
 
 export enum Keys {
 	MY_PAGE = 'MY_PAGE',
@@ -10,7 +10,6 @@ export enum Keys {
 	IDENTITY_NUMBER = 'IDENTITY_NUMBER',
 	IDENTITY_NUMBER_EXT = 'IDENTITY_NUMBER_EXT',
 	SEARCH = 'SEARCH',
-	ERROR = 'ERROR',
 	PERIOD = 'PERIOD',
 	TOTAL_REFUNDED = 'TOTAL_REFUNDED',
 	STATUS = 'STATUS',
@@ -75,12 +74,6 @@ const translatedKeys: IncludedKeys = {
 		nb: 'SØK',
 		nn: 'SØK',
 		en: 'SEARCH',
-	},
-	
-	[Keys.ERROR]: {
-		nb: 'En feil har skjedd. Prøv igjen senere.',
-		nn: 'Ein feil har skjedd. Prøv igjen seinare',
-		en: 'An error occurred. Try again later.',
 	},
 	
 	[Keys.PERIOD]: {
@@ -164,6 +157,33 @@ const translatedStatus: IncludedStatus = {
 	},
 };
 
+// Todo: proper texts
+const translatedErrors: IncludedErrors = {
+	[ErrorType.NOTNULL]: {
+		nb: 'En feil har skjedd. Prøv igjen senere.',
+		nn: 'Ein feil har skjedd. Prøv igjen seinare',
+		en: 'An error occurred. Try again later.',
+	},
+	
+	[ErrorType.IDENTITETSNUMMERCONSTRAINT]: {
+		nb: 'En feil har skjedd. Prøv igjen senere.',
+		nn: 'Ein feil har skjedd. Prøv igjen seinare',
+		en: 'An error occurred. Try again later.',
+	},
+	
+	[ErrorType.ORGANISASJONSNUMMERCONSTRAINT]: {
+		nb: 'En feil har skjedd. Prøv igjen senere.',
+		nn: 'Ein feil har skjedd. Prøv igjen seinare',
+		en: 'An error occurred. Try again later.',
+	},
+	
+	[ErrorType.UNKNOWN]: {
+		nb: 'En feil har skjedd. Prøv igjen senere.',
+		nn: 'Ein feil har skjedd. Prøv igjen seinare',
+		en: 'An error occurred. Try again later.',
+	},
+};
+
 type IncludedKeys = {
 	[P in Keys]: {
 		[P in Languages]: string
@@ -176,7 +196,15 @@ type IncludedStatus = {
 	}
 }
 
-const allTranslations: IncludedKeys & IncludedStatus = {...translatedKeys, ...translatedStatus};
+type IncludedErrors = {
+	[P in ErrorType]: {
+		[P in Languages]: string
+	}
+}
+
+const allTranslations: IncludedKeys & IncludedStatus & IncludedErrors = {
+	...translatedKeys, ...translatedStatus, ...translatedErrors
+};
 
 export enum Languages {
 	nb = 'nb',
