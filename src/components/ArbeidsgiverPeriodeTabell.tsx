@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../store/rootState";
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { Ytelsesperiode } from "../store/types/helseSpionTypes";
+import { ErrorType, Ytelsesperiode } from "../store/types/helseSpionTypes";
 import { Input } from "nav-frontend-skjema";
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
@@ -35,7 +35,8 @@ type OwnProps = {
 type StateProps = {
   arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
-  personError: boolean,
+  personErrorType?: string,
+  personErrorMessage?: string,
   personLoading: boolean,
 }
 
@@ -80,7 +81,9 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
   };
   
   render() {
-    const { t, history, arbeidsgivere, ytelsesperioder, personError, personLoading } = this.props;
+    const {
+      t, history, arbeidsgivere, ytelsesperioder, personErrorType, personErrorMessage, personLoading
+    } = this.props;
     const { identityNumberInput, fom, tom } = this.state;
     const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
     
@@ -165,8 +168,16 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
-              { personLoading &&
+              {
+                personErrorType &&
+                (
+                  personErrorType in ErrorType
+                    ? <AlertStripe type="feil">{t(personErrorType)}</AlertStripe>
+                    : <AlertStripe type="feil">{personErrorMessage}</AlertStripe>
+                )
+              }
+              {
+                personLoading &&
                 <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
               }
               {
@@ -184,7 +195,8 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
 const mapStateToProps = (state: RootState): StateProps => ({
   arbeidsgivere: state.helseSpionState.arbeidsgivere,
   ytelsesperioder: state.helseSpionState.ytelsesperioder,
-  personError: state.helseSpionState.personError,
+  personErrorType: state.helseSpionState.personErrorType,
+  personErrorMessage: state.helseSpionState.personErrorMessage,
   personLoading: state.helseSpionState.personLoading
 });
 

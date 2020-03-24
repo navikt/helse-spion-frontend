@@ -4,18 +4,25 @@ export interface HelseSpionState {
   arbeidsgivere: Organisasjon[]
   ytelsesperioder: Ytelsesperiode[]
   arbeidsgivereLoading: boolean
-  arbeidsgivereError: boolean
+  arbeidsgivereErrorType?: string
+  arbeidsgivereErrorMessage?: string
   personLoading: boolean
-  personError: boolean
-  tokenLoading: boolean
-  tokenError: boolean
-  tokenFetched: boolean
+  personErrorType?: string
+  personErrorMessage?: string
 }
 
 export enum OrganisationType {
   ENTERPRISE = 'Enterprise',
   BUSINESS = 'Business',
   PERSON = 'Person',
+}
+
+export enum ErrorType {
+  NOTNULL = 'NOTNULL',
+  IDENTITETSNUMMERCONSTRAINT = 'IDENTITETSNUMMERCONSTRAINT',
+  ORGANISASJONSNUMMERCONSTRAINT = 'ORGANISASJONSNUMMERCONSTRAINT',
+  // GREATEROREQUAL = 'GREATEROREQUAL', // Todo: unused untill search on dates is implemented
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface Ytelsesperiode {
@@ -77,8 +84,8 @@ export enum HelseSpionTypes {
 export type HelseSpionActionTypes =
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED }
   | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS, arbeidsgivere: Organisasjon[] }
-  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR }
+  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR, errorType: string, errorMessage?: string }
   | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
   | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode[] }
-  | { type: HelseSpionTypes.FETCH_PERSON_ERROR };
+  | { type: HelseSpionTypes.FETCH_PERSON_ERROR, errorType: string, errorMessage?: string };
 
