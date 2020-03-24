@@ -99,45 +99,46 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
           organisasjoner={arbeidsgivere}
         />
         <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
-              <div className="arbeidsgiver-periode-tabell--header">
-                <div className="arbeidsgiver-periode-tabell--info-gruppe">
-                  {
-                    arbeidstaker &&
-                    <>
-                      <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
-                      </div>
-                      <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {arbeidstaker.fornavn} {arbeidstaker.etternavn}
-                      </Innholdstittel>
-                    </>
-                  }
-                </div>
-              </div>
-              <div className="arbeidsgiver-periode-tabell--søke-gruppe">
-                <div className="arbeidsgiver-periode-tabell--periode-velger">
-                  <label id="periode">{t(Keys.PERIOD)}:</label>
-                  <DatePicker
-                    locale="nb"
-                    dateFormat="dd.MM.yy"
-                    selected={fom}
-                    onChange={e => this.setState({ fom: e })}
-                    showYearDropdown
-                    ariaLabelledBy="periode fra"
-                  />
-                  <b>-</b>
-                  <DatePicker
-                    locale="nb"
-                    dateFormat="dd.MM.yy"
-                    selected={tom}
-                    onChange={e => this.setState({ tom: e })}
-                    showYearDropdown
-                    ariaLabelledBy="periode til"
-                  />
-                </div>
+          <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
+          <div className="arbeidsgiver-periode-tabell--header">
+            <div className="arbeidsgiver-periode-tabell--info-gruppe">
+              {
+                arbeidstaker &&
+                <>
+                  <div className="arbeidsgiver-periode-tabell--person-nummer">
+                    {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
+                  </div>
+                  <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
+                    {arbeidstaker.fornavn} {arbeidstaker.etternavn}
+                  </Innholdstittel>
+                </>
+              }
+            </div>
+          <div className="row arbeidsgiver-periode-tabell--søke-gruppe">
+            <div className="col col-md-6 col-sm-12 arbeidsgiver-periode-tabell--periode-velger form-group">
+              <label id="periode">{t(Keys.PERIOD)}:</label>
+              <DatePicker
+                className="form-control"
+                locale="nb"
+                dateFormat="dd.MM.yy"
+                selected={fom}
+                onChange={e => this.setState({ fom: e })}
+                showYearDropdown
+                ariaLabelledBy="periode fra"
+              />
+              <b>-</b>
+              <DatePicker
+                className="form-control"
+                locale="nb"
+                dateFormat="dd.MM.yy"
+                selected={tom}
+                onChange={e => this.setState({ tom: e })}
+                showYearDropdown
+                ariaLabelledBy="periode til"
+              />
+            </div>
+            <div className="col col-md-6 col-sm-12 arbeidsgiver-periode-tabell--person-gruppe-container">
+              <div className="arbeidsgiver-periode-tabell--person-gruppe">
                 <Input
                   className="arbeidsgiver-periode-tabell--søke-input"
                   label={t(Keys.FIND_OTHER_EMPLOYEE)}
@@ -146,14 +147,24 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   value={identityNumberSeparation(identityNumberInput)}
                   onKeyDown={this.onEnterClick}
                 />
-                <Søkeknapp
+                <div>
+                  <label className="skjemaelement__label">&nbsp;</label>
+                  <Søkeknapp
                     disabled={this.state.identityNumberInput.length < 11 || personLoading }
                     className="arbeidsgiver-periode-tabell--søke-knapp"
-                  onClick={this.submitSearch}
-                >
-                  <span>{t(Keys.SEARCH)}</span>
-                </Søkeknapp>
+                    onClick={this.submitSearch}
+                  >
+                    <span>{t(Keys.SEARCH)}</span>
+                  </Søkeknapp>
+                </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
               { personError && <AlertStripe type="feil">{t(Keys.ERROR)}</AlertStripe> }
               { personLoading &&
                 <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
