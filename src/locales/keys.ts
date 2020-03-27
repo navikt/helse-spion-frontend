@@ -90,8 +90,8 @@ const translatedKeys: IncludedKeys = {
 	},
 	
 	[Keys.TOTAL_REFUNDED]: {
-		nb: 'Total refundert',
-		nn: 'Total refundert',
+		nb: 'Sum refusjoner',
+		nn: 'Sum refusjonar',
 		en: 'Total refunded',
 	},
 	

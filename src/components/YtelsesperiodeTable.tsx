@@ -10,11 +10,10 @@ import { thousandSeparation } from "../util/thousandSeparation";
 import Pagination from "./Pagination";
 import './YtelsesperiodeTable.less';
 import { dateToString } from "../util/dateToString";
+import Lenke from "nav-frontend-lenker";
 
 interface Props extends WithTranslation{
   ytelsesperioder: Ytelsesperiode[]
-  fom: Date | undefined
-  tom: Date | undefined
   t: (str: string) => string
 }
 
@@ -35,13 +34,11 @@ class YtelsesperiodeTable extends Component<Props, State> {
       : this.setState({ sortColumn: index, sortDescending: true });
   
   render() {
-    
-    const { ytelsesperioder, fom, tom, t } = this.props;
+    const { ytelsesperioder, t } = this.props;
     const { sortColumn, sortDescending } = this.state;
-    
-    const filteredYtelsesperioder = filterYtelsesperioder(ytelsesperioder, fom, tom);
-    const totalRefund = totalRefundInYtelsesperioder(filteredYtelsesperioder);
-    const sortedYtelsesperioder = sortYtelsesperioder(filteredYtelsesperioder, sortColumn, sortDescending);
+    const totalRefund = totalRefundInYtelsesperioder(ytelsesperioder);
+    const sortedYtelsesperioder = sortYtelsesperioder(ytelsesperioder, sortColumn, sortDescending);
+    const FileIcon = () => (<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M20.5,24h-17C3.2,24,3,23.8,3,23.5v-23C3,0.2,3.2,0,3.5,0h11c0,0,0,0,0,0c0.1,0,0.3,0.1,0.4,0.1l6,6 C20.9,6.2,21,6.4,21,6.5c0,0,0,0,0,0v17C21,23.8,20.8,24,20.5,24z M4,23h16V7h-5.5C14.2,7,14,6.8,14,6.5V1H4V23z M15,6h4.3L15,1.7 V6z"/></g></svg>);
     
     const columnHeaders: string[] = [
       t(Keys.PERIOD),
@@ -63,9 +60,11 @@ class YtelsesperiodeTable extends Component<Props, State> {
           {t(ytelsesperiode.status)}
         </td>
         <td>{ytelsesperiode.ytelse}</td>
-        <td>{ytelsesperiode.grad}</td>
-        <td>{ytelsesperiode.merknad}</td>
-        <td>{thousandSeparation(ytelsesperiode.refusjonsbeløp)}</td>
+        <td>{ytelsesperiode.grad}%</td>
+        <td>{ytelsesperiode.merknad || "-"}</td>
+        <td className={"ytelsesperiode-tabell--align-right"}>
+            {thousandSeparation(ytelsesperiode.refusjonsbeløp)}
+        </td>
       </tr>);
     
     const wrapperFunction = (items: JSX.Element[]): JSX.Element =>
@@ -111,11 +110,9 @@ class YtelsesperiodeTable extends Component<Props, State> {
   
     return <Pagination wrapperFunction={wrapperFunction} items={items}>
       <div className="ytelsesperiode-tabell--footer">
-        <div className="ytelsesperiode-tabell--max-dato">
-          Maxdato: <b>15.03.20</b>
-        </div>
+        <Lenke href="#"><FileIcon/><span>Last ned regneark</span></Lenke>
         <div className="ytelsesperiode-tabell--total">
-          {t(Keys.TOTAL_REFUNDED)}{fom && tom ? ` ${dateToString(fom)} - ${dateToString(tom)}` : ''}
+          {t(Keys.TOTAL_REFUNDED)}
           : <b>{thousandSeparation(totalRefund)}</b>
         </div>
       </div>
