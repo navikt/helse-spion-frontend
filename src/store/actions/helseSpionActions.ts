@@ -14,9 +14,11 @@ export const fetchPersonSuccess = (ytelsesperioder: Ytelsesperiode[]): HelseSpio
   }
 };
 
-export const fetchPersonError = (): HelseSpionActionTypes => {
+export const fetchPersonError = (errorType: string, errorMessage?: string): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_PERSON_ERROR,
+    errorType: errorType,
+    errorMessage: errorMessage,
   }
 };
 
@@ -33,9 +35,11 @@ export const fetchArbeidsgivereSuccess = (arbeidsgivere: Organisasjon[]): HelseS
   }
 };
 
-export const fetchArbeidsgivereError = (): HelseSpionActionTypes => {
+export const fetchArbeidsgivereError = (errorType: string, errorMessage?: string): HelseSpionActionTypes => {
   return {
     type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR,
+    errorType: errorType,
+    errorMessage: errorMessage,
   }
 };
 

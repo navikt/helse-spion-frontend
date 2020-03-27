@@ -1,5 +1,5 @@
 import { fetchPersonError, fetchPersonStarted, fetchPersonSuccess } from "../actions/helseSpionActions";
-import { Ytelsesperiode } from "../types/helseSpionTypes";
+import { ErrorType, Ytelsesperiode } from "../types/helseSpionTypes";
 import { stringToDate } from "../../util/stringToDate";
 import { Dispatch } from "redux";
 
@@ -24,8 +24,11 @@ export function fetchPerson(identityNumber?: string, arbeidsgiverId?: string): (
         return response.json().then(data =>
           dispatch(fetchPersonSuccess(convertResponseDataToYtelsesperioder(data)))
         );
+      } else if (response.status === 400) {
+        return response.json().then(data =>
+          dispatch(fetchPersonError(data.violations[0].validationType.toUpperCase(), data.violations[0].message)));
       } else {
-        return dispatch(fetchPersonError());
+        return dispatch(fetchPersonError(ErrorType.UNKNOWN));
       }
     });
   }

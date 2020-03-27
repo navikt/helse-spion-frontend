@@ -5,12 +5,11 @@ const initialHelseSpionState: HelseSpionState = {
   arbeidsgivere: [],
   ytelsesperioder: [],
   personLoading: false,
-  personError: false,
-  tokenLoading: false,
-  tokenFetched: false,
-  tokenError: false,
+  personErrorType: undefined,
+  personErrorMessage: undefined,
   arbeidsgivereLoading: false,
-  arbeidsgivereError: false
+  arbeidsgivereErrorType: undefined,
+  arbeidsgivereErrorMessage: undefined,
 };
 
 export function helseSpionReducer (
@@ -24,7 +23,8 @@ export function helseSpionReducer (
       return {
         ...state,
         arbeidsgivereLoading: true,
-        arbeidsgivereError: false,
+        arbeidsgivereErrorType: undefined,
+        arbeidsgivereErrorMessage: undefined,
       };
   
     case HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS:
@@ -38,14 +38,16 @@ export function helseSpionReducer (
       return {
         ...state,
         arbeidsgivereLoading: false,
-        arbeidsgivereError: true,
+        arbeidsgivereErrorType: action.errorType,
+        arbeidsgivereErrorMessage: action.errorMessage,
       };
   
     case HelseSpionTypes.FETCH_PERSON_STARTED:
       return {
         ...state,
         personLoading: true,
-        personError: false,
+        personErrorType: undefined,
+        personErrorMessage: undefined,
       };
   
     case HelseSpionTypes.FETCH_PERSON_SUCCESS:
@@ -59,7 +61,8 @@ export function helseSpionReducer (
       return {
         ...state,
         personLoading: false,
-        personError: true,
+        personErrorType: action.errorType,
+        personErrorMessage: action.errorMessage,
       };
       
     default:
