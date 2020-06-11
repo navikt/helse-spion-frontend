@@ -104,7 +104,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 {
                     arbeidstaker ?
                         <>
-                            <div>
+                            <div className="col-sm">
                                 <div className="arbeidsgiver-periode-tabell--person-nummer">
                                     {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
                                 </div>
@@ -112,7 +112,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                                     {arbeidstaker.fornavn} {arbeidstaker.etternavn}
                                 </Innholdstittel>
                             </div>
-                            <div>
+                            <div className="col-6">
                                 <div>Max refunderbare dager</div>
                                 <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">2</Innholdstittel>
                             </div>
@@ -123,10 +123,10 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                             <div/>
                         </>
                 }
-
-                <div className="arbeidsgiver-periode-tabell--person-gruppe">
+                <div className="col-sm arbeidsgiver-periode-tabell--person-gruppe">
+                <div>
                   <Input
-                    className="arbeidsgiver-periode-tabell--søke-input"
+                    className="arbeidsgiver-periode-tabell--søke-input col-sm"
                     label={t(Keys.FIND_OTHER_EMPLOYEE)}
                     placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                     onChange={e => this.setIdentityNumberInput(e.target.value)}
@@ -134,7 +134,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                     onKeyDown={this.onEnterClick}
                   />
                 </div>
-                <div className="arbeidsgiver-periode-tabell--person-gruppe">
+                <div>
                   <label className="skjemaelement__label">&nbsp;</label>
                   <Søkeknapp
                     disabled={this.state.identityNumberInput.length < 11 || personLoading }
@@ -143,6 +143,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   >
                     <span>{t(Keys.SEARCH)}</span>
                   </Søkeknapp>
+                </div>
                 </div>
             </div>
           </div>
