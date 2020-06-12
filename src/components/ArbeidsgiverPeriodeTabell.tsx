@@ -104,7 +104,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                 {
                     arbeidstaker ?
                         <>
-                            <div className="col-sm">
+                            <div className="container-sm">
                                 <div className="arbeidsgiver-periode-tabell--person-nummer">
                                     {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
                                 </div>
@@ -112,7 +112,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                                     {arbeidstaker.fornavn} {arbeidstaker.etternavn}
                                 </Innholdstittel>
                             </div>
-                            <div className="col-6">
+                            <div className="container-sm">
                                 <div>Max refunderbare dager</div>
                                 <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">2</Innholdstittel>
                             </div>
@@ -123,10 +123,10 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                             <div/>
                         </>
                 }
-                <div className="col-sm arbeidsgiver-periode-tabell--person-gruppe">
+                <div className="container-sm arbeidsgiver-periode-tabell--person-gruppe">
                 <div>
                   <Input
-                    className="arbeidsgiver-periode-tabell--søke-input col-sm"
+                    className="arbeidsgiver-periode-tabell--søke-input container-sm"
                     label={t(Keys.FIND_OTHER_EMPLOYEE)}
                     placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                     onChange={e => this.setIdentityNumberInput(e.target.value)}
