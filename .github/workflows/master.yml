@@ -40,7 +40,7 @@ jobs:
     name: Deploy to PREPROD
     needs: build
     if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
       - uses: nais/deploy/actions/deploy@v1
