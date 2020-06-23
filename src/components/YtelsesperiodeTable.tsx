@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
-import { Ytelsesperiode } from "../store/types/helseSpionTypes";
-import { Keys } from "../locales/keys";
-import { WithTranslation, withTranslation } from "react-i18next";
-import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
-import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
-import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
-import { thousandSeparation } from "../util/thousandSeparation";
-import Pagination from "./Pagination";
+import { getClassnameFromStatus } from '../util/getClassnameFromStatus';
+import { Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Keys } from '../locales/keys';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { filterYtelsesperioder } from '../util/filterYtelsesperioder';
+import { totalRefundInYtelsesperioder } from '../util/totalRefundInYtelsesperioder';
+import { sortYtelsesperioder } from '../util/sortYtelsesperioder';
+import { thousandSeparation } from '../util/thousandSeparation';
+import Pagination from './Pagination';
 import './YtelsesperiodeTable.less';
-import { dateToString } from "../util/dateToString";
-import Lenke from "nav-frontend-lenker";
+import { dateToString } from '../util/dateToString';
+import Lenke from 'nav-frontend-lenker';
 
 interface Props extends WithTranslation{
   ytelsesperioder: Ytelsesperiode[]
@@ -54,15 +54,15 @@ class YtelsesperiodeTable extends Component<Props, State> {
         <td>{`${dateToString(ytelsesperiode.periode.fom)} - ${dateToString(ytelsesperiode.periode.tom)}`}</td>
         <td>
           <span
-            className={"ytelsesperiode-tabell__sirkel ytelsesperiode-tabell__sirkel--" +
+            className={'ytelsesperiode-tabell__sirkel ytelsesperiode-tabell__sirkel--' +
             getClassnameFromStatus(ytelsesperiode.status)}
           />
           {t(ytelsesperiode.status)}
         </td>
         <td>{ytelsesperiode.ytelse}</td>
         <td>{ytelsesperiode.grad}%</td>
-        <td>{ytelsesperiode.merknad || "-"}</td>
-        <td className={"ytelsesperiode-tabell--align-right"}>
+        <td>{ytelsesperiode.merknad || '-'}</td>
+        <td className={'ytelsesperiode-tabell--align-right'}>
             {thousandSeparation(ytelsesperiode.refusjonsbeløp)}
         </td>
       </tr>);

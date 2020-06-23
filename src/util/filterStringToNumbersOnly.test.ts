@@ -1,4 +1,4 @@
-import { filterStringToNumbersOnly } from "./filterStringToNumbersOnly";
+import { filterStringToNumbersOnly } from './filterStringToNumbersOnly';
 
 describe('filterStringToNumbersOnly', () => {
 	it('filters non-numbers', () => {

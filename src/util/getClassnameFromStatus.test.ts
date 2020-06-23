@@ -1,5 +1,5 @@
-import { getClassnameFromStatus } from "./getClassnameFromStatus";
-import { Status } from "../store/types/helseSpionTypes";
+import { getClassnameFromStatus } from './getClassnameFromStatus';
+import { Status } from '../store/types/helseSpionTypes';
 
 describe('getClassnameFromStatus', () => {
 	it('returns classname from pending status', () => {

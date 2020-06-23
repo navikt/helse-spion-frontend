@@ -1,5 +1,5 @@
-import { sortYtelsesperioder } from "./sortYtelsesperioder";
-import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from "./mockData";
+import { sortYtelsesperioder } from './sortYtelsesperioder';
+import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from './mockData';
 
 describe('sortYtelsesperioder', () => {
 	it('can sort by date ascending', () => {
