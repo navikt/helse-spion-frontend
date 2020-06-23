@@ -56,7 +56,7 @@
     "react-scripts": "3.4.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.4"
   },
   "homepage": "/min-side-refusjon",
   "scripts": {
