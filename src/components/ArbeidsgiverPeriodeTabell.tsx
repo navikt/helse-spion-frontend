@@ -23,7 +23,7 @@ import { fetchArbeidsgivere } from "../store/thunks/fetchArbeidsgivere";
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { withRouter } from 'react-router-dom';
-import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 type OwnProps = {

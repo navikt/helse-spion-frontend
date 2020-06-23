@@ -1,4 +1,4 @@
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { OrganisationType } from "../store/types/helseSpionTypes";
 
 // Todo: Delete?
