@@ -4,7 +4,7 @@ import {
   fetchArbeidsgivereSuccess
 } from "../actions/helseSpionActions";
 import { Dispatch } from "redux";
-import { Organisasjon } from "@navikt/bedriftsmeny/lib/Organisasjon";
+import { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
 import { ErrorType } from "../types/helseSpionTypes";
 
 export function fetchArbeidsgivere(): (dispatch: Dispatch) => Promise<void> {
