@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { getClassnameFromStatus } from "../util/getClassnameFromStatus";
-import { Ytelsesperiode } from "../store/types/helseSpionTypes";
-import { Keys } from "../locales/keys";
-import { WithTranslation, withTranslation } from "react-i18next";
-import { filterYtelsesperioder } from "../util/filterYtelsesperioder";
-import { totalRefundInYtelsesperioder } from "../util/totalRefundInYtelsesperioder";
-import { sortYtelsesperioder } from "../util/sortYtelsesperioder";
-import { thousandSeparation } from "../util/thousandSeparation";
-import Pagination from "./Pagination";
+import { getClassnameFromStatus } from '../util/getClassnameFromStatus';
+import { Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Keys } from '../locales/keys';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { filterYtelsesperioder } from '../util/filterYtelsesperioder';
+import { totalRefundInYtelsesperioder } from '../util/totalRefundInYtelsesperioder';
+import { sortYtelsesperioder } from '../util/sortYtelsesperioder';
+import { thousandSeparation } from '../util/thousandSeparation';
+import Pagination from './Pagination';
 import './YtelsesperiodeTable.less';
-import { dateToString } from "../util/dateToString";
-import Lenke from "nav-frontend-lenker";
+import { dateToString } from '../util/dateToString';
+import Lenke from 'nav-frontend-lenker';
 
 interface Props extends WithTranslation{
   ytelsesperioder: Ytelsesperiode[]
@@ -32,7 +32,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
     this.state.sortColumn === index
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true });
-  
+
   render() {
     const { ytelsesperioder, t } = this.props;
     const { sortColumn, sortDescending } = this.state;
@@ -54,15 +54,15 @@ class YtelsesperiodeTable extends Component<Props, State> {
         <td>{`${dateToString(ytelsesperiode.periode.fom)} - ${dateToString(ytelsesperiode.periode.tom)}`}</td>
         <td>
           <span
-            className={"ytelsesperiode-tabell__sirkel ytelsesperiode-tabell__sirkel--" +
+            className={'ytelsesperiode-tabell__sirkel ytelsesperiode-tabell__sirkel--' +
             getClassnameFromStatus(ytelsesperiode.status)}
           />
           {t(ytelsesperiode.status)}
         </td>
         <td>{ytelsesperiode.ytelse}</td>
         <td>{ytelsesperiode.grad}%</td>
-        <td>{ytelsesperiode.merknad || "-"}</td>
-        <td className={"ytelsesperiode-tabell--align-right"}>
+        <td>{ytelsesperiode.merknad || '-'}</td>
+        <td className={'ytelsesperiode-tabell--align-right'}>
             {thousandSeparation(ytelsesperiode.refusjonsbeløp)}
         </td>
       </tr>);
@@ -81,7 +81,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
                   className="tabell__th--sortert-desc"
                   aria-sort="descending"
                   onClick={() => this.setSort(index)}>
-                  <a>{columnHeader}</a>
+                  <span className="link">{columnHeader}</span>
                 </th>
                 : <th
                   key={index}
@@ -89,7 +89,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
                   className="tabell__th--sortert-asc"
                   aria-sort="ascending"
                   onClick={() => this.setSort(index)}>
-                  <a>{columnHeader}</a>
+                  <span className="link">{columnHeader}</span>
                 </th>
             } else {
               return <th
@@ -97,7 +97,8 @@ class YtelsesperiodeTable extends Component<Props, State> {
                 role="columnheader"
                 aria-sort="none"
                 onClick={() => this.setSort(index)}>
-                <a>{columnHeader}</a></th>
+                <span className="link">{columnHeader}</span>
+              </th>
             }
           })
         }

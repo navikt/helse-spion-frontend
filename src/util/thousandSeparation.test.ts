@@ -1,4 +1,4 @@
-import { thousandSeparation } from "./thousandSeparation";
+import { thousandSeparation } from './thousandSeparation';
 
 describe('thousandSeparation', () => {
 	it('doesnt change low numbers', () => {

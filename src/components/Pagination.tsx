@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import './Pagination.less';
-import { Keys } from "../locales/keys";
-import { WithTranslation, withTranslation } from "react-i18next";
+import { Keys } from '../locales/keys';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
 interface Props extends WithTranslation {
   items: JSX.Element[]
@@ -29,7 +29,7 @@ class Pagination extends Component<Props, State> {
   }
   
   handlePageClick = (selectedIndex: number): void => {
-    this.setState({ currentPageIndex: selectedIndex});
+    this.setState({ currentPageIndex: selectedIndex });
   };
   
   render() {

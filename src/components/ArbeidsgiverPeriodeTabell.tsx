@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from "redux";
-import { RootState } from "../store/rootState";
+import { bindActionCreators, Dispatch } from 'redux';
+import { RootState } from '../store/rootState';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import { ErrorType, Ytelsesperiode } from "../store/types/helseSpionTypes";
-import { Input } from "nav-frontend-skjema";
+import { ErrorType, Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import './ArbeidsgiverPeriodeTabell.less';
-import Lenke from "nav-frontend-lenker";
-import { Innholdstittel } from "nav-frontend-typografi";
+import Lenke from 'nav-frontend-lenker';
+import { Innholdstittel } from 'nav-frontend-typografi';
 import 'nav-frontend-alertstriper-style';
-import "react-datepicker/dist/react-datepicker.css";
-import { fetchPerson } from "../store/thunks/fetchPerson";
-import { identityNumberSeparation } from "../util/identityNumberSeparation";
-import AlertStripe from "nav-frontend-alertstriper";
-import { withTranslation } from "react-i18next";
-import { Keys } from "../locales/keys";
-import { filterStringToNumbersOnly } from "../util/filterStringToNumbersOnly";
-import YtelsesperiodeTable from "./YtelsesperiodeTable";
-import { fetchArbeidsgivere } from "../store/thunks/fetchArbeidsgivere";
+import 'react-datepicker/dist/react-datepicker.css';
+import { fetchPerson } from '../store/thunks/fetchPerson';
+import { identityNumberSeparation } from '../util/identityNumberSeparation';
+import AlertStripe from 'nav-frontend-alertstriper';
+import { withTranslation } from 'react-i18next';
+import { Keys } from '../locales/keys';
+import { filterStringToNumbersOnly } from '../util/filterStringToNumbersOnly';
+import YtelsesperiodeTable from './YtelsesperiodeTable';
+import { fetchArbeidsgivere } from '../store/thunks/fetchArbeidsgivere';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { withRouter } from 'react-router-dom';
-import { Organisasjon } from "@navikt/bedriftsmeny/lib/organisasjon";
+import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 type OwnProps = {
@@ -93,7 +93,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
       <div className="arbeidsgiver-periode-tabell">
         <Bedriftsmeny
           history={history}
-          onOrganisasjonChange={(org: Organisasjon) => this.setState({arbeidsgiverId: org.OrganizationNumber})}
+          onOrganisasjonChange={(org: Organisasjon) => this.setState({ arbeidsgiverId: org.OrganizationNumber })}
           sidetittel={t(Keys.MY_PAGE)}
           organisasjoner={arbeidsgivere}
         />
@@ -135,7 +135,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   />
                 </div>
                 <div>
-                  <label className="skjemaelement__label">&nbsp;</label>
+                  <span className="skjemaelement__label">&nbsp;</span>
                   <Søkeknapp
                     disabled={this.state.identityNumberInput.length < 11 || personLoading }
                     className="arbeidsgiver-periode-tabell--søke-knapp"
