@@ -135,7 +135,7 @@ class ArbeidsgiverPeriodeTabell extends Component<Props, State> {
                   />
                 </div>
                 <div>
-                  <label className="skjemaelement__label">&nbsp;</label>
+                  <span className="skjemaelement__label">&nbsp;</span>
                   <Søkeknapp
                     disabled={this.state.identityNumberInput.length < 11 || personLoading }
                     className="arbeidsgiver-periode-tabell--søke-knapp"

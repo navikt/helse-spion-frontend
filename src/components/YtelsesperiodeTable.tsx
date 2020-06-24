@@ -32,7 +32,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
     this.state.sortColumn === index
       ? this.setState({ sortDescending: !this.state.sortDescending })
       : this.setState({ sortColumn: index, sortDescending: true });
-  
+
   render() {
     const { ytelsesperioder, t } = this.props;
     const { sortColumn, sortDescending } = this.state;
@@ -81,7 +81,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
                   className="tabell__th--sortert-desc"
                   aria-sort="descending"
                   onClick={() => this.setSort(index)}>
-                  <a>{columnHeader}</a>
+                  <span className="link">{columnHeader}</span>
                 </th>
                 : <th
                   key={index}
@@ -89,7 +89,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
                   className="tabell__th--sortert-asc"
                   aria-sort="ascending"
                   onClick={() => this.setSort(index)}>
-                  <a>{columnHeader}</a>
+                  <span className="link">{columnHeader}</span>
                 </th>
             } else {
               return <th
@@ -97,7 +97,8 @@ class YtelsesperiodeTable extends Component<Props, State> {
                 role="columnheader"
                 aria-sort="none"
                 onClick={() => this.setSort(index)}>
-                <a>{columnHeader}</a></th>
+                <span className="link">{columnHeader}</span>
+              </th>
             }
           })
         }
