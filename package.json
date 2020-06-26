@@ -42,7 +42,7 @@
     "@types/react-dom": "^16.9.8",
     "autoprefixer": "^9.7.4",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "bootstrap-4-grid": "^3.4.0",
     "classnames": "^2.2.6",
     "customize-cra": "^0.9.1",
