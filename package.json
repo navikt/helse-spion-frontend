@@ -51,7 +51,7 @@
     "http-proxy-middleware": "^0.21.0",
     "i18next": "^19.4.4",
     "jest-axe": "^3.4.0",
-    "less": "^3.11.1",
+    "less": "^3.11.3",
     "lodash.throttle": "^4.1.1",
     "nav-frontend-alertstriper": "^3.0.16",
     "nav-frontend-alertstriper-style": "^2.0.14",
