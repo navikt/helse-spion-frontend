@@ -47,6 +47,7 @@
     "bootstrap": "^4.5.0",
     "bootstrap-4-grid": "^3.4.0",
     "classnames": "^2.2.6",
+    "constate": "^2.0.0",
     "customize-cra": "^0.9.1",
     "dayjs": "^1.8.28",
     "env-cmd": "^10.1.0",
