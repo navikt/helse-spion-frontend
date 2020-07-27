@@ -1,4 +1,4 @@
-import { ErrorType, Status } from "../store/types/helseSpionTypes";
+import { ErrorType, Status } from '../store/types/helseSpionTypes';
 
 export enum Keys {
 	MY_PAGE = 'MY_PAGE',
@@ -83,8 +83,8 @@ const translatedKeys: IncludedKeys = {
 	},
 	
 	[Keys.TOTAL_REFUNDED]: {
-		nb: 'Total refundert',
-		nn: 'Total refundert',
+		nb: 'Sum refusjoner',
+		nn: 'Sum refusjonar',
 		en: 'Total refunded',
 	},
 	

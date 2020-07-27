@@ -1,5 +1,5 @@
-import { filterYtelsesperioder } from "./filterYtelsesperioder";
-import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from "./mockData";
+import { filterYtelsesperioder } from './filterYtelsesperioder';
+import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from './mockData';
 
 describe('filterYtelsesperioder', () => {
 	it('returns empty array when given empty array input', () => {

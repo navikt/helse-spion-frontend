@@ -6,7 +6,15 @@
 
     a {
       cursor: pointer;
+
     }
+    th:last-child {
+      text-align: right;
+    }
+  }
+
+  &--align-right{
+    text-align: right !important;
   }
 
   &__sirkel {
@@ -30,13 +38,20 @@
   }
 
   &--footer {
-    margin-top: 15px;
+    a {
+      justify-self: start;
+      margin-left: 15px;
+    };
+    border-top: black solid 2px;
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: 7.5px 0px;
     display: grid;
     grid-template-columns: auto auto;
     justify-items: end;
   }
 
-  &-total, &-max-dato {
+  &--total {
     justify-self: end;
-  }
+    margin-right: 15px;
+  }                                                                                                         
 }

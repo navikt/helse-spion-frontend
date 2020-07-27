@@ -1,4 +1,4 @@
-import { identityNumberSeparation } from "./identityNumberSeparation";
+import { identityNumberSeparation } from './identityNumberSeparation';
 
 describe('identityNumberSeparation', () => {
 	it('doesnt change numbers below 6 digits', () => {
