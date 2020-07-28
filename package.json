@@ -83,12 +83,8 @@
     "react-app-polyfill": "^1.0.6",
     "react-app-rewired": "^2.1.6",
     "react-datepicker": "^2.16.0",
-<<<<<<< HEAD
     "react-day-picker": "^7.4.8",
     "react-dom": "^16.13.1",
-=======
-    "react-dom": "^16.13.0",
->>>>>>> Oppdatert fra master
     "react-flatpickr": "^3.10.1",
     "react-i18next": "^11.7.0",
     "react-paginate": "^6.3.2",
