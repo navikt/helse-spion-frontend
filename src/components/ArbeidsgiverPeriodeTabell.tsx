@@ -21,7 +21,7 @@ import { ErrorType } from '../store/types/helseSpionTypes';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
-import Ytelsesperioder from './Ytelsesperioder';
+import useYtelsesperioder from './Ytelsesperioder';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const { arbeidsgivere } = useAppStore();
@@ -35,6 +35,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const history: History = useHistory();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   
+  const Ytelsesperioder = useYtelsesperioder();
+
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter') {
       event.preventDefault();
