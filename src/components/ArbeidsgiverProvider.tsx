@@ -30,7 +30,7 @@ export function ArbeidsgiverProvider(props: {children: any}) {
         }
       })
     }
-  }, [arbeidsgivere]);
+  }, [arbeidsgivere, setArbeidsgivere]);
   
   useEffect(() => {
     setTimeout(checkHasTimedOut, 15000);

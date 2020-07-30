@@ -5,7 +5,7 @@ import { Ytelsesperiode } from '../store/types/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
 
 
-export default (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
+export default (): any => {
   const {setYtelsesperioder} = useAppStore();
   const {setYtelsesperioderLoading} = useAppStore();
   const {setYtelsesperioderErrorType} = useAppStore();
@@ -14,39 +14,42 @@ export default (identityNumber?: string, arbeidsgiverId?: string): Promise<any> 
   const ytelsesperioderRef = useRef(ytelsesperioder);
   ytelsesperioderRef.current = ytelsesperioder;
   
-  setYtelsesperioderLoading(true);
-  return fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      'identitetsnummer': identityNumber,
-      'arbeidsgiverId': arbeidsgiverId,
-    }),
-  }).then(response => {
-    setYtelsesperioderLoading(false);
-    if (response.status === 401) {
-      window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
-    } else if (response.status === 200) {
-      return response.json().then(data => {
+  return (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
+    setYtelsesperioderLoading(true);
+
+    return fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        'identitetsnummer': identityNumber,
+        'arbeidsgiverId': arbeidsgiverId,
+      }),
+    }).then(response => {
+      setYtelsesperioderLoading(false);
+      if (response.status === 401) {
+        window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
+      } else if (response.status === 200) {
+        return response.json().then(data => {
           setYtelsesperioder(convertResponseDataToYtelsesperioder(data));
           setYtelsesperioderErrorType(undefined);
           setYtelsesperioderErrorMessage(undefined);
         }
-      );
-    } else { // todo: error 400/500s etc
-      return response.json().then(data => { // Todo: change errors to array and map all violations
+        );
+      } else { // todo: error 400/500s etc
+        return response.json().then(data => { // Todo: change errors to array and map all violations
           setYtelsesperioderErrorType(data.violations[0].validationType.toUpperCase());
           setYtelsesperioderErrorMessage(data.violations[0].message);
         }
-      );
-    }
-  });
-}
-
+        );
+      }
+    });
+  }
+  }
+  
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
   ...ytelsesperiode,
