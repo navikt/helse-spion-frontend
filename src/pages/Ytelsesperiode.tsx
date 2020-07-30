@@ -13,6 +13,8 @@ import { v4 as uuid } from 'uuid';
 import Flatpickr from 'react-flatpickr';
 import { Norwegian } from 'flatpickr/dist/l10n/no.js';
 import dayjs from 'dayjs';
+import FodselsnummerInput from '../components/fnr/FodselsnummerInput';
+
 
 import validatePerioder from '../util/validatePeriode';
 
@@ -124,14 +126,18 @@ const Ytelsesperiode = () => {
           </Column>
           <Column sm="6">
             <div className="ytelsesperiode--wrapper">
-              <Input
+              {/* <Input
                 className="ytelsesperiode--søke-input"
                 label={t(Keys.FIND_OTHER_EMPLOYEE)}
                 placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                 onChange={e => setIdentityNumberInput(e.target.value)}
                 value={identityNumberSeparation(identityNumberInput)}
                 onKeyDown={onEnterClick}
-              />
+              /> */}
+              <FodselsnummerInput
+                handleChange={(fnr: string) => setIdentityNumberInput(fnr)}
+                fnr={identityNumberInput}
+                />
 
               <SøkeKnapp
                 disabled={identityNumberInput.length < 11 || dataLoading }

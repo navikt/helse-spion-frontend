@@ -3,8 +3,11 @@ import { render, cleanup } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 import Ytelsesperiode from './Ytelsesperiode';
+// import Bedriftsmeny from '@navikt/bedriftsmeny';
 
 expect.extend(toHaveNoViolations)
+
+jest.mock('@navikt/bedriftsmeny', () => (<div>Bedriftsmeny</div>));
 
 describe('Ytelsesperiode', () => {
   it('should have no a11y violations', async () => {
