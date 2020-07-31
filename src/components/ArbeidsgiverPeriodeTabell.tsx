@@ -21,14 +21,16 @@ import { ErrorType } from '../util/helseSpionTypes';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
-import useYtelsesperioder from './Ytelsesperioder';
+import useYtelsesperioder from '../data/Ytelsesperioder';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
-  const { arbeidsgivere } = useAppStore();
-  const { ytelsesperioder } = useAppStore();
-  const { ytelsesperioderLoading } = useAppStore();
-  const { ytelsesperioderErrorType } = useAppStore();
-  const { ytelsesperioderErrorMessage } = useAppStore();
+  const {
+    arbeidsgivere,
+    ytelsesperioder,
+    ytelsesperioderLoading,
+    ytelsesperioderErrorType,
+    ytelsesperioderErrorMessage,
+  } = useAppStore();
   const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const { t } = useTranslation();

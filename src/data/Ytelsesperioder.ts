@@ -1,6 +1,6 @@
-import { useAppStore } from '../data/store/AppStore';
+import { useAppStore } from './store/AppStore';
 import { useRef } from 'react';
-import useFetch from '../data/rest/use-fetch';
+import useFetch from './rest/use-fetch';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
 
