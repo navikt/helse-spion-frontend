@@ -90,9 +90,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
                 className="arbeidsgiver-periode-tabell--søke-input container-sm"
                 label={t(Keys.FIND_OTHER_EMPLOYEE)}
                 placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                onChange={e => setIdentityNumberInput(e.target.value)}
-                value={identityNumberSeparation(identityNumberInput)}
+                onChange={e => setIdentityNumberInput((e.target.value))}
+                value={identityNumberInput}
                 onKeyDown={onEnterClick}
+                maxLength={11}
               />
             </div>
             <div>
