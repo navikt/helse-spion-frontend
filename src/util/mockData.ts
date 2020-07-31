@@ -1,4 +1,4 @@
-import { Status, Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Status, Ytelsesperiode } from './helseSpionTypes';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 export const mockYtelsesperiode1: Ytelsesperiode = 	{

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getClassnameFromStatus } from '../util/getClassnameFromStatus';
-import { Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { Keys } from '../locales/keys';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { filterYtelsesperioder } from '../util/filterYtelsesperioder';

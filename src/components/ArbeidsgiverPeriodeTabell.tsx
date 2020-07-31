@@ -17,7 +17,7 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import { identityNumberSeparation } from '../util/identityNumberSeparation';
 import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import { ErrorType } from '../store/types/helseSpionTypes';
+import { ErrorType } from '../util/helseSpionTypes';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import YtelsesperiodeTable from './YtelsesperiodeTable';

@@ -1,4 +1,4 @@
-import { Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Ytelsesperiode } from './helseSpionTypes';
 
 export const filterYtelsesperioder = (ytelsesperioder: Ytelsesperiode[], fom?: Date, tom?: Date): Ytelsesperiode[] =>
 	ytelsesperioder.filter(ytelsesperiode => fom
