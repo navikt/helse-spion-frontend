@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import { Innholdstittel } from 'nav-frontend-typografi';
+import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp as SøkeKnapp } from 'nav-frontend-ikonknapper';
 import { identityNumberSeparation } from '../util/identityNumberSeparation';
 import { Keys } from '../locales/keys';
@@ -13,6 +14,9 @@ import Flatpickr from 'react-flatpickr';
 import { Norwegian } from 'flatpickr/dist/l10n/no.js';
 import dayjs from 'dayjs';
 import FodselsnummerInput from '../components/fnr/FodselsnummerInput';
+import { FnrInput } from 'nav-frontend-skjema';
+
+
 import validatePerioder from '../util/validatePeriode';
 
 import './Ytelsesperiode.less';
@@ -97,10 +101,10 @@ const Ytelsesperiode = () => {
         </Row>
         <Row className="ytelsesperiode--lufting">
           <Column sm="6" className="ytelsesperiode-datovelger">
-            <label style={{width: "100%"}}>
-              <span className="skjemaelement__label ytelsesperiode-datovelger--overskrift">
+            <label>
+              <div className="ytelsesperiode-datovelger--overskrift">
                 {t(Keys.PERIOD)}:
-              </span>
+              </div>
               <Flatpickr
                 id={datepickerId}
                 placeholder='dd.mm.yyyy til dd.mm.yyyy'
@@ -125,10 +129,19 @@ const Ytelsesperiode = () => {
           </Column>
           <Column sm="6">
             <div className="ytelsesperiode--wrapper">
-              <FodselsnummerInput
-                handleChange={(fnr: string) => setIdentityNumberInput(fnr)}
-                fnr={identityNumberInput}
-                />
+              <FnrInput
+                label={
+                  <div style={{ display: 'flex' }}>
+                    {t(Keys.IDENTITY_NUMBER)}
+                  </div>}
+                bredde="M"
+                value={identityNumberSeparation(identityNumberInput)}
+                placeholder="11 siffer"
+                onChange={e => setIdentityNumberInput(e.target.value)}
+                onBlur={e => setIdentityNumberInput(e.target.value)}
+                onValidate={() => true}
+                // feil={feilmeldingstekst}
+              />
               <SøkeKnapp
                 disabled={identityNumberInput.length < 11 || dataLoading }
                 className="ytelsesperiode--søke-knapp"

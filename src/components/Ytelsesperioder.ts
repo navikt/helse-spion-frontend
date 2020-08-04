@@ -1,7 +1,7 @@
 import { useAppStore } from '../data/store/AppStore';
 import { useRef } from 'react';
 import useFetch from '../data/rest/use-fetch';
-import { Ytelsesperiode } from '../store/types/helseSpionTypes';
+import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
 
 
@@ -13,7 +13,7 @@ export default (): any => {
   const ytelsesperioder = useFetch<Ytelsesperiode[]>();
   const ytelsesperioderRef = useRef(ytelsesperioder);
   ytelsesperioderRef.current = ytelsesperioder;
-  
+
   return (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
     setYtelsesperioderLoading(true);
 
@@ -49,7 +49,7 @@ export default (): any => {
     });
   }
   }
-  
+
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
   ...ytelsesperiode,
