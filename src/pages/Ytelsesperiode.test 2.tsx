@@ -7,7 +7,14 @@ import Ytelsesperiode from './Ytelsesperiode';
 
 expect.extend(toHaveNoViolations)
 
-jest.mock('@navikt/bedriftsmeny', () => (<div>Bedriftsmeny</div>));
+jest.mock('@navikt/bedriftsmeny', () => {
+  return {
+    __esModule: true,
+    // the "default export"
+    default: () =>
+    <div>Bedriftsmeny</div>
+  }
+});
 
 describe('Ytelsesperiode', () => {
   it('should have no a11y violations', async () => {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp as SøkeKnapp } from 'nav-frontend-ikonknapper';
 import { identityNumberSeparation } from '../util/identityNumberSeparation';
 import { Keys } from '../locales/keys';
@@ -14,8 +13,6 @@ import Flatpickr from 'react-flatpickr';
 import { Norwegian } from 'flatpickr/dist/l10n/no.js';
 import dayjs from 'dayjs';
 import FodselsnummerInput from '../components/fnr/FodselsnummerInput';
-
-
 import validatePerioder from '../util/validatePeriode';
 
 import './Ytelsesperiode.less';
@@ -100,45 +97,38 @@ const Ytelsesperiode = () => {
         </Row>
         <Row className="ytelsesperiode--lufting">
           <Column sm="6" className="ytelsesperiode-datovelger">
-            <div className="ytelsesperiode-datovelger--overskrift">
-              Periode:
-            </div>
-            <Flatpickr
-              id={datepickerId}
-              placeholder='dd.mm.yyyy til dd.mm.yyyy'
-              className={'skjemaelement__input periode'}
-              value={valgteDatoer}
-              options={{
-                minDate: min,
-                maxDate: max,
-                mode: 'range',
-                enableTime: false,
-                dateFormat: 'd.m.Y',
-                altInput: true,
-                altFormat: 'd.m.Y',
-                locale: Norwegian,
-                allowInput: true,
-                clickOpens: true,
-                // formatDate: formatDatoer,
-                onClose: (selectedDates: [ Date, Date ]) => handleDatepickerClose(selectedDates)
-              }}
-            />
+            <label style={{width: "100%"}}>
+              <span className="skjemaelement__label ytelsesperiode-datovelger--overskrift">
+                {t(Keys.PERIOD)}:
+              </span>
+              <Flatpickr
+                id={datepickerId}
+                placeholder='dd.mm.yyyy til dd.mm.yyyy'
+                className={'skjemaelement__input periode'}
+                value={valgteDatoer}
+                options={{
+                  minDate: min,
+                  maxDate: max,
+                  mode: 'range',
+                  enableTime: false,
+                  dateFormat: 'd.m.Y',
+                  altInput: true,
+                  altFormat: 'd.m.Y',
+                  locale: Norwegian,
+                  allowInput: true,
+                  clickOpens: true,
+                  // formatDate: formatDatoer,
+                  onClose: (selectedDates: [ Date, Date ]) => handleDatepickerClose(selectedDates)
+                }}
+                />
+            </label>
           </Column>
           <Column sm="6">
             <div className="ytelsesperiode--wrapper">
-              {/* <Input
-                className="ytelsesperiode--søke-input"
-                label={t(Keys.FIND_OTHER_EMPLOYEE)}
-                placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                onChange={e => setIdentityNumberInput(e.target.value)}
-                value={identityNumberSeparation(identityNumberInput)}
-                onKeyDown={onEnterClick}
-              /> */}
               <FodselsnummerInput
                 handleChange={(fnr: string) => setIdentityNumberInput(fnr)}
                 fnr={identityNumberInput}
                 />
-
               <SøkeKnapp
                 disabled={identityNumberInput.length < 11 || dataLoading }
                 className="ytelsesperiode--søke-knapp"
