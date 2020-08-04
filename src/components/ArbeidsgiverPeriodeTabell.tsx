@@ -50,7 +50,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   
   const handleSubmitSearch = async (): Promise<void> => {
     const perioder = await Ytelsesperioder(identityNumberInput, arbeidsgiverId);
-    console.log(perioder)
   };
   
   return (

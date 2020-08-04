@@ -6,10 +6,10 @@ import { stringToDate } from '../util/stringToDate';
 
 
 export default (): any => {
-  const {setYtelsesperioder} = useAppStore();
-  const {setYtelsesperioderLoading} = useAppStore();
-  const {setYtelsesperioderErrorType} = useAppStore();
-  const {setYtelsesperioderErrorMessage} = useAppStore();
+  const { setYtelsesperioder } = useAppStore();
+  const { setYtelsesperioderLoading } = useAppStore();
+  const { setYtelsesperioderErrorType } = useAppStore();
+  const { setYtelsesperioderErrorMessage } = useAppStore();
   const ytelsesperioder = useFetch<Ytelsesperiode[]>();
   const ytelsesperioderRef = useRef(ytelsesperioder);
   ytelsesperioderRef.current = ytelsesperioder;
