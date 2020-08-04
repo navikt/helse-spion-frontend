@@ -40,7 +40,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const Ytelsesperioder = useYtelsesperioder();
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && identityNumberInput.length == 11) {
       event.preventDefault();
       event.stopPropagation();
       handleSubmitSearch();
