@@ -13,7 +13,6 @@ import { v4 as uuid } from 'uuid';
 import Flatpickr from 'react-flatpickr';
 import { Norwegian } from 'flatpickr/dist/l10n/no.js';
 import dayjs from 'dayjs';
-import FodselsnummerInput from '../components/fnr/FodselsnummerInput';
 import { FnrInput } from 'nav-frontend-skjema';
 
 
