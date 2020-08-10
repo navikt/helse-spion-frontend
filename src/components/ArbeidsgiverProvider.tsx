@@ -12,6 +12,8 @@ import {
 import useFetch from '../data/rest/use-fetch';
 import Spinner from 'nav-frontend-spinner';
 import IngenData from './IngenData';
+import * as e6p from 'es6-promise';
+import 'isomorphic-fetch';
 
 export function ArbeidsgiverProvider(props: {children: any}) {
   const { setArbeidsgivere } = useAppStore();
@@ -19,6 +21,7 @@ export function ArbeidsgiverProvider(props: {children: any}) {
   const arbeidsgivereRef = useRef(arbeidsgivere);
   arbeidsgivereRef.current = arbeidsgivere;
   const [hasTimedOut, setHasTimedOut] = useState(false);
+  (e6p as any).polyfill();
   
   useEffect(() => {
     if (isNotStarted(arbeidsgivere)) {
