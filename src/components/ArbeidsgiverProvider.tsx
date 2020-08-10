@@ -12,7 +12,7 @@ import {
 import useFetch from '../data/rest/use-fetch';
 import Spinner from 'nav-frontend-spinner';
 import IngenData from './IngenData';
-import * as e6p from "es6-promise";
+import * as e6p from 'es6-promise';
 import 'isomorphic-fetch';
 
 export function ArbeidsgiverProvider(props: {children: any}) {
