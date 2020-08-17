@@ -1,5 +1,7 @@
 .pagination {
   margin-top: 15px;
+  display: flex;
+  list-style: none;
 }
 .pagination > li {
   border: 1px solid #0067C5;
