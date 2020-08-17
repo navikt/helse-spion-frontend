@@ -6,7 +6,6 @@ import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
 import { ArbeidsgiverProvider } from './components/ArbeidsgiverProvider';
 import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
-import Ytelsesperiode from './pages/Ytelsesperiode';
 
 const App = () => {
   return (
@@ -15,7 +14,6 @@ const App = () => {
           <I18nextProvider i18n={i18n}>
             <Switch>
               <Route path="/min-side-refusjon/" render={() => <ArbeidsgiverPeriodeTabell />} />
-              <Route path="/ytelsesperiode/" render={() => <Ytelsesperiode />} />
               <Route path="/" render={() => <Redirecter />} />
             </Switch>
           </I18nextProvider>

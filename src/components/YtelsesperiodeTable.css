@@ -1,0 +1,50 @@
+.pagination {
+  display: flex;
+}
+.ytelsesperiode-tabell--tabell {
+  background-color: white;
+}
+.ytelsesperiode-tabell--tabell a {
+  cursor: pointer;
+}
+.ytelsesperiode-tabell--tabell th:last-child {
+  text-align: right;
+}
+.ytelsesperiode-tabell--align-right {
+  text-align: right !important;
+}
+.ytelsesperiode-tabell__sirkel {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+.ytelsesperiode-tabell__sirkel--under-behandling {
+  background-color: #66CBEC;
+}
+.ytelsesperiode-tabell__sirkel--avslått {
+  background-color: #BA3A26;
+}
+.ytelsesperiode-tabell__sirkel--innvilget {
+  background-color: #06893A;
+}
+.ytelsesperiode-tabell--footer {
+  border-top: black solid 2px;
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 7.5px 0px;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-items: end;
+}
+.ytelsesperiode-tabell--footer a {
+  justify-self: start;
+  margin-left: 15px;
+}
+.ytelsesperiode-tabell--total {
+  justify-self: end;
+  margin-right: 15px;
+}
+.ytelsesperiode-lenkeknapp {
+  border: none;
+}

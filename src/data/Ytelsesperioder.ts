@@ -63,7 +63,6 @@ export default (): any => {
     });
   }
   }
-
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
   ...ytelsesperiode,
