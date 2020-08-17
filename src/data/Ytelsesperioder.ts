@@ -13,9 +13,26 @@ export default (): any => {
   const ytelsesperioder = useFetch<Ytelsesperiode[]>();
   const ytelsesperioderRef = useRef(ytelsesperioder);
   ytelsesperioderRef.current = ytelsesperioder;
-  
-  return (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
+
+  return (identityNumber?: string, arbeidsgiverId?: string, fom?: string, tom?: string): Promise<any> => {
     setYtelsesperioderLoading(true);
+
+    const messageBody = {
+      identitetsnummer: identityNumber,
+      arbeidsgiverId: arbeidsgiverId,
+      periode: {}
+
+    };
+
+    if (fom && tom) {
+      messageBody.periode =  {
+        'fom': fom,
+        'tom': tom
+      }
+    } else {
+      delete(messageBody.periode);
+    }
+
 
     return fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
@@ -24,10 +41,7 @@ export default (): any => {
         'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: JSON.stringify({
-        'identitetsnummer': identityNumber,
-        'arbeidsgiverId': arbeidsgiverId,
-      }),
+      body: JSON.stringify(messageBody),
     }).then(response => {
       setYtelsesperioderLoading(false);
       if (response.status === 401) {
@@ -49,7 +63,7 @@ export default (): any => {
     });
   }
   }
-  
+
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
   ...ytelsesperiode,

@@ -1,12 +1,15 @@
 @import (reference) '~nav-frontend-core/less/_variabler';
+.pagination {
+  display: flex;
+}
 
 .ytelsesperiode-tabell {
   &--tabell {
-    margin-top: 15px;
-
+    background-color: white;
+    
     a {
       cursor: pointer;
-
+      
     }
     th:last-child {
       text-align: right;
@@ -48,6 +51,7 @@
     display: grid;
     grid-template-columns: auto auto;
     justify-items: end;
+
   }
 
   &--total {
@@ -59,7 +63,7 @@
 .ytelsesperiode-lenkeknapp {
   border: none;
 
-  &.lenke {
-    padding: 0 2rem 0 0.25rem!important;
-  }
+  // &.lenke {
+  //   padding: 0 2rem 0 0.25rem!important;
+  // }
 }

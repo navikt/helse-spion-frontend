@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp as SøkeKnapp } from 'nav-frontend-ikonknapper';
 import { identityNumberSeparation } from '../util/identityNumberSeparation';
 import { Keys } from '../locales/keys';
@@ -22,6 +21,11 @@ import './Ytelsesperiode.less';
 import Lenke from 'nav-frontend-lenker';
 import YtelsesperiodeTable from '../components/YtelsesperiodeTable';
 
+//import useYtelsesperiode from './useYtelsesperiode';
+import { useAppStore } from '../data/store/AppStore';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import useYtelsesperioder from '../data/Ytelsesperioder';
+
 
 const Ytelsesperiode = () => {
   const { t } = useTranslation();
@@ -32,22 +36,15 @@ const Ytelsesperiode = () => {
   const [fraDato, setFraDato] = useState<string | undefined>('');
   const [tilDato, setTilDato] = useState<string | undefined>('');
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
+  const fetchYtelsesperiode = useYtelsesperioder();
 
-  const arbeidsgivere: Organisasjon[] = [ {
-    Name : "Skip Stone AS",
-    Type : "Enterprise",
-    ParentOrganizationNumber : "",
-    OrganizationForm : "AS",
-    OrganizationNumber : "910098898",
-    Status : ""
-  }, {
-    Name : "Skip Stone Øst",
-    Type : "Business",
-    ParentOrganizationNumber : "910098898",
-    OrganizationForm : "BEDR",
-    OrganizationNumber : "917404437",
-    Status : ""
-  } ]// Todo: MockData
+  const {
+    arbeidsgivere,
+    ytelsesperioder,
+    ytelsesperioderLoading,
+    ytelsesperioderErrorType,
+    ytelsesperioderErrorMessage,
+  } = useAppStore();
 
   const onEnterClick = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
@@ -70,14 +67,12 @@ const Ytelsesperiode = () => {
   }
 
   const submitSearch = (): void => {
-
+    fetchYtelsesperiode(identityNumberInput.replace(/\D/g, ""), arbeidsgiverId, fraDato, tilDato)
   }
 
   let min = dayjs('1970-01-01').toDate();
   let max = dayjs(new Date()).add(1, 'year').toDate();
   const datepickerId = uuid();
-
-  const ytelsesperioder = [];
 
   return (
     <>
@@ -134,7 +129,7 @@ const Ytelsesperiode = () => {
                     {t(Keys.IDENTITY_NUMBER)}
                   </div>}
                 bredde="M"
-                value={identityNumberSeparation(identityNumberInput)}
+                value={identityNumberInput}
                 placeholder="11 siffer"
                 onChange={e => setIdentityNumberInput(e.target.value)}
                 onBlur={e => setIdentityNumberInput(e.target.value)}
@@ -153,7 +148,14 @@ const Ytelsesperiode = () => {
         </Row>
         <Row>
           <Column sm="12">
-            <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
+            {
+              ytelsesperioderLoading &&
+              <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
+            }
+            {
+              ytelsesperioder.length > 0 && !ytelsesperioderLoading &&
+              <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
+            }
           </Column>
         </Row>
       </Container>
