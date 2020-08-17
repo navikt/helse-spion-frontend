@@ -25,8 +25,8 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - run: CI=false npm install
-      - run: CI=false npm run build:dev
+      - name: Bygg med npm install
+        run: CI=false npm install
       - run: npm test
       - name: Build and publish Docker image
         env:
