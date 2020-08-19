@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { getClassnameFromStatus } from '../util/getClassnameFromStatus';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 import { Keys } from '../locales/keys';
-import { filterYtelsesperioder } from '../util/filterYtelsesperioder';
 import totalRefundInYtelseSammendrag from '../util/totalRefundInYtelseSammendrag';
-import { sortYtelsesperioder } from '../util/sortYtelsesperioder';
 import { thousandSeparation } from '../util/thousandSeparation';
 import Pagination from './Pagination';
 import './YtelsesperiodeTable.less';
-import { dateToString } from '../util/dateToString';
 import Lenke from 'nav-frontend-lenker';
 import { useTranslation } from 'react-i18next';
 import sortYtelseSammendrag from '../util/sortYtelseSammendrag';
@@ -46,7 +42,7 @@ const YtelseSammendragTable = ({ ytelseSammendrag, onNameClick }: YtelseSammendr
 
   const items: JSX.Element[] = sortedYtelseSammendrag.map((ytelsesperiode, index ) =>
     <tr key={index}>
-      <td><a className="lenke" href="#" onClick={() => onNameClick(ytelsesperiode.identitetsnummer)}>{ytelsesperiode.navn}</a></td>
+      <td><button className="lenke ytelsesperiode-lenkeknapp" onClick={() => onNameClick(ytelsesperiode.identitetsnummer)}>{ytelsesperiode.navn}</button></td>
       <td>
         {ytelsesperiode.identitetsnummer}
       </td>

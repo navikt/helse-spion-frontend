@@ -11,7 +11,7 @@ export const formatDatoer = (a: any): string => {
   if (!(a?.fom && a?.tom)){
     return '';
   }
-  console.log(formatDato(a?.fom) + ' til ' + formatDato(a?.tom));
+
   return formatDato(a?.fom) + ' til ' + formatDato(a?.tom);
 }
 

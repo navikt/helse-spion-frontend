@@ -1,32 +1,24 @@
 import { useAppStore } from './store/AppStore';
-// import { useRef } from 'react';
-// import useFetch from './rest/use-fetch';
-import { Ytelsesperiode } from '../util/helseSpionTypes';
-import { stringToDate } from '../util/stringToDate';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
-import { any } from 'prop-types';
+import dayjs from 'dayjs';
+
 
 const useYtelseSammendrag = (): any => {
-  const {setYtelsesammendrag} = useAppStore();
-  const {setYtelsesperioderLoading} = useAppStore();
-  const {setYtelsesperioderErrorType} = useAppStore();
-  const {setYtelsesperioderErrorMessage} = useAppStore();
-  // const ytelsesperioder = useFetch<any>();
-  // const ytelsesperioderRef = useRef(ytelsesperioder);
-  // ytelsesperioderRef.current = ytelsesperioder;
+  const { setYtelsesammendrag } = useAppStore();
+  const { setYtelsesperioderLoading } = useAppStore();
+  const { setYtelsesperioderErrorType } = useAppStore();
+  const { setYtelsesperioderErrorMessage } = useAppStore();
 
   return (arbeidsgiverId?: string, fom?: string, tom?: string): Promise<void | YtelseSammendrag[] | undefined> => {
     setYtelsesperioderLoading(true);
     let periodefilter = '';
-    fom = "2010-01-01";
-    tom = "2022-01-01";
+
     if (fom && fom.trim().length > 1) {
       periodefilter = periodefilter += `?fom=${fom}`;
     }
     if (tom && tom.trim().length > 1) {
       periodefilter = periodefilter += `&tom=${tom}`;
     }
-// /api/v1/ytelsesperioder/virksomhet/711485759?fom=2020-01-01&tom=2020-12-31
     return fetch(process.env.REACT_APP_BASE_URL + `/api/v1/ytelsesperioder/virksomhet/${arbeidsgiverId}${periodefilter}`, {
       credentials: 'include',
       // headers: {
@@ -40,9 +32,11 @@ const useYtelseSammendrag = (): any => {
         window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
       } else if (response.status === 200) {
         return response.json().then(data => {
-          setYtelsesammendrag(convertResponseDataToYtelseSammendrag(data));
+          const convertedResponseData = convertResponseDataToYtelseSammendrag(data);
+          setYtelsesammendrag(convertedResponseData);
           setYtelsesperioderErrorType(undefined);
           setYtelsesperioderErrorMessage(undefined);
+          return convertedResponseData;
         }
         );
       } else { // todo: error 400/500s etc
@@ -67,13 +61,15 @@ const convertResponseDataToYtelseSammendrag = (data: any): YtelseSammendrag[] =>
       }
     })
 
+    const refusjonsdager: any = dayjs(element.periode.tom).diff(dayjs(element.periode.fom), 'day');
+
     if (ytelsesElementIndex === -1) {
       ytelsesElement = {
         identitetsnummer: element.arbeidsforhold.arbeidstaker.identitetsnummer,
         navn: (element.arbeidsforhold.arbeidstaker.fornavn + ' ' + element.arbeidsforhold.arbeidstaker.etternavn).trim(),
         antall_refusjoner: 1,
         merknad: element.merknad,
-        max_refusjon_dager: 0,
+        max_refusjon_dager: refusjonsdager,
         refusjonsbeløp: element.refusjonsbeløp
       }
       sammendrag.push(ytelsesElement);
@@ -81,6 +77,7 @@ const convertResponseDataToYtelseSammendrag = (data: any): YtelseSammendrag[] =>
       ytelsesElement = sammendrag[ytelsesElementIndex];
       ytelsesElement.antall_refusjoner += 1;
       ytelsesElement.refusjonsbeløp += element.refusjonsbeløp;
+      ytelsesElement.max_refusjon_dager = ytelsesElement.max_refusjon_dager > refusjonsdager ? ytelsesElement.max_refusjon_dager : refusjonsdager;
     }
   })
 

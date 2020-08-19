@@ -1,8 +1,7 @@
 import constate from 'constate';
 import { useState } from 'react';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
-import { Ytelsesperiode } from '../../util/helseSpionTypes';
-import { YtelseSammendrag } from '../../util/helseSpionTypes';
+import { Ytelsesperiode, YtelseSammendrag } from '../../util/helseSpionTypes';
 
 
 export const [ AppStoreProvider, useAppStore ] = constate(() => {

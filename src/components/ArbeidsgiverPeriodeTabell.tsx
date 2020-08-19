@@ -3,7 +3,6 @@ import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import './ArbeidsgiverPeriodeTabell.less';
 import 'nav-frontend-alertstriper-style';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useTranslation } from 'react-i18next';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
@@ -49,20 +48,18 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const { t } = useTranslation();
   const history: History = useHistory();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
-  const [fraDato, setFraDato] = useState<string | undefined>('');
-  const [tilDato, setTilDato] = useState<string | undefined>('');
+  const [fraDato, setFraDato] = useState<string | undefined>('2010-01-01');
+  const [tilDato, setTilDato] = useState<string | undefined>('2022-01-01');
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
   const min = dayjs('1970-01-01').toDate();
   const max = dayjs(new Date()).add(1, 'year').toDate();
-  const [ totaleYtelser, setTotaleYtelser ] = useState<number>(0);
   const fnrId = uuid();
 
   const ytelseSammendrag = useYtelseSammendrag();
 
-
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
-    if (event.key === 'Enter' && identityNumberInput.length == 11) {
+    if (event.key === 'Enter' && identityNumberInput.length === 11) {
       event.preventDefault();
       event.stopPropagation();
       handleSubmitSearch();
@@ -70,19 +67,20 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   };
 
   const handleNameClick = async (identitetsnummer: string): Promise<void> => {
-    const perioder = await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
+    await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
   };
 
-  const handleBackClick = () => {
+  const handleBackClick = async () => {
     setYtelsesammendrag([]);
+    console.log('ytelsesammendrag', ytelsesammendrag.length);
+    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   }
 
   const handleSubmitSearch = async (): Promise<void> => {
-    const perioder = await Ytelsesperioder(identityNumberInput.replace(/\D/g, ""), arbeidsgiverId);
+    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
 
   const handleDatepickerClose = (selectedDates: [Date, Date]): void => {
-    console.log('selectedDates', selectedDates);
     setValgteDatoer(selectedDates);
     const fom = dayjs(selectedDates[0]).format('YYYY-MM-DD');
     const tom = dayjs(selectedDates[1]).format('YYYY-MM-DD');
@@ -95,16 +93,14 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
 
   const datepickerId = uuid();
 
-  useEffect(() => {
-    if(arbeidsgiverId) {
-      ytelseSammendrag(arbeidsgiverId);
-      let sumYtelser = 0;
-      ytelsesammendrag.forEach((ytelse) => {
-        sumYtelser = ytelse.refusjonsbeløp;
-      })
-      setTotaleYtelser(sumYtelser);
+  useEffect( () => {
+    const hentYtelsesdata = async () => {
+      await ytelseSammendrag(arbeidsgiverId, fraDato, tilDato);
     }
-  },[arbeidsgiverId])
+    if(arbeidsgiverId) {
+      hentYtelsesdata();
+    }
+  },[arbeidsgiverId, fraDato, tilDato])
 
   return (
     <main className="arbeidsgiver-periode-main">
@@ -133,7 +129,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
         {ytelsesperioder.length > 0 && (
           <Row className="ytelsesperiode--lufting">
             <Column sm="12">
-              <a href="#" className="lenke" onClick={handleBackClick}>&lt;&lt; {t(Keys.BACK)}</a>
+              <button className="lenke arbeidsgiver-periode-linkbutton" onClick={handleBackClick}>&lt;&lt; {t(Keys.BACK)}</button>
             </Column>
           </Row>)
         }
