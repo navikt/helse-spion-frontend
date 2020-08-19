@@ -160,7 +160,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
                 </Column>
                 <Column sm="5" className="ytelsesperiode--column-right-allign arbeidsgiver-periode-header">
                   <div>
-
                     <div className="arbeidsgiver-periode-search-label">
                       <label htmlFor={fnrId}>
                         {t(Keys.FIND_OTHER_EMPLOYEE)}
@@ -186,7 +185,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
                         <span>{t(Keys.SEARCH)}</span>
                       </Søkeknapp>
                     </div>
-                        </div>
+                  </div>
 
                 </Column>
               </>
@@ -228,27 +227,32 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
               </label>
             </Column>
             <Column sm="6"  className="ytelsesperiode--column-right-allign">
-              <div className="ytelsesperiode--wrapper">
-                <FnrInput
-                  label={
-                    <div style={{ display: 'flex' }}>
-                      {t(Keys.IDENTITY_NUMBER)}
-                    </div>}
-                  bredde="M"
-                  value={identityNumberInput}
-                  placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                  onChange={e => setIdentityNumberInput(e.target.value)}
-                  onBlur={e => setIdentityNumberInput(e.target.value)}
-                  onValidate={() => true}
-                  // feil={feilmeldingstekst}
-                />
-                <Søkeknapp
-                  disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
-                  className="ytelsesperiode--søke-knapp"
-                  onClick={handleSubmitSearch}
-                >
-                  <span>{t(Keys.SEARCH)}</span>
-                </Søkeknapp>
+              <div>
+                <div className="arbeidsgiver-periode-search-label">
+                  <label htmlFor={fnrId}>
+                    {t(Keys.FIND_OTHER_EMPLOYEE)}
+                  </label>
+                </div>
+                <div>
+                  <FnrInput
+                    bredde="M"
+                    value={identityNumberInput}
+                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
+                    onChange={e => setIdentityNumberInput(e.target.value)}
+                    onBlur={e => setIdentityNumberInput(e.target.value)}
+                    onValidate={() => true}
+                    // feil={feilmeldingstekst}
+                    id={fnrId}
+                    className="arbeidsgiver-periode-fnr-input"
+                    />
+                  <Søkeknapp
+                      disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
+                      className="ytelsesperiode--søke-knapp"
+                      onClick={handleSubmitSearch}
+                    >
+                    <span>{t(Keys.SEARCH)}</span>
+                  </Søkeknapp>
+                </div>
               </div>
             </Column>
         </Row>
