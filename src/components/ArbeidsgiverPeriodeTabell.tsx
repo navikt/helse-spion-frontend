@@ -40,7 +40,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
     ytelsesammendrag,
-    setYtelsesammendrag
+    setYtelsesammendrag,
+    setYtelsesperioder
   } = useAppStore();
   const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
   const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
@@ -71,9 +72,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   };
 
   const handleBackClick = async () => {
-    setYtelsesammendrag([]);
-    console.log('ytelsesammendrag', ytelsesammendrag.length);
-    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
+    setYtelsesperioder([]);
   }
 
   const handleSubmitSearch = async (): Promise<void> => {
@@ -113,28 +112,28 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
       <Container>
       { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
       ( <>
-          <Row className="ytelsesperiode--lufting">
+          <Row className="arbeidsgiver-periode--lufting">
             <Column sm="12">
               <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
                 {arbeidsgiverNavn}
               </Innholdstittel>
             </Column>
           </Row>
-          <Row className="ytelsesperiode--lufting">
+          <Row className="arbeidsgiver-periode--lufting">
             <Column sm="12">
-              <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
+              <Lenke className="arbeidsgiver-periode--lufting" href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
             </Column>
           </Row>
         </>)}
         {ytelsesperioder.length > 0 && (
-          <Row className="ytelsesperiode--lufting">
+          <Row className="arbeidsgiver-periode--lufting">
             <Column sm="12">
               <button className="lenke arbeidsgiver-periode-linkbutton" onClick={handleBackClick}>&lt;&lt; {t(Keys.BACK)}</button>
             </Column>
           </Row>)
         }
       { ytelsesperioder.length > 0}
-        <Row className="ytelsesperiode--lufting">
+        <Row className="arbeidsgiver-periode--lufting">
           {
             arbeidstaker ?
               <>
@@ -198,7 +197,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
         </Row>
         {
               ytelsesperioder.length === 0 && !ytelsesperioderLoading &&
-        <Row className="ytelsesperiode--lufting">
+        <Row className="arbeidsgiver-periode--lufting">
           <Column sm="6" className="ytelsesperiode-datovelger">
               <label>
                 <div className="ytelsesperiode-datovelger--overskrift">
