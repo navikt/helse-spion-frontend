@@ -11,7 +11,8 @@ export enum Keys {
 	IDENTITY_NUMBER_EXT = 'IDENTITY_NUMBER_EXT',
 	SEARCH = 'SEARCH',
 	PERIOD = 'PERIOD',
-	TOTAL_REFUNDED = 'TOTAL_REFUNDED',
+  TOTAL_REFUNDED = 'TOTAL_REFUNDED',
+  TOTAL_REFUNDED_IN_PERIOD = 'TOTAL_REFUNDED_IN_PERIOD',
 	STATUS = 'STATUS',
 	BENEFIT = 'BENEFIT',
 	GRADE = 'GRADE',
@@ -91,6 +92,12 @@ const translatedKeys: IncludedKeys = {
 		nb: 'Sum refusjoner',
 		nn: 'Sum refusjonar',
 		en: 'Total refunded',
+  },
+
+  [Keys.TOTAL_REFUNDED_IN_PERIOD]: {
+		nb: 'Sum refusjoner fra',
+		nn: 'Sum refusjonar frå',
+		en: 'Total refunded from',
 	},
 
 	[Keys.STATUS]: {

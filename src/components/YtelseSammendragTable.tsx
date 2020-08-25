@@ -8,13 +8,17 @@ import './YtelsesperiodeTable.less';
 import Lenke from 'nav-frontend-lenker';
 import { useTranslation } from 'react-i18next';
 import sortYtelseSammendrag from '../util/sortYtelseSammendrag';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 interface YtelseSammendragTableInterface {
   ytelseSammendrag: YtelseSammendrag[],
-  onNameClick: Function
+  onNameClick: Function,
+  startdato: string,
+  sluttdato: string,
 }
 
-const YtelseSammendragTable = ({ ytelseSammendrag, onNameClick }: YtelseSammendragTableInterface) => {
+const YtelseSammendragTable = ({ ytelseSammendrag, onNameClick, startdato, sluttdato }: YtelseSammendragTableInterface) => {
   const [sortColumn, setSortColumn] = useState<number>(-1);
   const [sortDescending, setSortDescending] = useState<boolean>(true);
   const { t } = useTranslation();
@@ -93,11 +97,16 @@ const YtelseSammendragTable = ({ ytelseSammendrag, onNameClick }: YtelseSammendr
     </tbody>
   </table>;
 
+  dayjs.extend(customParseFormat)
+
+  const formatertStartDato = dayjs(startdato, "YYYY-MM-DD").format('DD.MM.YY');
+  const formatertSluttDato = dayjs(sluttdato, "YYYY-MM-DD").format('DD.MM.YY');
+
   return ( <Pagination wrapperFunction={wrapperFunction} items={items}>
       <div className="ytelsesperiode-tabell--footer">
         <Lenke href="#"><FileIcon/><span>Last ned regneark</span></Lenke>
         <div className="ytelsesperiode-tabell--total">
-          {t(Keys.TOTAL_REFUNDED)}
+          {t(Keys.TOTAL_REFUNDED_IN_PERIOD)} {formatertStartDato} - {formatertSluttDato}:
           : <b>{thousandSeparation(totalRefund)}</b>
         </div>
       </div>

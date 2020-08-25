@@ -11,25 +11,17 @@ import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 import { useAppStore } from '../data/store/AppStore';
 import { History } from 'history';
 import { Keys } from '../locales/keys';
-import Lenke from 'nav-frontend-lenker';
-import { Innholdstittel } from 'nav-frontend-typografi';
-import { identityNumberSeparation } from '../util/identityNumberSeparation';
-import { FnrInput } from 'nav-frontend-skjema';
-import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ErrorType } from '../util/helseSpionTypes';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import { Row, Container, Column } from 'nav-frontend-grid';
-import Flatpickr from 'react-flatpickr';
-import { Norwegian } from 'flatpickr/dist/l10n/no.js';
-import { v4 as uuid } from 'uuid';
-import dayjs from 'dayjs';
 
-import validatePerioder from '../util/validatePeriode';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import YtelseSammendragTable from './YtelseSammendragTable';
+import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
+import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
@@ -41,7 +33,9 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderErrorMessage,
     ytelsesammendrag,
     setYtelsesammendrag,
-    setYtelsesperioder
+    setYtelsesperioder,
+    fraDato,
+    tilDato,
   } = useAppStore();
   const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
   const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
@@ -49,13 +43,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const { t } = useTranslation();
   const history: History = useHistory();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
-  const [fraDato, setFraDato] = useState<string | undefined>('2010-01-01');
-  const [tilDato, setTilDato] = useState<string | undefined>('2022-01-01');
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
-  const min = dayjs('1970-01-01').toDate();
-  const max = dayjs(new Date()).add(1, 'year').toDate();
-  const fnrId = uuid();
 
   const ytelseSammendrag = useYtelseSammendrag();
 
@@ -71,26 +60,9 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
   };
 
-  const handleBackClick = async () => {
-    setYtelsesperioder([]);
-  }
-
   const handleSubmitSearch = async (): Promise<void> => {
     await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
-
-  const handleDatepickerClose = (selectedDates: [Date, Date]): void => {
-    setValgteDatoer(selectedDates);
-    const fom = dayjs(selectedDates[0]).format('YYYY-MM-DD');
-    const tom = dayjs(selectedDates[1]).format('YYYY-MM-DD');
-    const periodeError = validatePerioder(fom, tom);
-    if(!periodeError) {
-      setFraDato(fom);
-      setTilDato(tom);
-    }
-  }
-
-  const datepickerId = uuid();
 
   useEffect( () => {
     const hentYtelsesdata = async () => {
@@ -111,151 +83,20 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
         />
       <Container>
       { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
-      ( <>
+      (
+        <ArbeidsgiverHeader arbeidsgiverNavn={arbeidsgiverNavn} arbeidsgiverId={arbeidsgiverId}/>
+      )}
+      {
+        arbeidstaker ?
+          <ArbeidstakerDetaljHeader arbeidstaker={arbeidstaker} arbeidsgiverId={arbeidsgiverId}/>
+          :
           <Row className="arbeidsgiver-periode--lufting">
-            <Column sm="12">
-              <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                {arbeidsgiverNavn}
-              </Innholdstittel>
-            </Column>
+            <Column sm="12"/>
+            <Column sm="12"/>
           </Row>
-          <Row className="arbeidsgiver-periode--lufting">
-            <Column sm="12">
-              <Lenke className="arbeidsgiver-periode--lufting" href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
-            </Column>
-          </Row>
-        </>)}
-        {ytelsesperioder.length > 0 && (
-          <Row className="arbeidsgiver-periode--lufting">
-            <Column sm="12">
-              <button className="lenke arbeidsgiver-periode-linkbutton" onClick={handleBackClick}>&lt;&lt; {t(Keys.BACK)}</button>
-            </Column>
-          </Row>)
-        }
-      { ytelsesperioder.length > 0}
-        <Row className="arbeidsgiver-periode--lufting">
-          {
-            arbeidstaker ?
-              <>
-                <Column sm="7">
-                  <div className="arbeidsgiver-periode-header">
-                    <div>
-                      <div>
-                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                          {arbeidstaker.fornavn} {arbeidstaker.etternavn}
-                        </Innholdstittel>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="arbeidsgiver-periode-header arbeidsgiver-periode-teller">
-                    <div>{t(Keys.REFUNDABLE_DAYS_MAX)}</div>
-                    <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">2</Innholdstittel>
-                  </div>
-                </Column>
-                <Column sm="5" className="ytelsesperiode--column-right-allign arbeidsgiver-periode-header">
-                  <div>
-                    <div className="arbeidsgiver-periode-search-label">
-                      <label htmlFor={fnrId}>
-                        {t(Keys.FIND_OTHER_EMPLOYEE)}
-                      </label>
-                    </div>
-                    <div>
-                      <FnrInput
-                        bredde="M"
-                        value={identityNumberInput}
-                        placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                        onChange={e => setIdentityNumberInput(e.target.value)}
-                        onBlur={e => setIdentityNumberInput(e.target.value)}
-                        onValidate={() => true}
-                        // feil={feilmeldingstekst}
-                        id={fnrId}
-                        className="arbeidsgiver-periode-fnr-input"
-                        />
-                      <Søkeknapp
-                        disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
-                        className="arbeidsgiver-periode-tabell--søke-knapp"
-                        onClick={handleSubmitSearch}
-                        >
-                        <span>{t(Keys.SEARCH)}</span>
-                      </Søkeknapp>
-                    </div>
-                  </div>
+      }
 
-                </Column>
-              </>
-              :
-              <>
-                <Column sm="12"/>
-                <Column sm="12"/>
-              </>
-          }
-        </Row>
-        {
-              ytelsesperioder.length === 0 && !ytelsesperioderLoading &&
-        <Row className="arbeidsgiver-periode--lufting">
-          <Column sm="6" className="ytelsesperiode-datovelger">
-              <label>
-                <div className="ytelsesperiode-datovelger--overskrift">
-                  {t(Keys.PERIOD)}:
-                </div>
-                <Flatpickr
-                  id={datepickerId}
-                  placeholder='dd.mm.yyyy til dd.mm.yyyy'
-                  className={'skjemaelement__input periode'}
-                  value={valgteDatoer}
-                  options={{
-                    minDate: min,
-                    maxDate: max,
-                    mode: 'range',
-                    enableTime: false,
-                    dateFormat: 'd.m.Y',
-                    altInput: true,
-                    altFormat: 'd.m.Y',
-                    locale: Norwegian,
-                    allowInput: true,
-                    clickOpens: true,
-                    // formatDate: formatDatoer,
-                    onClose: (selectedDates: [ Date, Date ]) => handleDatepickerClose(selectedDates)
-                  }}
-                  />
-              </label>
-            </Column>
-            <Column sm="6"  className="ytelsesperiode--column-right-allign">
-              <div>
-                <div className="arbeidsgiver-periode-search-label">
-                  <label htmlFor={fnrId}>
-                    {t(Keys.FIND_OTHER_EMPLOYEE)}
-                  </label>
-                </div>
-                <div>
-                  <FnrInput
-                    bredde="M"
-                    value={identityNumberInput}
-                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                    onChange={e => setIdentityNumberInput(e.target.value)}
-                    onBlur={e => setIdentityNumberInput(e.target.value)}
-                    onValidate={() => true}
-                    // feil={feilmeldingstekst}
-                    id={fnrId}
-                    className="arbeidsgiver-periode-fnr-input"
-                    />
-                  <Søkeknapp
-                      disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
-                      className="ytelsesperiode--søke-knapp"
-                      onClick={handleSubmitSearch}
-                    >
-                    <span>{t(Keys.SEARCH)}</span>
-                  </Søkeknapp>
-                </div>
-              </div>
-            </Column>
-        </Row>
-        }
+
         <Row>
           <Column sm="12">
             {
@@ -276,7 +117,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
             }
             {
               ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
-              <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick}/>
+              <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick} startdato={fraDato} sluttdato={tilDato}/>
             }
           </Column>
         </Row>

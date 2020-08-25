@@ -12,6 +12,8 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
 	const [ ytelsesperioderErrorType, setYtelsesperioderErrorType ] = useState<string>();
 	const [ ytelsesperioderErrorMessage, setYtelsesperioderErrorMessage ] = useState<string>();
   const [ ytelsesammendrag, setYtelsesammendrag ] = useState<YtelseSammendrag[]>([]);
+  const [fraDato, setFraDato] = useState<string>('2010-01-01');
+  const [tilDato, setTilDato] = useState<string>('2022-01-01');
 	return {
 		arbeidsgivere, setArbeidsgivere,
 		arbeidsgivereLoading, setArbeidsgivereLoading,
@@ -19,6 +21,8 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
     ytelsesammendrag, setYtelsesammendrag,
 		ytelsesperioderLoading, setYtelsesperioderLoading,
 		ytelsesperioderErrorType, setYtelsesperioderErrorType,
-		ytelsesperioderErrorMessage, setYtelsesperioderErrorMessage,
+    ytelsesperioderErrorMessage, setYtelsesperioderErrorMessage,
+    fraDato, setFraDato,
+    tilDato, setTilDato
 	};
 });
