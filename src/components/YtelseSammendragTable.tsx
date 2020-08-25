@@ -99,8 +99,8 @@ const YtelseSammendragTable = ({ ytelseSammendrag, onNameClick, startdato, slutt
 
   dayjs.extend(customParseFormat)
 
-  const formatertStartDato = dayjs(startdato, "YYYY-MM-DD").format('DD.MM.YY');
-  const formatertSluttDato = dayjs(sluttdato, "YYYY-MM-DD").format('DD.MM.YY');
+  const formatertStartDato = dayjs(startdato, 'YYYY-MM-DD').format('DD.MM.YY');
+  const formatertSluttDato = dayjs(sluttdato, 'YYYY-MM-DD').format('DD.MM.YY');
 
   return ( <Pagination wrapperFunction={wrapperFunction} items={items}>
       <div className="ytelsesperiode-tabell--footer">

@@ -22,7 +22,7 @@ interface ArbeidstakerDetaljHeaderInterface {
   arbeidsgiverId: string
 }
 
-const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({arbeidstaker, arbeidsgiverId}: ArbeidstakerDetaljHeaderInterface) => {
+const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({ arbeidstaker, arbeidsgiverId }: ArbeidstakerDetaljHeaderInterface) => {
   const { t } = useTranslation();
   const fnrId: string = uuid();
   const fetchYtelsesperioder = useYtelsesperioder();

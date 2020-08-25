@@ -22,7 +22,7 @@ interface ArbeidsgiverHeaderInterface {
   arbeidsgiverId: string,
 }
 
-const ArbeidsgiverHeader = ({arbeidsgiverNavn, arbeidsgiverId}: ArbeidsgiverHeaderInterface) => {
+const ArbeidsgiverHeader = ({ arbeidsgiverNavn, arbeidsgiverId }: ArbeidsgiverHeaderInterface) => {
   const { t } = useTranslation();
   const fnrId = uuid();
   const min = dayjs('1970-01-01').toDate();
