@@ -1,5 +1,5 @@
 # helse-spion-frontend
-Frontendapplikasjon for helse-spion; innsynsløsning for arbeidsgivere i sykepenger
+Frontendapplikasjon for helse-spion - innsynsløsning for arbeidsgivere i sykepenger
 
 ## Henvendelser
 
