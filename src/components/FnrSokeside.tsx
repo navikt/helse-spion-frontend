@@ -34,7 +34,7 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
       <Column sm="12">
         <Panel border className="fnr-sokeside-panel">
           <Innholdstittel>{t(Keys.EMPLOYEE_SEARCH)}</Innholdstittel>
-          <label htmlFor={fnrId}>
+          <label htmlFor={fnrId} className="fnr-sokeside-label">
             {t(Keys.IDENTITY_NUMBER_EXT)}
           </label>
           <div>
@@ -47,7 +47,7 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
               onValidate={() => true}
               // feil={feilmeldingstekst}
               id={fnrId}
-              className="arbeidsgiver-periode-fnr-input"
+              className="arbeidsgiver-periode-fnr-input fnr-sokeside-fnrinput"
               />
             <Søkeknapp
                 disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
@@ -57,9 +57,9 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
               <span>{t(Keys.SEARCH)}</span>
             </Søkeknapp>
           </div>
-          <Panel>
+          <div className="fnr-sokeside-infobox">
             <strong>Til info:</strong> Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.
-          </Panel>
+          </div>
         </Panel>
       </Column>
     </Row>
