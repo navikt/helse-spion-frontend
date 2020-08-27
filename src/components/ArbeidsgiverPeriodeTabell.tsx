@@ -22,6 +22,7 @@ import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import YtelseSammendragTable from './YtelseSammendragTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
+import FnrSokeside from './FnrSokeside';
 
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
@@ -46,7 +47,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
 
-  const ytelseSammendrag = useYtelseSammendrag();
+  // const ytelseSammendrag = useYtelseSammendrag();
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
@@ -64,14 +65,14 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
 
-  useEffect( () => {
-    const hentYtelsesdata = async () => {
-      await ytelseSammendrag(arbeidsgiverId, fraDato, tilDato);
-    }
-    if(arbeidsgiverId) {
-      hentYtelsesdata();
-    }
-  },[arbeidsgiverId, fraDato, tilDato])
+  // useEffect( () => {
+  //   const hentYtelsesdata = async () => {
+  //     await ytelseSammendrag(arbeidsgiverId, fraDato, tilDato);
+  //   }
+  //   if(arbeidsgiverId) {
+  //     hentYtelsesdata();
+  //   }
+  // },[arbeidsgiverId, fraDato, tilDato])
 
   return (
     <main className="arbeidsgiver-periode-main">
@@ -99,6 +100,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
 
         <Row>
           <Column sm="12">
+            {
+              ytelsesperioder.length === 0 &&
+                <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
+            }
             {
               ytelsesperioderErrorType &&
               (

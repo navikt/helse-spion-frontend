@@ -24,7 +24,8 @@ export enum Keys {
   REFUND_COUNT = 'REFUND_COUNT',
   REFUND_DAYS_MAX = 'REFUND_DAYS_MAX',
   REFUNDABLE_DAYS_MAX = 'REFUNDABLE_DAYS_MAX',
-  BACK = 'BACK'
+  BACK = 'BACK',
+  EMPLOYEE_SEARCH = 'EMPLOYEE_SEARCH'
 }
 
 const translatedKeys: IncludedKeys = {
@@ -170,6 +171,12 @@ const translatedKeys: IncludedKeys = {
     nb: 'Tilbake',
     nn: 'Tilbake',
     en: 'Back',
+  },
+
+  [Keys.EMPLOYEE_SEARCH]: {
+    nb: 'Søk etter ansatt',
+    nn: 'Søk etter ansatt',
+    en: 'Search for employee',
   }
 };
 

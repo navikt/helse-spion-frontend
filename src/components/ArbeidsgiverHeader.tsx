@@ -31,18 +31,11 @@ const ArbeidsgiverHeader = ({ arbeidsgiverNavn, arbeidsgiverId }: ArbeidsgiverHe
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const {
-    arbeidsgivere,
-    ytelsesperioder,
     ytelsesperioderLoading,
-    ytelsesperioderErrorType,
-    ytelsesperioderErrorMessage,
-    ytelsesammendrag,
     fraDato,
     setFraDato,
     tilDato,
     setTilDato,
-    setYtelsesammendrag,
-    setYtelsesperioder
   } = useAppStore();
   const ytelseSammendrag = useYtelseSammendrag();
 
