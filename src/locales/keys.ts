@@ -25,7 +25,9 @@ export enum Keys {
   REFUND_DAYS_MAX = 'REFUND_DAYS_MAX',
   REFUNDABLE_DAYS_MAX = 'REFUNDABLE_DAYS_MAX',
   BACK = 'BACK',
-  EMPLOYEE_SEARCH = 'EMPLOYEE_SEARCH'
+  EMPLOYEE_SEARCH = 'EMPLOYEE_SEARCH',
+  FOR_INFO = 'FOR_INFO',
+  INFO_TEXT = 'INFO_TEXT'
 }
 
 const translatedKeys: IncludedKeys = {
@@ -177,6 +179,18 @@ const translatedKeys: IncludedKeys = {
     nb: 'Søk etter ansatt',
     nn: 'Søk etter ansatt',
     en: 'Search for employee',
+  },
+
+  [Keys.FOR_INFO]: {
+    nb: 'Til info',
+    nn: 'Til info',
+    en: 'For information',
+  },
+
+  [Keys.INFO_TEXT]: {
+    nb: 'Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.',
+    nn: 'Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.',
+    en: 'We are working on putting in place a table view of employees with refunds. This will not be ready until the autumn of 2020.',
   }
 };
 

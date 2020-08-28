@@ -58,7 +58,7 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
             </Søkeknapp>
           </div>
           <div className="fnr-sokeside-infobox">
-            <strong>Til info:</strong> Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.
+            <span className="fnr-sokeside-infointro">{t(Keys.FOR_INFO)}:</span> {t(Keys.INFO_TEXT)}
           </div>
         </Panel>
       </Column>
