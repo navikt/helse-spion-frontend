@@ -26,18 +26,17 @@ export enum ErrorType {
 }
 
 export interface Ytelsesperiode {
-  arbeidsforhold: Arbeidsforhold
-  dagsats: number
-  ferieperioder: Periode[]
-  grad?: number
-  maxdato: Date
-  merknad: string
   periode: Periode
+  arbeidsforhold: Arbeidsforhold
+  forbrukteSykedager: number
+  gjenståendeSykedager: number
+  dagsats: number
+  grad?: number
   refusjonsbeløp?: number
   sistEndret: Date
   status: Status
-  vedtaksId: string
   ytelse: string
+  merknad?: string
 }
 
 export interface Arbeidsforhold {
@@ -48,10 +47,7 @@ export interface Arbeidsforhold {
 
 // fra Ytelsesperioder API
 export interface YtelsesperioderArbeidsgiver {
-  identitetsnummer: null
-  navn: string
-  organisasjonsnummer: string
-  virksomhetsnummer: string
+  arbeidsgiverId: string
 }
 
 export interface Arbeidstaker {

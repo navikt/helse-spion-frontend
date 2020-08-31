@@ -57,12 +57,5 @@ const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.ma
   periode: {
     fom: stringToDate(ytelsesperiode.periode.fom),
     tom: stringToDate(ytelsesperiode.periode.tom),
-  },
-  ferieperioder: ytelsesperiode.ferieperioder.map(ferieperioder => ({
-    ...ferieperioder,
-    ferieperioder: {
-      fom: stringToDate(ferieperioder.fom),
-      tom: stringToDate(ferieperioder.tom),
-    }
-  }))
+  }
 }));

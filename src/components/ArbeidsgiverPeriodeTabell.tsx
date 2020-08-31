@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import './ArbeidsgiverPeriodeTabell.less';
+import './ArbeidsgiverPeriodeTabell.css';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useTranslation } from 'react-i18next';

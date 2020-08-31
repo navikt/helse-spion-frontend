@@ -13,7 +13,7 @@ const App = () => {
       <ArbeidsgiverProvider>
           <I18nextProvider i18n={i18n}>
             <Switch>
-              <Route path="/min-side-refusjon/" render={() => <ArbeidsgiverPeriodeTabell />} />
+              <Route path="/personoppslag" render={() => <ArbeidsgiverPeriodeTabell />} />
               <Route path="/" render={() => <Redirecter />} />
             </Switch>
           </I18nextProvider>

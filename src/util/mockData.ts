@@ -2,6 +2,8 @@ import { Status, Ytelsesperiode } from './helseSpionTypes';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 export const mockYtelsesperiode1: Ytelsesperiode = 	{
+	forbrukteSykedager: 3,
+	gjenståendeSykedager: 81,
 	periode: {
 		fom: new Date(2010,1,1),
 		tom: new Date(2014,1,1),
@@ -9,6 +11,7 @@ export const mockYtelsesperiode1: Ytelsesperiode = 	{
 	refusjonsbeløp: 20,
 	status: Status.INNVILGET,
 	ytelse: 'SP',
+
 	grad: 20,
 	arbeidsforhold: {
 		arbeidsforholdId: '1',
@@ -18,18 +21,11 @@ export const mockYtelsesperiode1: Ytelsesperiode = 	{
 			identitetsnummer: '1213123',
 		},
 		arbeidsgiver: {
-			identitetsnummer: null,
-			navn: 'navn',
-			organisasjonsnummer: '123123',
-			virksomhetsnummer: '12321',
+			arbeidsgiverId: '12321'
 		},
 	},
 	dagsats: 123,
-	ferieperioder: [],
-	maxdato: new Date(2015,10,10),
-	sistEndret: new Date(2015,10,10),
-	merknad: '',
-	vedtaksId: '123',
+	sistEndret: new Date(2015,10,10)
 };
 
 export const mockYtelsesperiode2: Ytelsesperiode = {
@@ -41,8 +37,7 @@ export const mockYtelsesperiode2: Ytelsesperiode = {
 	refusjonsbeløp: 10,
 	status: Status.AVSLÅTT,
 	ytelse: 'PP',
-	grad: 100,
-	merknad: 'Fritak AGP'
+	grad: 100
 };
 
 export const mockYtelsesperiode3: Ytelsesperiode = {
@@ -54,8 +49,7 @@ export const mockYtelsesperiode3: Ytelsesperiode = {
 	refusjonsbeløp: 30,
 	status: Status.UNDER_BEHANDLING,
 	ytelse: 'FP',
-	grad: 50,
-	merknad: 'Mangler inntektsmld.'
+	grad: 50
 };
 
 export const mockYtelsesperioder: Ytelsesperiode[] = [
