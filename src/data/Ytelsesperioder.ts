@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import useFetch from './rest/use-fetch';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
+import env from '../Environment'
 
 
 export default (): any => {
@@ -17,7 +18,7 @@ export default (): any => {
   return (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
     setYtelsesperioderLoading(true);
 
-    return fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
+    return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
       headers: {
         'Accept': 'application/json',
@@ -31,7 +32,7 @@ export default (): any => {
     }).then(response => {
       setYtelsesperioderLoading(false);
       if (response.status === 401) {
-        window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
+        window.location.href = env.loginServiceUrl ?? '';
       } else if (response.status === 200) {
         return response.json().then(data => {
           setYtelsesperioder(convertResponseDataToYtelsesperioder(data));
