@@ -12,6 +12,7 @@ import {
 import useFetch from '../data/rest/use-fetch';
 import Spinner from 'nav-frontend-spinner';
 import IngenData from './IngenData';
+import env from '../Environment'
 
 export function ArbeidsgiverProvider(props: {children: any}) {
   const { setArbeidsgivere } = useAppStore();
@@ -22,7 +23,7 @@ export function ArbeidsgiverProvider(props: {children: any}) {
   
   useEffect(() => {
     if (isNotStarted(arbeidsgivere)) {
-      arbeidsgivere.fetch(process.env.REACT_APP_BASE_URL + '/api/v1/arbeidsgivere', {
+      arbeidsgivere.fetch(env.baseUrl + '/api/v1/arbeidsgivere', {
         credentials: 'include',
       }, (fetchState: FetchState<Organisasjon[]>) => {
         if (hasData(fetchState)) {
@@ -51,7 +52,7 @@ export function ArbeidsgiverProvider(props: {children: any}) {
     return <Spinner type={'XXL'}/>;
     
   } else if (hasAny401([ arbeidsgivere ])) {
-    window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
+    window.location.href =  env.loginServiceUrl ?? '';
     
   } else if (hasAnyFailed([ arbeidsgivere ])) {
     return <IngenData/>;
