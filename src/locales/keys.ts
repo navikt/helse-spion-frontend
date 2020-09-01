@@ -23,9 +23,9 @@ export enum Keys {
 
 const translatedKeys: IncludedKeys = {
 	[Keys.MY_PAGE]: {
-		nb: 'Min side - refusjoner',
-		nn: 'Mi side - refusjonar',
-		en: 'My page - refunds',
+		nb: 'Min side - Refusjonsportal',
+		nn: 'Mi side - Refusjonsportal',
+		en: 'My page - Refunds',
 	},
 	
 	[Keys.DOCUMENT_TITLE]: {

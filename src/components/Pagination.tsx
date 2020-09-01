@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
-import './Pagination.less';
+import './Pagination.sass';
 import { Keys } from '../locales/keys';
 import { WithTranslation, withTranslation } from 'react-i18next';
 

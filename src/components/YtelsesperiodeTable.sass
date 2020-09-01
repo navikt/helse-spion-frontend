@@ -1,0 +1,45 @@
+@import "./src/Variabler.sass"
+
+.ytelsesperiode-tabell 
+  &--tabell 
+    margin-top: 15px
+    a
+      cursor: pointer
+
+    th:last-child 
+      text-align: right
+
+  &--align-right
+    text-align: right !important
+
+  &__sirkel 
+    height: 10px
+    width: 10px
+    border-radius: 50%
+    display: inline-block
+    margin-right: 5px
+
+    &--under-behandling 
+      background-color: $navLysBla
+
+    &--avslått 
+      background-color: $redError
+
+    &--innvilget 
+      background-color: $navGronn
+
+  &--footer 
+    a 
+      justify-self: start
+      margin-left: 15px
+  
+    border-top: black solid 2px
+    background-color: rgba(0, 0, 0, 0.03)
+    padding: 7.5px 0px
+    display: grid
+    grid-template-columns: auto auto
+    justify-items: end
+
+  &--total 
+    justify-self: end
+    margin-right: 15px
