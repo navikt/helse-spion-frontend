@@ -32,9 +32,9 @@ export enum Keys {
 
 const translatedKeys: IncludedKeys = {
 	[Keys.MY_PAGE]: {
-		nb: 'Refusjoner',
-		nn: 'Refusjonar',
-		en: 'Refunds',
+		nb: 'Min side - Refusjonsportal',
+		nn: 'Mi side - Refusjonsportal',
+		en: 'My page - Refunds',
 	},
 
 	[Keys.DOCUMENT_TITLE]: {

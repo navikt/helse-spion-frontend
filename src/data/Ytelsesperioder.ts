@@ -54,6 +54,12 @@ export default (): any => {
         }
         );
       } else { // todo: error 400/500s etc
+        if(response.status === 400) {
+          setYtelsesperioderErrorType(response.status.toString());
+          setYtelsesperioderErrorMessage(response.statusText)
+          return;
+        }
+        debugger;
         return response.json().then(data => { // Todo: change errors to array and map all violations
           setYtelsesperioderErrorType(data.violations[0].validationType.toUpperCase());
           setYtelsesperioderErrorMessage(data.violations[0].message);

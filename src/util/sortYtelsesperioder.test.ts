@@ -42,16 +42,6 @@ describe('sortYtelsesperioder', () => {
 		expect(input).toEqual([mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperiode1]);
 	});
 
-	// it('can sort by merknad ascending', () => {
-	// 	const input = sortYtelsesperioder(mockYtelsesperioder, 4, false);
-	// 	expect(input).toEqual([mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3]);
-	// });
-
-	// it('can sort by merknad descending', () => {
-	// 	const input = sortYtelsesperioder(mockYtelsesperioder, 4, true);
-	// 	expect(input).toEqual([mockYtelsesperiode3, mockYtelsesperiode2, mockYtelsesperiode1]);
-	// });
-
 	it('ignores invalid sort parameter', () => {
 		const input = sortYtelsesperioder(mockYtelsesperioder, 5, false);
 		expect(input).toEqual(mockYtelsesperioder);

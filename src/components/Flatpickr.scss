@@ -1,8 +1,7 @@
-//@import 'node_modules/nav-frontend-core/less/_variabler';
-@import "~nav-frontend-core";
+@import "./src/Variabler.sass";
 
 .flatpickr-calendar {
-  background: @white;
+  background: $white;
   opacity: 0;
   display: none;
   text-align: center;
@@ -10,7 +9,7 @@
   padding: 1rem 1rem 1.4rem;
   animation: none;
   direction: ltr;
-  border: 1px solid @navGra40;
+  border: 1px solid $navGra40;
   line-height: 24px;
   border-radius: 2px;
   position: absolute;
@@ -62,7 +61,7 @@
 
       .dayContainer:nth-child(n+2) {
         .flatpickr-day.inRange:nth-child(7n+1) {
-          box-shadow: -2px 0 0 @navLysGra, 5px 0 0 @navLysGra;
+          box-shadow: -2px 0 0 $navLysGra, 5px 0 0 $navLysGra;
         }
       }
     }
@@ -82,7 +81,7 @@
   &.showTimeInput.hasTime {
     .flatpickr-time {
       height: 40px;
-      border-top: 1px solid @navGra40;
+      border-top: 1px solid $navGra40;
     }
 
     .flatpickr-innerContainer {
@@ -100,9 +99,9 @@
     position: absolute;
     display: block;
     pointer-events: none;
-    background-color: @white;
-    border-top: 1px solid @navGra40;
-    border-right: 1px solid @navGra40;
+    background-color: $white;
+    border-top: 1px solid $navGra40;
+    border-right: 1px solid $navGra40;
     height: 1rem;
     width: 1rem;
     top: -1px;
@@ -124,11 +123,11 @@
 
   &.arrowTop {
     &:before {
-      border-bottom-color: @navGra40;
+      border-bottom-color: $navGra40;
     }
 
     &:after {
-      border-bottom-color: @navGra40;
+      border-bottom-color: $navGra40;
     }
   }
 
@@ -139,11 +138,11 @@
 
   &.arrowBottom {
     &:before {
-      border-top-color: @navGra40;
+      border-top-color: $navGra40;
     }
 
     &:after {
-      border-top-color: @navGra40;
+      border-top-color: $navGra40;
     }
   }
 
@@ -172,9 +171,9 @@
       cursor: default;
 
       svg path {
-        color: @navLysGra;
-        fill: @navLysGra;
-        stroke: @navLysGra
+        color: $navLysGra;
+        fill: $navLysGra;
+        stroke: $navLysGra
       }
     }
 
@@ -191,11 +190,11 @@
     }
 
     &:hover {
-      color: @navGra40;
+      color: $navGra40;
     }
 
     &:hover svg {
-      fill: @navBla;
+      fill: $navBla;
     }
 
     svg {
@@ -204,8 +203,8 @@
 
       path {
         transition: fill 0.1s;
-        fill: @navGra40;
-        stroke: @navGra40;
+        fill: $navGra40;
+        stroke: $navGra40;
         stroke-width: 2px;
       }
     }
@@ -318,11 +317,11 @@
       display: none;
 
       &.arrowUp:after {
-        border-bottom-color: @white;
+        border-bottom-color: $white;
       }
 
       &.arrowDown:after {
-        border-top-color: @white;
+        border-top-color: $white;
       }
     }
   }
@@ -351,8 +350,8 @@
 
     &[disabled], &[disabled]:hover {
       font-size: 100%;
-      color: @navMorkGra;
-      background: @white;
+      color: $navMorkGra;
+      background: $white;
       pointer-events: none;
     }
   }
@@ -360,10 +359,10 @@
   .flatpickr-monthDropdown-months {
     display: block;
     appearance: none;
-    background: @white;
+    background: $white;
     border: none;
     border-radius: 0;
-    color: @navMorkGra;
+    color: $navMorkGra;
     font-size: 1rem;
     font-family: 'Source Sans Pro', Arial, sans-serif;
     font-weight: bold;
@@ -382,7 +381,7 @@
     }
 
     .flatpickr-monthDropdown-month {
-      background-color: @white;
+      background-color: $white;
       outline: none;
       padding: 0;
     }
@@ -408,7 +407,7 @@ span.flatpickr-weekday {
   display: block;
   width: calc(100% / 7);
   cursor: default;
-  color: @navMorkGra;
+  color: $navMorkGra;
 }
 
 .dayContainer,
@@ -444,7 +443,7 @@ span.flatpickr-weekday {
   text-align: center;
 
   &:nth-child(7n) {
-    color: @navRod;
+    color: $navRod;
   }
 
   &.inRange,
@@ -461,17 +460,17 @@ span.flatpickr-weekday {
   &.nextMonthDay:focus {
     cursor: pointer;
     outline: 0;
-    background: @navLysGra;
-    border-color: @navLysGra;
+    background: $navLysGra;
+    border-color: $navLysGra;
   }
 
   &.today {
-    border-color: @navGra40;
+    border-color: $navGra40;
 
     &:hover, &:focus {
-      border-color: @navGra40;
-      background: @navGra40;
-      color: @white;
+      border-color: $navGra40;
+      background: $navGra40;
+      color: $white;
     }
   }
 
@@ -493,10 +492,10 @@ span.flatpickr-weekday {
   &.selected.nextMonthDay,
   &.startRange.nextMonthDay,
   &.endRange.nextMonthDay {
-    background: @navBla;
+    background: $navBla;
     box-shadow: none;
-    color: @white;
-    border-color: @navBla;
+    color: $white;
+    border-color: $navBla;
   }
 
   &.selected.startRange.endRange,
@@ -507,7 +506,7 @@ span.flatpickr-weekday {
 
   &.inRange {
     border-radius: 0;
-    box-shadow: -5px 0 0 @navLysGra, 5px 0 0 @navLysGra;
+    box-shadow: -5px 0 0 $navLysGra, 5px 0 0 $navLysGra;
   }
 
   &.flatpickr-disabled,
@@ -517,7 +516,7 @@ span.flatpickr-weekday {
   &.notAllowed,
   &.notAllowed.prevMonthDay,
   &.notAllowed.nextMonthDay {
-    color: @navGra40;
+    color: $navGra40;
     background: transparent;
     border-color: transparent;
     cursor: default;
@@ -526,12 +525,12 @@ span.flatpickr-weekday {
   &.flatpickr-disabled,
   &.flatpickr-disabled:hover {
     cursor: not-allowed;
-    color: @navGra40;
+    color: $navGra40;
   }
 
   &.week.selected {
     border-radius: 0;
-    box-shadow: -5px 0 0 @navOransjeLighten40, 5px 0 0 @navOransjeLighten40;
+    box-shadow: -5px 0 0 $navOransjeLighten40, 5px 0 0 $navOransjeLighten40;
   }
 
   &.hidden {
@@ -548,7 +547,7 @@ span.flatpickr-weekday {
 
   .flatpickr-weeks {
     padding: 0 12px;
-    border-left: 1px solid @navGra40;
+    border-left: 1px solid $navGra40;
   }
 
   .flatpickr-weekday {
@@ -560,7 +559,7 @@ span.flatpickr-weekday {
   span.flatpickr-day, span.flatpickr-day:hover {
     display: block;
     width: 100%;
-    color: @navGra40;
+    color: $navGra40;
     background: transparent;
     cursor: default;
     border: none;
@@ -573,8 +572,8 @@ span.flatpickr-weekday {
   padding-top: 1rem;
   box-sizing: border-box;
   overflow: hidden;
-  background: @white;
-  border-top: 1px solid @navGra40;
+  background: $white;
+  border-top: 1px solid $navGra40;
 }
 
 .flatpickr-rContainer {
@@ -592,7 +591,7 @@ span.flatpickr-weekday {
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  background: @white;
+  background: $white;
   border-radius: 0 0 5px 5px;
 
   &:after {
@@ -611,11 +610,11 @@ span.flatpickr-weekday {
       display: none;
 
       &.arrowUp:after {
-        border-bottom-color: @navGra40;
+        border-bottom-color: $navGra40;
       }
 
       &.arrowDown:after {
-        border-top-color: @navGra40;
+        border-top-color: $navGra40;
       }
     }
   }
@@ -640,7 +639,7 @@ span.flatpickr-weekday {
     padding: 0;
     height: inherit;
     line-height: inherit;
-    color: @navGra40;
+    color: $navGra40;
     font-size: 1rem;
     position: relative;
     box-sizing: border-box;
@@ -661,7 +660,7 @@ span.flatpickr-weekday {
     height: inherit;
     float: left;
     line-height: inherit;
-    color: @navGra40;
+    color: $navGra40;
     font-weight: bold;
     width: 2%;
     user-select: none;
@@ -678,7 +677,7 @@ span.flatpickr-weekday {
 
   input:hover, .flatpickr-am-pm:hover,
   input:focus, .flatpickr-am-pm:focus {
-    background: @navLysGra;
+    background: $navLysGra;
   }
 }
 

@@ -6,6 +6,7 @@ import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
 import { ArbeidsgiverProvider } from './components/ArbeidsgiverProvider';
 import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
+import './App.sass';
 
 const App = () => {
   return (

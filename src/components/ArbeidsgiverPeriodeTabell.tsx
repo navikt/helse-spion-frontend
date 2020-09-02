@@ -5,7 +5,6 @@ import './ArbeidsgiverPeriodeTabell.css';
 import 'nav-frontend-alertstriper-style';
 import { useTranslation } from 'react-i18next';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { useHistory } from 'react-router-dom';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 import { useAppStore } from '../data/store/AppStore';
@@ -24,6 +23,13 @@ import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import FnrSokeside from './FnrSokeside';
 
+
+import 'nav-frontend-tabell-style';
+import 'nav-frontend-skjema-style';
+import 'nav-frontend-alertstriper-style';
+import './ArbeidsgiverPeriodeTabell.sass';
+import 'react-datepicker/dist/react-datepicker.css';
+import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {

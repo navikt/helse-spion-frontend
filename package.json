@@ -88,6 +88,7 @@
     "nav-frontend-tabell-style": "^0.2.23",
     "nav-frontend-typografi": "^2.0.26",
     "nav-frontend-typografi-style": "^1.0.22",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-datepicker": "^2.16.0",
