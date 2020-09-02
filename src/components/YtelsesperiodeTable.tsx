@@ -3,12 +3,11 @@ import { getClassnameFromStatus } from '../util/getClassnameFromStatus';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { Keys } from '../locales/keys';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { filterYtelsesperioder } from '../util/filterYtelsesperioder';
 import { totalRefundInYtelsesperioder } from '../util/totalRefundInYtelsesperioder';
 import { sortYtelsesperioder } from '../util/sortYtelsesperioder';
 import { thousandSeparation } from '../util/thousandSeparation';
 import Pagination from './Pagination';
-import './YtelsesperiodeTable.less';
+import './YtelsesperiodeTable.sass';
 import { dateToString } from '../util/dateToString';
 import Lenke from 'nav-frontend-lenker';
 
