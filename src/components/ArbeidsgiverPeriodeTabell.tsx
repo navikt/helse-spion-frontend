@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
-import './ArbeidsgiverPeriodeTabell.css';
+import './ArbeidsgiverPeriodeTabell.sass';
 import 'nav-frontend-alertstriper-style';
 import { useTranslation } from 'react-i18next';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
@@ -17,7 +17,6 @@ import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import { Row, Container, Column } from 'nav-frontend-grid';
 
-import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import YtelseSammendragTable from './YtelseSammendragTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
@@ -53,7 +52,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
 
-  // const ytelseSammendrag = useYtelseSammendrag();
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
@@ -70,15 +68,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const handleSubmitSearch = async (): Promise<void> => {
     await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
-
-  // useEffect( () => {
-  //   const hentYtelsesdata = async () => {
-  //     await ytelseSammendrag(arbeidsgiverId, fraDato, tilDato);
-  //   }
-  //   if(arbeidsgiverId) {
-  //     hentYtelsesdata();
-  //   }
-  // },[arbeidsgiverId, fraDato, tilDato])
 
   return (
     <main className="arbeidsgiver-periode-main">

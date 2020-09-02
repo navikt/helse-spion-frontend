@@ -4,7 +4,7 @@ import { Keys } from '../locales/keys';
 import totalRefundInYtelseSammendrag from '../util/totalRefundInYtelseSammendrag';
 import { thousandSeparation } from '../util/thousandSeparation';
 import Pagination from './Pagination';
-import './YtelsesperiodeTable.less';
+import './YtelsesperiodeTable.sass';
 import Lenke from 'nav-frontend-lenker';
 import { useTranslation } from 'react-i18next';
 import sortYtelseSammendrag from '../util/sortYtelseSammendrag';
