@@ -20,7 +20,7 @@ class Environment {
     get baseUrl() {
         switch (this.environmentMode) {
             case EnvironmentType.PROD : return 'https://arbeidsgiver.nav.no/min-side-refusjon';
-            case EnvironmentType.PREPROD : return 'https://arbeidsgiver-min-side-refusjon.dev.nav.no';
+            case EnvironmentType.PREPROD : return 'https://arbeidsgiver-min-side-refusjon.dev.nav.no/min-side-refusjon';
             default : return 'http://localhost:3000';
         }
     }
