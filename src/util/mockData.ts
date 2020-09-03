@@ -1,4 +1,4 @@
-import { Status, Ytelsesperiode } from './helseSpionTypes';
+import { Status, Ytelsesperiode, YtelseSammendrag } from './helseSpionTypes';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 export const mockYtelsesperiode1: Ytelsesperiode = 	{
@@ -99,4 +99,38 @@ export const mockOrganisasjoner: Organisasjon[] = [
 	mockOrganisasjon2,
 	mockOrganisasjon3,
 	mockOrganisasjon4,
+];
+
+
+export const mockYtelseSammendrag1: YtelseSammendrag = 	{
+  navn: 'Testesen jr',
+  identitetsnummer: '72345678901',
+  antall_refusjoner: 1,
+  merknad: 'merknad a',
+  max_refusjon_dager: 4,
+  refusjonsbeløp: 123.1
+};
+
+export const mockYtelseSammendrag2: YtelseSammendrag = {
+	navn: 'Testesen sr',
+  identitetsnummer: '12367678901',
+  antall_refusjoner: 3,
+  merknad: 'merknad y',
+  max_refusjon_dager: 2,
+  refusjonsbeløp: 453.1
+};
+
+export const mockYtelseSammendrag3: YtelseSammendrag = {
+	navn: 'Per Testesen day',
+  identitetsnummer: '12333458901',
+  antall_refusjoner: 5,
+  merknad: 'merknad m',
+  max_refusjon_dager: 1,
+  refusjonsbeløp: 78.3
+};
+
+export const mockYtelseSammendrag: YtelseSammendrag[] = [
+	mockYtelseSammendrag1,
+	mockYtelseSammendrag2,
+	mockYtelseSammendrag3,
 ];
