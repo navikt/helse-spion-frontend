@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import useFetch from './rest/use-fetch';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
-import env from '../Environment'
+import env from '../Environment';
 
 
 export default (): any => {

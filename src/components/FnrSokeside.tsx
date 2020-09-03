@@ -9,6 +9,7 @@ import { FnrInput } from 'nav-frontend-skjema';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import { v4 as uuid } from 'uuid';
+import './FnrSokeside.scss';
 
 
 interface FnrSokesideInterface {
