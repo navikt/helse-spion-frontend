@@ -40,10 +40,30 @@ describe('sortYtelseSammendrag', () => {
 	it('can sort by merknad descending', () => {
 		const input = sortYtelseSammendrag(mockYtelseSammendrag, 3, true);
 		expect(input).toEqual([mockYtelseSammendrag2, mockYtelseSammendrag3, mockYtelseSammendrag1]);
+  });
+
+  it('can sort by max_refusjon_dager ascending', () => {
+		const input = sortYtelseSammendrag(mockYtelseSammendrag, 4, false);
+		expect(input).toEqual([mockYtelseSammendrag3, mockYtelseSammendrag2, mockYtelseSammendrag1]);
+	});
+
+	it('can sort by max_refusjon_dager descending', () => {
+		const input = sortYtelseSammendrag(mockYtelseSammendrag, 4, true);
+		expect(input).toEqual([mockYtelseSammendrag1, mockYtelseSammendrag2, mockYtelseSammendrag3]);
+  });
+
+  it('can sort by refusjonsbeløp ascending', () => {
+		const input = sortYtelseSammendrag(mockYtelseSammendrag, 5, false);
+		expect(input).toEqual([mockYtelseSammendrag3, mockYtelseSammendrag1, mockYtelseSammendrag2]);
+	});
+
+	it('can sort by refusjonsbeløp descending', () => {
+		const input = sortYtelseSammendrag(mockYtelseSammendrag, 5, true);
+		expect(input).toEqual([mockYtelseSammendrag2, mockYtelseSammendrag1, mockYtelseSammendrag3]);
 	});
 
 	it('ignores invalid sort parameter', () => {
-		const input = sortYtelseSammendrag(mockYtelseSammendrag, 5, false);
+		const input = sortYtelseSammendrag(mockYtelseSammendrag, 99, false);
 		expect(input).toEqual(mockYtelseSammendrag);
 	});
 });

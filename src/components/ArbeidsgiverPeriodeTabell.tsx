@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
-import 'nav-frontend-tabell-style';
-import 'nav-frontend-skjema-style';
-import './ArbeidsgiverPeriodeTabell.sass';
-import 'nav-frontend-alertstriper-style';
 import { useTranslation } from 'react-i18next';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
 import { useHistory } from 'react-router-dom';
-import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
-import { useAppStore } from '../data/store/AppStore';
 import { History } from 'history';
-import { Keys } from '../locales/keys';
-import { ErrorType } from '../util/helseSpionTypes';
+
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Row, Container, Column } from 'nav-frontend-grid';
+import Bedriftsmeny from '@navikt/bedriftsmeny';
+import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
+import 'nav-frontend-tabell-style';
+import 'nav-frontend-skjema-style';
+import 'nav-frontend-alertstriper-style';
+import 'react-datepicker/dist/react-datepicker.css';
+import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+
+import { useAppStore } from '../data/store/AppStore';
+import { Keys } from '../locales/keys';
+import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/Ytelsesperioder';
-import { Row, Container, Column } from 'nav-frontend-grid';
 
 import YtelseSammendragTable from './YtelseSammendragTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import FnrSokeside from './FnrSokeside';
-
-
-import 'nav-frontend-tabell-style';
-import 'nav-frontend-skjema-style';
-import 'nav-frontend-alertstriper-style';
 import './ArbeidsgiverPeriodeTabell.sass';
-import 'react-datepicker/dist/react-datepicker.css';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {
