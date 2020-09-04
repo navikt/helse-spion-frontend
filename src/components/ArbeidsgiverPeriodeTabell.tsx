@@ -98,9 +98,9 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
             {
               ytelsesperioderErrorType &&
               (
-                ytelsesperioderErrorType in ErrorType
-                ? <AlertStripe type="feil">{t(ytelsesperioderErrorType)}</AlertStripe>
-                : <AlertStripe type="feil">{ytelsesperioderErrorMessage}</AlertStripe>
+                ytelsesperioderErrorType !in ErrorType || ytelsesperioderErrorMessage
+                ? <AlertStripe type="feil">{ytelsesperioderErrorMessage}</AlertStripe>
+                : <AlertStripe type="feil">{t(ytelsesperioderErrorType)}</AlertStripe>
                 )
               }
             {

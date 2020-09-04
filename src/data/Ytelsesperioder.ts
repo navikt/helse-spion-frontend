@@ -59,7 +59,6 @@ export default (): any => {
           setYtelsesperioderErrorMessage(response.statusText)
           return;
         }
-        debugger;
         return response.json().then(data => { // Todo: change errors to array and map all violations
           setYtelsesperioderErrorType(data.violations[0].validationType.toUpperCase());
           setYtelsesperioderErrorMessage(data.violations[0].message);
