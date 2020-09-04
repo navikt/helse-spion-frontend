@@ -39,6 +39,15 @@ export interface Ytelsesperiode {
   merknad?: string
 }
 
+export interface YtelseSammendrag {
+  navn: string,
+  identitetsnummer: string,
+  antall_refusjoner: number,
+  merknad: string,
+  max_refusjon_dager: number,
+  refusjonsbeløp: number
+}
+
 export interface Arbeidsforhold {
   arbeidsforholdId: string,
   arbeidsgiver: YtelsesperioderArbeidsgiver
@@ -62,26 +71,9 @@ export interface Periode {
 }
 
 export enum Status {
-  UNDER_BEHANDLING = 'UNDER BEHANDLING',
+  UNDER_BEHANDLING = 'UNDER_BEHANDLING',
   AVSLÅTT = 'AVSLÅTT',
   INNVILGET = 'INNVILGET',
   HENLAGT = 'HENLAGT',
 }
-
-export enum HelseSpionTypes {
-  FETCH_ARBEIDSGIVERE_STARTED = 'FETCH_ARBEIDSGIVERE_STARTED',
-  FETCH_ARBEIDSGIVERE_SUCCESS = 'FETCH_ARBEIDSGIVERE_SUCCESS',
-  FETCH_ARBEIDSGIVERE_ERROR = 'FETCH_ARBEIDSGIVERE_ERROR',
-  FETCH_PERSON_STARTED = 'FETCH_PERSON_STARTED',
-  FETCH_PERSON_SUCCESS = 'FETCH_PERSON_SUCCESS',
-  FETCH_PERSON_ERROR = 'FETCH_PERSON_ERROR',
-}
-
-export type HelseSpionActionTypes =
-  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_STARTED }
-  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_SUCCESS, arbeidsgivere: Organisasjon[] }
-  | { type: HelseSpionTypes.FETCH_ARBEIDSGIVERE_ERROR, errorType: string, errorMessage?: string }
-  | { type: HelseSpionTypes.FETCH_PERSON_STARTED }
-  | { type: HelseSpionTypes.FETCH_PERSON_SUCCESS, ytelsesperioder: Ytelsesperiode[] }
-  | { type: HelseSpionTypes.FETCH_PERSON_ERROR, errorType: string, errorMessage?: string };
 

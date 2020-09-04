@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
 import { useHistory } from 'react-router-dom';
-import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
-import { useAppStore } from '../data/store/AppStore';
 import { History } from 'history';
-import { Keys } from '../locales/keys';
-import Lenke from 'nav-frontend-lenker';
-import { Innholdstittel } from 'nav-frontend-typografi';
-import { identityNumberSeparation } from '../util/identityNumberSeparation';
-import { Input } from 'nav-frontend-skjema';
-import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import { ErrorType } from '../util/helseSpionTypes';
+
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import YtelsesperiodeTable from './YtelsesperiodeTable';
-import useYtelsesperioder from '../data/Ytelsesperioder';
-
+import { Row, Container, Column } from 'nav-frontend-grid';
+import Bedriftsmeny from '@navikt/bedriftsmeny';
+import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
-import './ArbeidsgiverPeriodeTabell.sass';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+
+import { useAppStore } from '../data/store/AppStore';
+import { Keys } from '../locales/keys';
+import { ErrorType } from '../util/helseSpionTypes';
+import YtelsesperiodeTable from './YtelsesperiodeTable';
+import useYtelsesperioder from '../data/Ytelsesperioder';
+
+import YtelseSammendragTable from './YtelseSammendragTable';
+import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
+import ArbeidsgiverHeader from './ArbeidsgiverHeader';
+import FnrSokeside from './FnrSokeside';
+import './ArbeidsgiverPeriodeTabell.sass';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {
@@ -31,14 +33,21 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
+    ytelsesammendrag,
+    setYtelsesammendrag,
+    setYtelsesperioder,
+    fraDato,
+    tilDato,
   } = useAppStore();
   const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
+  const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const { t } = useTranslation();
   const history: History = useHistory();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
-  
+  const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
+
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
@@ -47,97 +56,69 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
       handleSubmitSearch();
     }
   };
-  
-  
-  const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(identityNumberInput, arbeidsgiverId);
+
+  const handleNameClick = async (identitetsnummer: string): Promise<void> => {
+    await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
   };
-  
+
+  const handleSubmitSearch = async (): Promise<void> => {
+    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
+  };
+
   return (
-    <div className="arbeidsgiver-periode-tabell">
+    <main className="arbeidsgiver-periode-main">
       <Bedriftsmeny
         history={history}
-        onOrganisasjonChange={(org: Organisasjon) => setArbeidsgiverId(org.OrganizationNumber)}
+        onOrganisasjonChange={(org: Organisasjon) => {setArbeidsgiverId(org.OrganizationNumber); setArbeidsgiverNavn(org.Name)}}
         sidetittel={t(Keys.MY_PAGE)}
         organisasjoner={arbeidsgivere}
-      />
-      <div className="Side">
-        <div className="container">
-          <Lenke href="">&lt;&lt; {t(Keys.ALL_REFUNDS)}</Lenke>
-          <div className="arbeidsgiver-periode-tabell--header">
-            <div className="arbeidsgiver-periode-tabell--søke-gruppe">
-              {
-                arbeidstaker ?
-                  <>
-                    <div className="container-sm">
-                      <div className="arbeidsgiver-periode-tabell--person-nummer">
-                        {t(Keys.IDENTITY_NUMBER)}: {identityNumberSeparation(arbeidstaker.identitetsnummer)}
-                      </div>
-                      <Innholdstittel id="arbeidsgiver-periode-tabell--person-navn">
-                        {arbeidstaker.fornavn} {arbeidstaker.etternavn}
-                      </Innholdstittel>
-                    </div>
-                    <div className="container-sm">
-                      <div>Max refunderbare dager</div>
-                      <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">2</Innholdstittel>
-                    </div>
-                  </>
-                  :
-                  <>
-                    <div/>
-                    <div/>
-                  </>
-              }
-              <div className="container-sm arbeidsgiver-periode-tabell--person-gruppe">
-                <div>
-                  <Input
-                    className="arbeidsgiver-periode-tabell--søke-input container-sm"
-                    label={t(Keys.FIND_OTHER_EMPLOYEE)}
-                    placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-                    onChange={e => setIdentityNumberInput((e.target.value))}
-                    value={identityNumberInput}
-                    onKeyDown={onEnterClick}
-                    maxLength={11}
-                  />
-                </div>
-                <div>
-                  <span className="skjemaelement__label">&nbsp;</span>
-                  <Søkeknapp
-                    disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
-                    className="arbeidsgiver-periode-tabell--søke-knapp"
-                    onClick={handleSubmitSearch}
-                  >
-                    <span>{t(Keys.SEARCH)}</span>
-                  </Søkeknapp>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              {
-                ytelsesperioderErrorType &&
-                (
-                  ytelsesperioderErrorType in ErrorType
-                    ? <AlertStripe type="feil">{t(ytelsesperioderErrorType)}</AlertStripe>
-                    : <AlertStripe type="feil">{ytelsesperioderErrorMessage}</AlertStripe>
+        />
+      <Container>
+      { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
+      (
+        <ArbeidsgiverHeader arbeidsgiverNavn={arbeidsgiverNavn} arbeidsgiverId={arbeidsgiverId}/>
+      )}
+      {
+        arbeidstaker ?
+          <ArbeidstakerDetaljHeader arbeidstaker={arbeidstaker} arbeidsgiverId={arbeidsgiverId}/>
+          :
+          <Row className="arbeidsgiver-periode--lufting">
+            <Column sm="12"/>
+            <Column sm="12"/>
+          </Row>
+      }
+
+
+        <Row>
+          <Column sm="12">
+            {
+              ytelsesperioder.length === 0 &&
+                <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
+            }
+            {
+              ytelsesperioderErrorType &&
+              (
+                ytelsesperioderErrorType in ErrorType
+                ? <AlertStripe type="feil">{t(ytelsesperioderErrorType)}</AlertStripe>
+                : <AlertStripe type="feil">{ytelsesperioderErrorMessage}</AlertStripe>
                 )
               }
-              {
-                ytelsesperioderLoading &&
-                <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
-              }
-              {
-                ytelsesperioder.length > 0 && !ytelsesperioderLoading &&
-                <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            {
+              ytelsesperioderLoading &&
+              <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
+            }
+            {
+              ytelsesperioder.length > 0 && !ytelsesperioderLoading &&
+              <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
+            }
+            {
+              ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
+              <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick} startdato={fraDato} sluttdato={tilDato}/>
+            }
+          </Column>
+        </Row>
+      </Container>
+    </main>
   );
 };
 

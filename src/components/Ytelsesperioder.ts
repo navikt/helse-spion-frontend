@@ -1,9 +1,8 @@
-import { useAppStore } from './store/AppStore';
+import { useAppStore } from '../data/store/AppStore';
 import { useRef } from 'react';
-import useFetch from './rest/use-fetch';
+import useFetch from '../data/rest/use-fetch';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
-import env from '../Environment';
 
 
 export default (): any => {
@@ -15,37 +14,24 @@ export default (): any => {
   const ytelsesperioderRef = useRef(ytelsesperioder);
   ytelsesperioderRef.current = ytelsesperioder;
 
-  return (identityNumber?: string, arbeidsgiverId?: string, fom?: string, tom?: string): Promise<any> => {
+  return (identityNumber?: string, arbeidsgiverId?: string): Promise<any> => {
     setYtelsesperioderLoading(true);
 
-    const messageBody = {
-      identitetsnummer: identityNumber,
-      arbeidsgiverId: arbeidsgiverId,
-      periode: {}
-
-    };
-
-    if (fom && tom) {
-      messageBody.periode =  {
-        'fom': fom,
-        'tom': tom
-      }
-    } else {
-      delete(messageBody.periode);
-    }
-
-    return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
+    return fetch(process.env.REACT_APP_BASE_URL + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: JSON.stringify(messageBody),
+      body: JSON.stringify({
+        'identitetsnummer': identityNumber,
+        'arbeidsgiverId': arbeidsgiverId,
+      }),
     }).then(response => {
       setYtelsesperioderLoading(false);
       if (response.status === 401) {
-        window.location.href = env.loginServiceUrl ?? '';
+        window.location.href = process.env.REACT_APP_LOGIN_SERVICE_URL ?? '';
       } else if (response.status === 200) {
         return response.json().then(data => {
           setYtelsesperioder(convertResponseDataToYtelsesperioder(data));
@@ -54,12 +40,6 @@ export default (): any => {
         }
         );
       } else { // todo: error 400/500s etc
-        if(response.status === 400) {
-          setYtelsesperioderErrorType(response.status.toString());
-          setYtelsesperioderErrorMessage(response.statusText)
-          return;
-        }
-        debugger;
         return response.json().then(data => { // Todo: change errors to array and map all violations
           setYtelsesperioderErrorType(data.violations[0].validationType.toUpperCase());
           setYtelsesperioderErrorMessage(data.violations[0].message);
@@ -69,11 +49,19 @@ export default (): any => {
     });
   }
   }
+
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] => data.map(ytelsesperiode => ({
   ...ytelsesperiode,
   periode: {
     fom: stringToDate(ytelsesperiode.periode.fom),
     tom: stringToDate(ytelsesperiode.periode.tom),
-  }
+  },
+  ferieperioder: ytelsesperiode.ferieperioder.map(ferieperioder => ({
+    ...ferieperioder,
+    ferieperioder: {
+      fom: stringToDate(ferieperioder.fom),
+      tom: stringToDate(ferieperioder.tom),
+    }
+  }))
 }));
