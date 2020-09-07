@@ -1,4 +1,6 @@
-# Refusjonsportalen - frontend
+Refusjonsportalen - frontend
+[![Actions Status](https://github.com/navikt/helse-spion-frontend/workflows/Bygg%20og%20deploy%20master/badge.svg)](https://github.com/navikt/helse-spion-frontend/actions)
+================
 Frontendapplikasjon for Refusjonsportalen. Gir arbeidsgiverne en løpende oversikt over refusjoner som er tilkjent dem, for deres egne arbeidstakere.
 
 ## Komme i gang
