@@ -13,7 +13,9 @@
     "build": "npm run build:css && npm run build:js",
     "install": "npm run-script build",
     "test": "react-scripts test --color --watchAll=false --coverage --env=jest-environment-jsdom-sixteen",
-    "lint": "eslint src/**/*.ts*"
+    "lint": "eslint src/**/*.ts*",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
