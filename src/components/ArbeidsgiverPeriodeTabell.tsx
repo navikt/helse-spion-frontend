@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { History } from 'history';
 
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -19,6 +19,7 @@ import { Keys } from '../locales/keys';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/Ytelsesperioder';
+import useYtelseSammendrag from '../data/useYtelseSammendrag';
 
 import YtelseSammendragTable from './YtelseSammendragTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
@@ -47,7 +48,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
-
+  const getYtelseSammendrag = useYtelseSammendrag();
+  const [ featureFlag, setFeatureFlag ] = useState<Boolean>(false);
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
@@ -64,6 +66,20 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const handleSubmitSearch = async (): Promise<void> => {
     await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
+
+  useEffect(() => {
+    if(arbeidsgiverId.length > 1 && featureFlag) {
+      getYtelseSammendrag(arbeidsgiverId, fraDato, tilDato);
+    }
+
+  },[arbeidsgiverId, fraDato, tilDato]);
+
+  const location: any = useLocation();
+  if(location && location.search.includes('feature=true')) {
+    if(!featureFlag) {
+      setFeatureFlag(true);
+    }
+  }
 
   return (
     <main className="arbeidsgiver-periode-main">
@@ -92,7 +108,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
         <Row>
           <Column sm="12">
             {
-              ytelsesperioder.length === 0 &&
+              ytelsesperioder.length === 0 && !featureFlag &&
                 <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
             }
             {
