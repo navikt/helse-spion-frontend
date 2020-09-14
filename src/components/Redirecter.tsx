@@ -1,10 +1,11 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router-dom'
 
-class Redirecter extends React.Component {
-  render() {
-    return <Redirect to='/personoppslag' />
-  }
+const Redirecter = () => {
+  const location: any = useLocation();
+  const params = location && location.search ? location.search : '';
+
+  return <Redirect to={'/personoppslag' + params} />
 }
 
-export default (Redirecter);
+export default Redirecter;
