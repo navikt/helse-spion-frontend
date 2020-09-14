@@ -1,6 +1,7 @@
 import { useAppStore } from './store/AppStore';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 import dayjs from 'dayjs';
+import env from '../Environment';
 
 
 const useYtelseSammendrag = (): any => {
@@ -19,7 +20,7 @@ const useYtelseSammendrag = (): any => {
     if (tom && tom.trim().length > 1) {
       periodefilter = periodefilter += `&tom=${tom}`;
     }
-    return fetch(process.env.REACT_APP_BASE_URL + `/api/v1/ytelsesperioder/virksomhet/${arbeidsgiverId}${periodefilter}`, {
+    return fetch(env.baseUrl + `/api/v1/ytelsesperioder/virksomhet/${arbeidsgiverId}${periodefilter}`, {
       credentials: 'include',
       // headers: {
       //   'Accept': 'application/json',
