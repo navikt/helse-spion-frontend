@@ -7,6 +7,7 @@ import StoreProvider from './data/store/StoreProvider';
 import { ArbeidsgiverProvider } from './components/ArbeidsgiverProvider';
 import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
 import './App.sass';
+import { Side } from '@navikt/helse-arbeidsgiver-felles-frontend';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <I18nextProvider i18n={i18n}>
             <Switch>
               <Route path="/personoppslag" render={() => <ArbeidsgiverPeriodeTabell />} />
+              <Route path="/test" render={() => <Side>Teste med komponent fra helse-arbeidsgiver-felles-frontend</Side>} />
               <Route path="/" render={() => <Redirecter />} />
             </Switch>
           </I18nextProvider>
