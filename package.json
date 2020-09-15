@@ -2,7 +2,7 @@
   "name": "frontend-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/min-side-refusjon",
+  "homepage": "/min-side-refusjon/",
   "proxy": "http://localhost:8080",
   "scripts": {
     "start:js": "react-scripts start --development",
