@@ -68,7 +68,7 @@ server {
     }
 
     ## All static files will be served directly and cached
-    location ^~ /min-side-refusjon {
+    location ^~ / {
         alias "${APP_DIR}";
     }
 
