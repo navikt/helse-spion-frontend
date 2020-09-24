@@ -29,6 +29,7 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const {
     ytelsesperioderLoading,
+    ytelsesperioder,
     setYtelsesperioder
   } = useAppStore();
 
@@ -65,7 +66,9 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
           </div>
           <div className="arbeidsgiver-periode-header arbeidsgiver-periode-teller">
             <div>{t(Keys.REFUNDABLE_DAYS_MAX)}</div>
-            <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">2</Innholdstittel>
+            <Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">
+              {ytelsesperioder ? ytelsesperioder[ytelsesperioder.length-1].gjenståendeSykedager : ''}
+            </Innholdstittel>
           </div>
         </Column>
         <Column sm="5" className="ytelsesperiode--column-right-allign arbeidsgiver-periode-header">
