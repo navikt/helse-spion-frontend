@@ -96,7 +96,7 @@
     "react-dom": "^16.13.1",
     "react-flatpickr": "^3.10.1",
     "react-i18next": "^11.7.0",
-    "react-paginate": "^6.3.2",
+    "react-paginate": "^6.4.0",
     "react-router-dom": "^5.2.0",
     "sanitize.css": "^11.0.1",
     "snyk": "^1.388.0",
