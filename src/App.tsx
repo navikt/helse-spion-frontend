@@ -4,9 +4,9 @@ import i18n from './locales/i18n';
 import { Route, Switch } from 'react-router-dom';
 import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
-import { ArbeidsgiverProvider } from './components/ArbeidsgiverProvider';
 import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
 import './App.sass';
+import {ArbeidsgiverProvider} from '@navikt/helse-arbeidsgiver-felles-frontend';
 
 const App = () => {
   return (
