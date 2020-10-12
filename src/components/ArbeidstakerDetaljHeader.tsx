@@ -11,14 +11,14 @@ import useYtelsesperioder from '../data/Ytelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 
 
-interface ArbeidstakerIterface {
+export interface ArbeidstakerInterface {
   identitetsnummer: string,
   fornavn: string,
   etternavn: string
 }
 
 interface ArbeidstakerDetaljHeaderInterface {
-  arbeidstaker: ArbeidstakerIterface,
+  arbeidstaker: ArbeidstakerInterface,
   arbeidsgiverId: string
 }
 
