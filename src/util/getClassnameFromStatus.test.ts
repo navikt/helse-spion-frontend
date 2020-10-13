@@ -6,14 +6,18 @@ describe('getClassnameFromStatus', () => {
 		const input = getClassnameFromStatus(Status.UNDER_BEHANDLING);
 		expect(input).toEqual('under-behandling');
 	});
-	
+
 	it('returns classname from declined status', () => {
 		const input = getClassnameFromStatus(Status.AVSLÅTT);
 		expect(input).toEqual('avslått');
 	});
-	
+
 	it('returns classname from approved status', () => {
 		const input = getClassnameFromStatus(Status.INNVILGET);
 		expect(input).toEqual('innvilget');
+  });
+  it('returns an empty string if no status is given', () => {
+		const input = getClassnameFromStatus();
+		expect(input).toEqual('');
 	});
 });
