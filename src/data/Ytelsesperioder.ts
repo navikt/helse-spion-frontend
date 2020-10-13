@@ -1,6 +1,4 @@
 import { useAppStore } from './store/AppStore';
-import { useRef } from 'react';
-import useFetch from './rest/use-fetch';
 import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
 import env from '../Environment';
@@ -11,9 +9,6 @@ export default (): any => {
   const { setYtelsesperioderLoading } = useAppStore();
   const { setYtelsesperioderErrorType } = useAppStore();
   const { setYtelsesperioderErrorMessage } = useAppStore();
-  const ytelsesperioder = useFetch<Ytelsesperiode[]>();
-  const ytelsesperioderRef = useRef(ytelsesperioder);
-  ytelsesperioderRef.current = ytelsesperioder;
 
   return (identityNumber?: string, arbeidsgiverId?: string, fom?: string, tom?: string): Promise<any> => {
     setYtelsesperioderLoading(true);

@@ -1,5 +1,5 @@
 import { sortYtelsesperioder } from './sortYtelsesperioder';
-import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from './mockData';
+import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperiode4, mockYtelsesperioder } from './mockData';
 
 describe('sortYtelsesperioder', () => {
 	it('can sort by date ascending', () => {
@@ -13,13 +13,13 @@ describe('sortYtelsesperioder', () => {
 	});
 
 	it('can sort by status ascending', () => {
-		const input = sortYtelsesperioder(mockYtelsesperioder, 1, false);
-		expect(input).toEqual([mockYtelsesperiode2, mockYtelsesperiode1, mockYtelsesperiode3]);
+		const input = sortYtelsesperioder([...mockYtelsesperioder, mockYtelsesperiode4], 1, false);
+		expect(input).toEqual([mockYtelsesperiode2, mockYtelsesperiode1, mockYtelsesperiode3, mockYtelsesperiode4]);
 	});
 
 	it('can sort by status descending', () => {
-		const input = sortYtelsesperioder(mockYtelsesperioder, 1, true);
-		expect(input).toEqual([mockYtelsesperiode3, mockYtelsesperiode1, mockYtelsesperiode2]);
+		const input = sortYtelsesperioder([...mockYtelsesperioder, mockYtelsesperiode4], 1, true);
+		expect(input).toEqual([mockYtelsesperiode4, mockYtelsesperiode3, mockYtelsesperiode1, mockYtelsesperiode2]);
 	});
 
 	it('can sort by ytelse ascending', () => {
@@ -42,8 +42,28 @@ describe('sortYtelsesperioder', () => {
 		expect(input).toEqual([mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperiode1]);
 	});
 
-	it('ignores invalid sort parameter', () => {
+	it('can sort by merknad ascending', () => {
+		const input = sortYtelsesperioder(mockYtelsesperioder, 4, false);
+		expect(input).toEqual(mockYtelsesperioder);
+  });
+
+  it('can sort by merknad descending', () => {
+		const input = sortYtelsesperioder(mockYtelsesperioder, 4, true);
+		expect(input).toEqual([mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperiode1]);
+  });
+
+  it('can sort by refusjonsbeløp ascending', () => {
 		const input = sortYtelsesperioder(mockYtelsesperioder, 5, false);
 		expect(input).toEqual(mockYtelsesperioder);
+  });
+
+  it('can sort by refusjonsbeløp descending', () => {
+		const input = sortYtelsesperioder(mockYtelsesperioder, 5, true);
+		expect(input).toEqual([mockYtelsesperiode3, mockYtelsesperiode1, mockYtelsesperiode2]);
+	});
+
+  it('ignores invalid sort parameter', () => {
+		const input = sortYtelsesperioder(mockYtelsesperioder, 75, false);
+		expect(input).toEqual([mockYtelsesperiode3, mockYtelsesperiode1, mockYtelsesperiode2]);
 	});
 });
