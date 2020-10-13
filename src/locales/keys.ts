@@ -164,9 +164,9 @@ const translatedKeys: IncludedKeys = {
   },
 
   [Keys.REFUNDABLE_DAYS_MAX]: {
-    nb: 'Max refunderbare dager',
-    nn: 'Max refunderbare dagar',
-    en: 'Max refundable days',
+    nb: 'Gjenstående sykedager',
+    nn: 'Gjenstående sykedager',
+    en: 'Remaining sick days',
   },
 
   [Keys.BACK]: {

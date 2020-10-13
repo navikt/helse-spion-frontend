@@ -26,7 +26,7 @@ const expected = {
   "PERIOD": "Periode",
   "PREVIOUS": "forrige",
   "REFUND": "Refusjon",
-  "REFUNDABLE_DAYS_MAX": "Max refunderbare dager",
+  "REFUNDABLE_DAYS_MAX": "Gjenstående sykedager",
   "REFUNDS": "Refusjoner",
   "REFUND_COUNT": "Antall ref.",
   "REFUND_DAYS_MAX": "Max ref. dager",

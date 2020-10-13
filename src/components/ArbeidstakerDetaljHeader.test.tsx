@@ -5,7 +5,6 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 
 import ArbeidstakerDetaljHeader, {ArbeidstakerInterface} from './ArbeidstakerDetaljHeader';
 import StoreProvider from '../data/store/StoreProvider';
-import { ArbeidsgiverProvider } from './ArbeidsgiverProvider';
 
 expect.extend(toHaveNoViolations);
 
@@ -15,7 +14,8 @@ describe('ArbeidstakerDetaljHeader', () => {
       identitetsnummer: '12345678901',
       fornavn: 'Test',
       etternavn: 'Testesen'
-    }
+    };
+
     render(
       <StoreProvider>
 
@@ -27,4 +27,21 @@ describe('ArbeidstakerDetaljHeader', () => {
     expect(screen.getByText(/123456-78901/)).toBeInTheDocument();
 
   })
+
+  it('should have no a11y violations', async () => {
+    const arbeidstaker: ArbeidstakerInterface = {
+      identitetsnummer: '12345678901',
+      fornavn: 'Test',
+      etternavn: 'Testesen'
+    };
+
+    const { container } = render(
+      <StoreProvider>
+        <ArbeidstakerDetaljHeader arbeidsgiverId="12345678901" arbeidstaker={arbeidstaker} />
+      </StoreProvider>
+      );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
 })
