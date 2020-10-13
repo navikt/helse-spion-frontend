@@ -9,6 +9,11 @@ describe('formatDatoer', () => {
 		const result = formatDatoer(input);
 		expect(result).toEqual('02.09.2020 til 03.09.2020');
   });
+
+  it('returns an empty string if no input is given', () => {
+		const result = formatDatoer();
+		expect(result).toEqual('');
+  });
 });
 
 
@@ -18,5 +23,10 @@ describe('formatDato', () => {
 
 		const result = formatDato(input);
 		expect(result).toEqual('02.09.2020');
+  });
+
+  it('returns an empty string if no input is given', () => {
+		const result = formatDato();
+		expect(result).toEqual('');
   });
 });

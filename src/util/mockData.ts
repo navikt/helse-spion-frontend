@@ -52,6 +52,18 @@ export const mockYtelsesperiode3: Ytelsesperiode = {
 	grad: 50
 };
 
+export const mockYtelsesperiode4: Ytelsesperiode = {
+	...mockYtelsesperiode1,
+	periode: {
+		fom: new Date(2016,1,1),
+		tom: new Date(2020,1,1),
+	},
+	refusjonsbeløp: 30,
+	status: Status.HENLAGT,
+	ytelse: 'FP',
+	grad: 50
+};
+
 export const mockYtelsesperioder: Ytelsesperiode[] = [
 	mockYtelsesperiode1,
 	mockYtelsesperiode2,

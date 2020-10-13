@@ -1,13 +1,13 @@
-import { mockYtelsesperiode1, mockYtelsesperiode2, mockYtelsesperiode3, mockYtelsesperioder } from './mockData';
-import { totalRefundInYtelsesperioder } from './totalRefundInYtelsesperioder';
+import { mockYtelseSammendrag1, mockYtelseSammendrag2, mockYtelseSammendrag3, mockYtelseSammendrag } from './mockData';
+import totalRefundInYtelseSammendrag from './totalRefundInYtelseSammendrag';
 
-describe('totalRefundInYtelsesperioder', () => {
+describe('totalRefundInYtelseSammendrag', () => {
 	it('calculates total refund in ytelsesperioder', () => {
-		const input = totalRefundInYtelsesperioder(mockYtelsesperioder);
+		const input = totalRefundInYtelseSammendrag(mockYtelseSammendrag);
 		expect(input).toEqual(
-			mockYtelsesperiode1.refusjonsbeløp!
-			+ mockYtelsesperiode2.refusjonsbeløp!
-			+ mockYtelsesperiode3.refusjonsbeløp!
+			mockYtelseSammendrag1.refusjonsbeløp!
+			+ mockYtelseSammendrag2.refusjonsbeløp!
+			+ mockYtelseSammendrag3.refusjonsbeløp!
 		);
 	});
 });
