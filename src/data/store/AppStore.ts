@@ -1,6 +1,5 @@
 import constate from 'constate';
 import { useState } from 'react';
-import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 import { Ytelsesperiode, YtelseSammendrag } from '../../util/helseSpionTypes';
 
 
