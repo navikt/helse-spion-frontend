@@ -68,7 +68,7 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
             <div>{t(Keys.REFUNDABLE_DAYS_MAX)}</div>
             {ytelsesperioder && ytelsesperioder.length > 0 ?
               (<Innholdstittel id="arbeidsgiver-periode-tabell--max-dager">
-                ytelsesperioder[ytelsesperioder.length-1].gjenståendeSykedager
+                {ytelsesperioder[ytelsesperioder.length-1].gjenståendeSykedager}
               </Innholdstittel> ) : ''}
           </div>
         </Column>

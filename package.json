@@ -37,7 +37,7 @@
   "dependencies": {
     "@navikt/bedriftsmeny": "^2.2.0",
     "@navikt/fnrvalidator": "^1.1.2",
-    "@navikt/helse-arbeidsgiver-felles-frontend": "^0.1.23",
+    "@navikt/helse-arbeidsgiver-felles-frontend": "^0.1.29",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "^12.1.7",
@@ -50,8 +50,6 @@
     "@types/uuid": "^8.0.0",
     "autoprefixer": "^9.8.6",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^4.5.0",
-    "bootstrap-4-grid": "^3.4.0",
     "classnames": "^2.2.6",
     "constate": "^2.0.0",
     "customize-cra": "^0.9.1",

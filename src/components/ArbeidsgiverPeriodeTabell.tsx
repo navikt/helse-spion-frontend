@@ -13,6 +13,7 @@ import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend'
 
 import { useAppStore } from '../data/store/AppStore';
 import { Keys } from '../locales/keys';
@@ -29,7 +30,6 @@ import './ArbeidsgiverPeriodeTabell.sass';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {
-    arbeidsgivere,
     ytelsesperioder,
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
@@ -40,6 +40,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     fraDato,
     tilDato,
   } = useAppStore();
+  const { arbeidsgivere } = useArbeidsgiver();
   const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
   const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
