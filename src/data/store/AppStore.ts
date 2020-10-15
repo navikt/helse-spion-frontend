@@ -5,7 +5,6 @@ import { Ytelsesperiode, YtelseSammendrag } from '../../util/helseSpionTypes';
 
 
 export const [ AppStoreProvider, useAppStore ] = constate(() => {
-	const [ arbeidsgivere, setArbeidsgivere ] = useState<Organisasjon[]>([]);
 	const [ arbeidsgivereLoading, setArbeidsgivereLoading ] = useState<boolean>(false);
   const [ ytelsesperioder, setYtelsesperioder ] = useState<Ytelsesperiode[]>([]);
 	const [ ytelsesperioderLoading, setYtelsesperioderLoading ] = useState<boolean>(false);
@@ -15,7 +14,6 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
   const [fraDato, setFraDato] = useState<string>('2010-01-01');
   const [tilDato, setTilDato] = useState<string>('2022-01-01');
 	return {
-		arbeidsgivere, setArbeidsgivere,
 		arbeidsgivereLoading, setArbeidsgivereLoading,
     ytelsesperioder, setYtelsesperioder,
     ytelsesammendrag, setYtelsesammendrag,
