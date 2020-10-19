@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router-dom';
-import { History } from 'history';
-
+import { useLocation } from 'react-router-dom';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Row, Container, Column } from 'nav-frontend-grid';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
-import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
+import { Row, Column } from 'nav-frontend-grid';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend'
-
+import {InnloggetSide, useArbeidsgiver} from '@navikt/helse-arbeidsgiver-felles-frontend'
 import { useAppStore } from '../data/store/AppStore';
-import { Keys } from '../locales/keys';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
-
 import YtelseSammendragTable from './YtelseSammendragTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
@@ -40,14 +33,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     fraDato,
     tilDato,
   } = useAppStore();
-  const { arbeidsgivere } = useArbeidsgiver();
-  const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
-  const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
-  const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
+  const { arbeidsgiverId, firma } = useArbeidsgiver();
+  const [identityNumberInput ] = useState<string>('');
   const { t } = useTranslation();
-  const history: History = useHistory();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
-  const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
   const [ featureFlag, setFeatureFlag ] = useState<Boolean>(false);
@@ -83,18 +72,15 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   }
 
   return (
-    <main className="arbeidsgiver-periode-main">
-      <Bedriftsmeny
-        history={history}
-        onOrganisasjonChange={(org: Organisasjon) => {setArbeidsgiverId(org.OrganizationNumber); setArbeidsgiverNavn(org.Name)}}
-        sidetittel={t(Keys.MY_PAGE)}
-        organisasjoner={arbeidsgivere}
-        />
-      <Container>
+    <InnloggetSide>
+
       { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
       (
-        <ArbeidsgiverHeader arbeidsgiverNavn={arbeidsgiverNavn} arbeidsgiverId={arbeidsgiverId}/>
+        <Row>
+          <ArbeidsgiverHeader arbeidsgiverNavn={firma} arbeidsgiverId={arbeidsgiverId}/>
+        </Row>
       )}
+
       {
         arbeidstaker ?
           <ArbeidstakerDetaljHeader arbeidstaker={arbeidstaker} arbeidsgiverId={arbeidsgiverId}/>
@@ -134,8 +120,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
             }
           </Column>
         </Row>
-      </Container>
-    </main>
+
+    </InnloggetSide>
   );
 };
 
