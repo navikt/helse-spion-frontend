@@ -9,7 +9,7 @@ import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { InnloggetSide } from '@navikt/helse-arbeidsgiver-felles-frontend'
+import {InnloggetSide, useArbeidsgiver} from '@navikt/helse-arbeidsgiver-felles-frontend'
 import { useAppStore } from '../data/store/AppStore';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
@@ -33,12 +33,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     fraDato,
     tilDato,
   } = useAppStore();
-  const [arbeidsgiverId, setArbeidsgiverId] = useState<string>('');
-  const [arbeidsgiverNavn, setArbeidsgiverNavn] = useState<string>('');
-  const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
+  const { arbeidsgiverId, firma } = useArbeidsgiver();
+  const [identityNumberInput ] = useState<string>('');
   const { t } = useTranslation();
   const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
-  const [valgteDatoer, setValgteDatoer] = useState< [Date, Date] | undefined >();
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
   const [ featureFlag, setFeatureFlag ] = useState<Boolean>(false);
@@ -76,12 +74,12 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   return (
     <InnloggetSide>
 
-      <Row>
-        { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
-        (
-          <ArbeidsgiverHeader arbeidsgiverNavn={arbeidsgiverNavn} arbeidsgiverId={arbeidsgiverId}/>
-        )}
-      </Row>
+      { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
+      (
+        <Row>
+          <ArbeidsgiverHeader arbeidsgiverNavn={firma} arbeidsgiverId={arbeidsgiverId}/>
+        </Row>
+      )}
 
       {
         arbeidstaker ?
