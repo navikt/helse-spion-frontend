@@ -12,7 +12,7 @@ import env from './Environment';
 const App = () => {
   return (
     <StoreProvider>
-      <EnvironmentProvider loginServiceUrl={env.loginServiceUrl} sideTittel={'Min side - Refusjonsportal'} basePath={"/min-side-refusjon"}>
+      <EnvironmentProvider loginServiceUrl={env.loginServiceUrl} sideTittel={'Min side - Refusjonsportal'} basePath={env.baseUrl}>
         <ArbeidsgiverProvider>
           <I18nextProvider i18n={i18n}>
             <Switch>
