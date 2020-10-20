@@ -1,0 +1,21 @@
+{
+  "rootDir": "./src",
+  "globals": {
+    "window": true
+  },
+  "transform": {
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "collectCoverage": true,
+  "coverageDirectory": "../coverage",
+  "coveragePathIgnorePatterns": [
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 50,
+      "functions": 50,
+      "lines": 50,
+      "statements": 50
+    }
+  }
+}
