@@ -106,11 +106,15 @@
     "react-paginate": "^6.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "react-test-renderer": "^16.14.0",
     "sanitize.css": "^11.0.1",
     "snyk": "^1.413.2",
     "sonarqube-scanner": "^2.7.0",
     "typescript": "^3.9.7",
     "uuid": "^8.3.1"
   },
-  "snyk": true
+  "snyk": true,
+  "dependencies": {
+    "@testing-library/react-hooks": "^3.4.2"
+  }
 }

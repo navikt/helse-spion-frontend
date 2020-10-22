@@ -2,13 +2,18 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, fireEvent, screen, wait, waitFor } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe';
+import { createMemoryHistory } from 'history'
+import * as useYtelsesperioder from '../data/Ytelsesperioder';
+import { Router } from 'react-router-dom';
 
-import ArbeidsgiverHeader from './ArbeidsgiverHeader';
+import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 import StoreProvider from '../data/store/StoreProvider';
 
 jest.mock('../data/useYtelseSammendrag');
 
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
+import { ArbeidsgiverProvider, Status } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 jest.mock('../data/Ytelsesperioder');
 
@@ -307,12 +312,42 @@ return mockHookFetch;
 
 
 
-describe('ArbeidsgiverHeader', () => {
-  it('should render the component and display wait and then an error', async () => {
+describe('ArbeidsgiverPeriodeTabell', () => {
+  const arbeidsgivere: Organisasjon[] = [
+    {
+    'Name' : 'STADLANDET OG SINGSÅS',
+    'Type' : 'Enterprise',
+    'ParentOrganizationNumber' : '123456778',
+    'OrganizationForm' : 'AS',
+    'OrganizationNumber' : '911366940',
+    'Status' : 'Active'
+  }, {
+    'Name' : 'HØNEFOSS OG ØLEN',
+    'Type' : 'Enterprise',
+    'ParentOrganizationNumber' : '123456778',
+    'OrganizationForm' : 'AS',
+    'OrganizationNumber' : '910020102',
+    'Status' : 'Active'
+  }, {
+    'Name' : 'JØA OG SEL',
+    'Type' : 'Business',
+    'ParentOrganizationNumber' : '911366940',
+    'OrganizationForm' : 'BEDR',
+    'OrganizationNumber' : '910098896',
+    'Status' : 'Active'
+  }];
+
+  it('should render the component and display the stuff behind the toggle', async () => {
+    const history = createMemoryHistory();
+    history.push('/the/route?feature=true');
     const rendered = render(
       <StoreProvider>
-        <ArbeidsgiverHeader arbeidsgiverNavn="ArbeidsgiverNavn" arbeidsgiverId="123" />
-      </StoreProvider>
+      <Router history={history}>
+       <ArbeidsgiverProvider arbeidsgivere={arbeidsgivere} status={Status.Successfully}>
+          <ArbeidsgiverPeriodeTabell />
+        </ArbeidsgiverProvider>
+      </Router>
+    </StoreProvider>
       );
 
     const fnrField = rendered.getByPlaceholderText('IDENTITY_NUMBER_EXT');
@@ -325,17 +360,45 @@ describe('ArbeidsgiverHeader', () => {
 
     const fetchSpy = jest.spyOn(window, 'fetch');
 
+
+    const mockHook = jest.fn();
+
+    jest.spyOn(useYtelsesperioder,'default').mockImplementation(mockHook);
+
+
     expect(rendered.getByText(/ArbeidsgiverNavn/)).toBeInTheDocument();
     // expect(rendered.getByText(/Schneider/)).toBeInTheDocument();
     expect(fetchSpy).toHaveBeenCalledWith({});
   })
 
+  it('should render the component and not display the stuff behind the toggle, but show the searchbox in stead', async () => {
+    const history = createMemoryHistory();
+    history.push('/the/route');
+
+    const rendered = render(
+      <StoreProvider>
+        <Router history={history}>
+         <ArbeidsgiverProvider arbeidsgivere={arbeidsgivere} status={Status.Successfully}>
+            <ArbeidsgiverPeriodeTabell />
+          </ArbeidsgiverProvider>
+        </Router>
+      </StoreProvider>
+      );
+
+  expect(rendered.getByText(/EMPLOYEE_SEARCH/)).toBeInTheDocument();
+    expect(rendered.getByText(/IDENTITY_NUMBER_EXT/)).toBeInTheDocument();
+  })
+
 
 
   it('should have no a11y violations', async () => {
+    const history = createMemoryHistory();
+    history.push('/the/route');
     const { container } = render(
       <StoreProvider>
-        <ArbeidsgiverHeader arbeidsgiverNavn="test" arbeidsgiverId="123" />
+        <Router history={history}>
+          <ArbeidsgiverPeriodeTabell />
+        </Router>
       </StoreProvider>
       );
     const results = await axe(container);

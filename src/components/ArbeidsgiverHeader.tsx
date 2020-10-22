@@ -64,6 +64,7 @@ const ArbeidsgiverHeader = ({ arbeidsgiverNavn, arbeidsgiverId }: ArbeidsgiverHe
   }
 
   const handleSubmitSearch = async (): Promise<void> => {
+    console.log("**********************************");
     await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
   };
 
