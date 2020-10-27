@@ -20,6 +20,7 @@ import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import FnrSokeside from './FnrSokeside';
 import './ArbeidsgiverPeriodeTabell.sass';
+import { useYtelseSammendragContext } from '../data/store/YtelseSamendrag';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {
@@ -27,12 +28,14 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
-    ytelsesammendrag,
-    setYtelsesammendrag,
     setYtelsesperioder,
     fraDato,
     tilDato,
   } = useAppStore();
+  const {
+    ytelsesammendrag,
+    setYtelsesammendrag
+  } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const [identityNumberInput ] = useState<string>('');
   const { t } = useTranslation();
@@ -73,7 +76,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
 
   return (
     <>
-      { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
+      { ytelsesammendrag && ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
       (
         <Row>
           <ArbeidsgiverHeader arbeidsgiverNavn={firma} arbeidsgiverId={arbeidsgiverId}/>
@@ -114,7 +117,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
               <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
             }
             {
-              ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
+              ytelsesperioder.length === 0 && ytelsesammendrag && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
               <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick} startdato={fraDato} sluttdato={tilDato}/>
             }
           </Column>

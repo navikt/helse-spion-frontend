@@ -9,98 +9,57 @@ import { Router } from 'react-router-dom';
 import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 import StoreProvider from '../data/store/StoreProvider';
 
-jest.mock('../data/useYtelseSammendrag');
+// jest.mock('../data/useYtelseSammendrag');
 
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import { ArbeidsgiverProvider, Status } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
-jest.mock('../data/Ytelsesperioder');
+import { testFnr } from '../mockdata/testFnr';
+import YtelseSammendragProvider from '../data/store/YtelseSamendrag';
+import { YtelseSammendrag, Status as yStatus } from '../util/helseSpionTypes';
+
+// jest.mock('../data/Ytelsesperioder');
 
 expect.extend(toHaveNoViolations);
 
 
-const mockHookFetch = jest.fn().mockResolvedValue( [ {
-    "periode" : {
-      "fom" : "2020-01-03",
-      "tom" : "2020-01-30"
-    },
-    "kafkaOffset" : 3,
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : null,
-    "status" : "UNDER_BEHANDLING",
-    "grad" : null,
-    "dagsats" : null,
-    "ytelse" : "SP",
-    "sistEndret" : "2020-07-28"
-  }, {
-    "periode" : {
-      "fom" : "2020-01-01",
-      "tom" : "2020-01-30"
-    },
-    "kafkaOffset" : 0,
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Jennine",
-        "etternavn" : "Schamberger",
-        "identitetsnummer" : "14096864648"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 4989.619296096518,
-    "status" : "INNVILGET",
-    "grad" : 50,
-    "dagsats" : 930.4768638290789,
-    "ytelse" : "SP",
-    "sistEndret" : "2020-07-28"
-  }, {
-    "periode" : {
-      "fom" : "2020-01-01",
-      "tom" : "2020-01-15"
-    },
-    "kafkaOffset" : 2,
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Ming",
-        "etternavn" : "Cummerata",
-        "identitetsnummer" : "30086433202"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 5688.54111810369,
-    "status" : "INNVILGET",
-    "grad" : 50,
-    "dagsats" : 255.64594768780185,
-    "ytelse" : "SP",
-    "sistEndret" : "2020-07-28"
-  }]
-);
+const mockHookFetch = jest.fn().mockResolvedValue([]);
 
-useYtelseSammendrag.mockImplementation(() => {
-  return mockHookFetch;
-});
+const mockYtelsesperiode: YtelseSammendrag[] = [ {
+  "navn" : "Donald Schneider",
+  "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1,
+  "antall_refusjoner" : 3,
+  "merknad": "",
+  "max_refusjon_dager": 2,
+  "refusjonsbeløp" : 234
+}, {
+  "navn" : "Donald Duck",
+  "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson2,
+  "antall_refusjoner" : 3,
+  "merknad": "",
+  "max_refusjon_dager": 2,
+  "refusjonsbeløp" : 234
+}, {
+  "navn" : "Donald Thump",
+  "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson3,
+  "antall_refusjoner" : 3,
+  "merknad": "",
+  "max_refusjon_dager": 2,
+  "refusjonsbeløp" : 234
+}, {
+  "navn" : "Donald von Schneider",
+  "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson4,
+  "antall_refusjoner" : 3,
+  "merknad": "",
+  "max_refusjon_dager": 2,
+  "refusjonsbeløp" : 234
+} ];
+// );
+
+// useYtelseSammendrag.mockImplementation(() => {
+//   return mockHookFetch;
+// });
 
 
 const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
@@ -116,7 +75,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -141,7 +100,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -166,7 +125,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -191,7 +150,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -216,7 +175,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -241,7 +200,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -266,7 +225,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -291,7 +250,7 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
     "arbeidstaker" : {
       "fornavn" : "Donald",
       "etternavn" : "Schneider",
-      "identitetsnummer" : "11036434890"
+      "identitetsnummer" : testFnr.GyldigeFraDolly.TestPerson1
     },
     "arbeidsgiver" : {
       "arbeidsgiverId" : "711485759"
@@ -306,9 +265,9 @@ const mockHookYtelsesperioder = jest.fn().mockResolvedValue( [ {
 } ]
 );
 
-useYtelseSammendrag.mockImplementation(() => {
-return mockHookFetch;
-});
+// useYtelseSammendrag.mockImplementation(() => {
+// return mockHookFetch;
+// });
 
 
 
@@ -342,19 +301,23 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     history.push('/the/route?feature=true');
     const rendered = render(
       <StoreProvider>
-      <Router history={history}>
-       <ArbeidsgiverProvider arbeidsgivere={arbeidsgivere} status={Status.Successfully}>
-          <ArbeidsgiverPeriodeTabell />
-        </ArbeidsgiverProvider>
-      </Router>
-    </StoreProvider>
+        <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
+          <Router history={history}>
+            <ArbeidsgiverProvider arbeidsgivere={arbeidsgivere} status={Status.Successfully}>
+              <ArbeidsgiverPeriodeTabell />
+            </ArbeidsgiverProvider>
+          </Router>
+        </YtelseSammendragProvider>
+      </StoreProvider>
       );
 
     const fnrField = rendered.getByPlaceholderText('IDENTITY_NUMBER_EXT');
 
-    fireEvent.change(fnrField,{ target: { value: '23-24' } });
+    fireEvent.change(fnrField,{ target: { value: testFnr.GyldigeFraDolly.TestPerson1 } });
 
-    const searchButton = rendered.getByText(/SEARCH/);
+    // const searchButton = rendered.getByText(/SEARCH/);
+
+    const searchButton = screen.getByRole('button', { name: 'SEARCH' })
 
     fireEvent.click(searchButton);
 
@@ -366,9 +329,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     jest.spyOn(useYtelsesperioder,'default').mockImplementation(mockHook);
 
 
-    expect(rendered.getByText(/ArbeidsgiverNavn/)).toBeInTheDocument();
-    // expect(rendered.getByText(/Schneider/)).toBeInTheDocument();
-    expect(fetchSpy).toHaveBeenCalledWith({});
+    expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
   })
 
   it('should render the component and not display the stuff behind the toggle, but show the searchbox in stead', async () => {
@@ -385,7 +346,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
       </StoreProvider>
       );
 
-  expect(rendered.getByText(/EMPLOYEE_SEARCH/)).toBeInTheDocument();
+    expect(rendered.getByText(/EMPLOYEE_SEARCH/)).toBeInTheDocument();
     expect(rendered.getByText(/IDENTITY_NUMBER_EXT/)).toBeInTheDocument();
   })
 

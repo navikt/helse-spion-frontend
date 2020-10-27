@@ -6,20 +6,23 @@ import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
 import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
 import './App.sass';
-import { ArbeidsgiverProvider, EnvironmentProvider } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import { ArbeidsgiverProvider, EnvironmentProvider, InnloggetSide } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import env from './Environment';
+import YtelseSammendragProvider from './data/store/YtelseSamendrag';
 
 const App = () => {
   return (
     <StoreProvider>
       <EnvironmentProvider loginServiceUrl={env.loginServiceUrl} sideTittel={'Min side - Refusjonsportal'} basePath={env.baseUrl}>
         <ArbeidsgiverProvider>
-          <I18nextProvider i18n={i18n}>
-            <Switch>
-              <Route path="/personoppslag" render={() => <ArbeidsgiverPeriodeTabell />} />
-              <Route path="/" render={() => <Redirecter />} />
-            </Switch>
-          </I18nextProvider>
+          <YtelseSammendragProvider>
+            <I18nextProvider i18n={i18n}>
+              <Switch>
+                <Route path="/personoppslag" render={() => <InnloggetSide><ArbeidsgiverPeriodeTabell /></InnloggetSide>} />
+                <Route path="/" render={() => <Redirecter />} />
+              </Switch>
+            </I18nextProvider>
+          </YtelseSammendragProvider>
         </ArbeidsgiverProvider>
       </EnvironmentProvider>
     </StoreProvider>

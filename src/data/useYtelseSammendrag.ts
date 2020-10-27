@@ -1,11 +1,12 @@
 import { useAppStore } from './store/AppStore';
+import { useYtelseSammendragContext } from './store/YtelseSamendrag';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 import dayjs from 'dayjs';
 import env from '../Environment';
 
 
 const useYtelseSammendrag = (): any => {
-  const { setYtelsesammendrag } = useAppStore();
+  const { setYtelsesammendrag } = useYtelseSammendragContext();
   const { setYtelsesperioderLoading } = useAppStore();
   const { setYtelsesperioderErrorType } = useAppStore();
   const { setYtelsesperioderErrorMessage } = useAppStore();

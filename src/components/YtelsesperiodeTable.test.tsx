@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, getAllByTestId } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe';
 import StoreProvider from '../data/store/StoreProvider';
 
@@ -28,7 +28,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 232,
+    "refusjonsbeløp" : 234,
     "status" : Status.UNDER_BEHANDLING,
     "grad" : 1,
     "dagsats" : 333,
@@ -100,7 +100,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 1787.5240939370642,
+    "refusjonsbeløp" : 1787,
     "status" : Status.INNVILGET,
     "grad" : 20,
     "dagsats" : 480.16556089625584,
@@ -124,7 +124,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 1418.7081347606631,
+    "refusjonsbeløp" : 1418,
     "status" : Status.INNVILGET,
     "grad" : 80,
     "dagsats" : 375.07173691381973,
@@ -148,7 +148,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 123,
+    "refusjonsbeløp" : 135,
     "status" : Status.UNDER_BEHANDLING,
     "grad" : 2,
     "dagsats" : 123,
@@ -172,7 +172,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 7649.920507606071,
+    "refusjonsbeløp" : 7649,
     "status" : Status.INNVILGET,
     "grad" : 50,
     "dagsats" : 534.7787036061458,
@@ -196,7 +196,7 @@ describe('YtelsesperiodeTable', () => {
         "arbeidsgiverId" : "711485759"
       }
     },
-    "refusjonsbeløp" : 220.62716197768117,
+    "refusjonsbeløp" : 220,
     "status" : Status.INNVILGET,
     "grad" : 80,
     "dagsats" : 621.1433287941456,
@@ -204,45 +204,62 @@ describe('YtelsesperiodeTable', () => {
     "sistEndret" : new Date("2020-08-03")
   } ];
 
-  const sammendrag: YtelseSammendrag[] = [
-    {
-      navn: 'Navn Navnesen',
-      identitetsnummer: '12345678901',
-      antall_refusjoner: 3,
-      merknad: 'merknad',
-      max_refusjon_dager: 3,
-      refusjonsbeløp: 123.4
-    },
-    {
-      navn: 'Test Testesen',
-      identitetsnummer: '12348878901',
-      antall_refusjoner: 2,
-      merknad: 'merknad 2',
-      max_refusjon_dager: 2,
-      refusjonsbeløp: 234.5
-    }
-  ];
 
   it('should render the component and display data', () => {
     render(<YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />);
 
     expect(screen.getByText(/20-01-03 - 20-01-30/)).toBeInTheDocument();
-    expect(screen.getByText(/220.62.716.197.768.117/)).toBeInTheDocument();
-    expect(screen.getByText(/1.418.7.081.347.606.631/)).toBeInTheDocument();
-    expect(screen.getByText(/232/)).toBeInTheDocument();
+    expect(screen.getByText(/220/)).toBeInTheDocument();
+    expect(screen.getByText(/1.418/)).toBeInTheDocument();
+    expect(screen.getByText(/11.788/)).toBeInTheDocument();
     expect(screen.getByText(/20-04-07 - 20-04-30/)).toBeInTheDocument();
     expect(screen.getByText(/AVSLÅTT/)).toBeInTheDocument();
   });
 
-  it('should render the component and display data', () => {
+  it('should render the component and display data, sort on column click', () => {
+    const expected = [
+      '7.649',
+      '1.787',
+      '1.418',
+      '234',
+      '222',
+      '220',
+      '135',
+      '123'
+    ];
+
+    const descendingExpected = [
+      '123',
+      '135',
+      '220',
+      '222',
+      '234',
+      '1.418',
+      '1.787',
+      '7.649'
+    ];
+
     render(<YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />);
 
-    expect(screen.getByText(/20-01-03 - 20-01-30/)).toBeInTheDocument();
-    expect(screen.getByText(/220.62.716.197.768.117/)).toBeInTheDocument();
-    expect(screen.getByText(/1.418.7.081.347.606.631/)).toBeInTheDocument();
-    expect(screen.getByText(/232/)).toBeInTheDocument();
-    expect(screen.getByText(/20-04-07 - 20-04-30/)).toBeInTheDocument();
+    const columnHeader = screen.getByText('REFUND');
+
+    fireEvent.click(columnHeader);
+
+    const refunds = screen.getAllByTestId('ytelse');
+    const ytelser = refunds.map((element) => {
+      return element.firstChild?.textContent
+    })
+
+    expect(ytelser).toStrictEqual(expected);
     expect(screen.getByText(/AVSLÅTT/)).toBeInTheDocument();
+
+    fireEvent.click(columnHeader);
+
+    const descendingYtelser = refunds.map((element) => {
+      return element.firstChild?.textContent
+    })
+
+    expect(descendingYtelser).toStrictEqual(descendingExpected);
   });
 
   it('should have no a11y violations', async () => {

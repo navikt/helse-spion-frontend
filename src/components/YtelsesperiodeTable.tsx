@@ -61,7 +61,7 @@ class YtelsesperiodeTable extends Component<Props, State> {
         <td>{ytelsesperiode.ytelse}</td>
         <td>{ytelsesperiode.grad}%</td>
         <td>{ytelsesperiode.merknad || '-'}</td>
-        <td className={'ytelsesperiode-tabell--align-right'}>
+        <td className={'ytelsesperiode-tabell--align-right'} data-testid="ytelse">
             {thousandSeparation(ytelsesperiode.refusjonsbeløp)}
         </td>
       </tr>);
