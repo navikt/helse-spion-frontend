@@ -1,0 +1,38 @@
+import { testFnr } from './testFnr';
+
+const ytelsesammendrag = [
+  {
+    navn: 'Donald Schneider',
+    identitetsnummer: testFnr.GyldigeFraDolly.TestPerson1,
+    antall_refusjoner: 3,
+    merknad: '',
+    max_refusjon_dager: 2,
+    refusjonsbeløp: 234
+  },
+  {
+    navn: 'Donald Duck',
+    identitetsnummer: testFnr.GyldigeFraDolly.TestPerson2,
+    antall_refusjoner: 3,
+    merknad: '',
+    max_refusjon_dager: 2,
+    refusjonsbeløp: 234
+  },
+  {
+    navn: 'Donald Thump',
+    identitetsnummer: testFnr.GyldigeFraDolly.TestPerson3,
+    antall_refusjoner: 3,
+    merknad: '',
+    max_refusjon_dager: 2,
+    refusjonsbeløp: 234
+  },
+  {
+    navn: 'Donald von Schneider',
+    identitetsnummer: testFnr.GyldigeFraDolly.TestPerson4,
+    antall_refusjoner: 3,
+    merknad: '',
+    max_refusjon_dager: 2,
+    refusjonsbeløp: 234
+  }
+];
+
+export default ytelsesammendrag;
