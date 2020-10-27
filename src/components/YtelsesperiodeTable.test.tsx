@@ -2,217 +2,26 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { render, fireEvent, screen, getAllByTestId } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe';
-import StoreProvider from '../data/store/StoreProvider';
 
 import YtelsesperiodeTable from './YtelsesperiodeTable';
-import { Status, YtelseSammendrag, Ytelsesperiode } from '../util/helseSpionTypes';
+import { Ytelsesperiode } from '../util/helseSpionTypes';
+
+import mockYtelsesperiode from '../mockdata/mockYtelsesperiode';
 
 expect.extend(toHaveNoViolations);
 
 describe('YtelsesperiodeTable', () => {
-  const ytelsesperioder: Ytelsesperiode[] = [ {
-    "periode" : {
-      "fom" : new Date("2020-01-03"),
-      "tom" : new Date("2020-01-30")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 234,
-    "status" : Status.UNDER_BEHANDLING,
-    "grad" : 1,
-    "dagsats" : 333,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2020-04-07"),
-      "tom" : new Date("2020-04-30")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 222,
-    "status" : Status.UNDER_BEHANDLING,
-    "grad" : 1,
-    "dagsats" : 123,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2020-09-06"),
-      "tom" : new Date("2020-09-19")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 123,
-    "status" : Status.AVSLÅTT,
-    "grad" : 1,
-    "dagsats" : 55,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2020-07-22"),
-      "tom" : new Date("2020-07-30")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 1787,
-    "status" : Status.INNVILGET,
-    "grad" : 20,
-    "dagsats" : 480.16556089625584,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2021-10-16"),
-      "tom" : new Date("2021-10-26")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 1418,
-    "status" : Status.INNVILGET,
-    "grad" : 80,
-    "dagsats" : 375.07173691381973,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2021-04-29"),
-      "tom" : new Date("2021-05-13")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 135,
-    "status" : Status.UNDER_BEHANDLING,
-    "grad" : 2,
-    "dagsats" : 123,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2022-01-29"),
-      "tom" : new Date("2022-01-31")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 7649,
-    "status" : Status.INNVILGET,
-    "grad" : 50,
-    "dagsats" : 534.7787036061458,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-07-28")
-  }, {
-    "periode" : {
-      "fom" : new Date("2020-01-17"),
-      "tom" : new Date("2020-01-18")
-    },
-    "forbrukteSykedager" : 0,
-    "gjenståendeSykedager" : 0,
-    "arbeidsforhold" : {
-      "arbeidsforholdId" : "",
-      "arbeidstaker" : {
-        "fornavn" : "Donald",
-        "etternavn" : "Schneider",
-        "identitetsnummer" : "11036434890"
-      },
-      "arbeidsgiver" : {
-        "arbeidsgiverId" : "711485759"
-      }
-    },
-    "refusjonsbeløp" : 220,
-    "status" : Status.INNVILGET,
-    "grad" : 80,
-    "dagsats" : 621.1433287941456,
-    "ytelse" : "SP",
-    "sistEndret" : new Date("2020-08-03")
-  } ];
+  const ytelsesperioder: Ytelsesperiode[] = mockYtelsesperiode;
 
 
   it('should render the component and display data', () => {
     render(<YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />);
 
-    expect(screen.getByText(/20-01-03 - 20-01-30/)).toBeInTheDocument();
+    expect(screen.getByText(/03.01.20 - 30.01.20/)).toBeInTheDocument();
     expect(screen.getByText(/220/)).toBeInTheDocument();
     expect(screen.getByText(/1.418/)).toBeInTheDocument();
     expect(screen.getByText(/11.788/)).toBeInTheDocument();
-    expect(screen.getByText(/20-04-07 - 20-04-30/)).toBeInTheDocument();
+    expect(screen.getByText(/07.04.20 - 30.04.20/)).toBeInTheDocument();
     expect(screen.getByText(/AVSLÅTT/)).toBeInTheDocument();
   });
 
