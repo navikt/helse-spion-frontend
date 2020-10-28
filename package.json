@@ -111,8 +111,7 @@
     "snyk": "^1.413.2",
     "sonarqube-scanner": "^2.7.0",
     "typescript": "^3.9.7",
-    "uuid": "^8.3.1",
-    "yet-another-fetch-mock": "^4.1.0"
+    "uuid": "^8.3.1"
   },
   "snyk": true,
   "dependencies": {
