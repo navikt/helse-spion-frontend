@@ -3,15 +3,12 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createMemoryHistory } from 'history';
-import * as useYtelsesperioder from '../data/Ytelsesperioder';
 import { Router } from 'react-router-dom';
 
 import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 import StoreProvider from '../data/store/StoreProvider';
 
 import mockArbeidsgivere from '../mockdata/mockArbeidsgivere';
-// import mockFetchedYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
-// import FetchMock, { MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 
 import {
   ArbeidsgiverProvider,
@@ -30,31 +27,10 @@ import mockFetchYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
 import { act } from 'react-dom/test-utils';
 expect.extend(toHaveNoViolations);
 
-// const mockHookFetch = jest.fn().mockResolvedValue([]);
-
 const mockYtelsesperiode: YtelseSammendrag[] = mockYtelsesammendrag;
-
-// const mockHookYtelsesperioder = jest
-//   .fn()
-//   .mockResolvedValue(mockFetchedYtelsesperioder);
 
 describe('ArbeidsgiverPeriodeTabell', () => {
   const arbeidsgivere: Organisasjon[] = mockArbeidsgivere;
-
-  // let mock: FetchMock;
-  // let spy: SpyMiddleware;
-
-  // beforeEach(() => {
-  //   spy = new SpyMiddleware();
-  //   mock = FetchMock.configure({
-  //     middleware: spy.middleware
-  //   });
-  //   expect(spy.size()).toBe(0);
-  // });
-
-  // afterEach(() => {
-  //   mock.restore();
-  // });
 
   it('should render the component and display the stuff behind the toggle', async () => {
     const history = createMemoryHistory();
