@@ -1,5 +1,5 @@
 import { useAppStore } from './store/AppStore';
-import { useYtelseSammendragContext } from './store/YtelseSamendrag';
+import { useYtelseSammendragContext } from './store/YtelseSammendrag';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 import dayjs from 'dayjs';
 import env from '../Environment';

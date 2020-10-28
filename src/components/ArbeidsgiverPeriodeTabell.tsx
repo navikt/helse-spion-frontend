@@ -20,7 +20,7 @@ import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import FnrSokeside from './FnrSokeside';
 import './ArbeidsgiverPeriodeTabell.sass';
-import { useYtelseSammendragContext } from '../data/store/YtelseSamendrag';
+import { useYtelseSammendragContext } from '../data/store/YtelseSammendrag';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {

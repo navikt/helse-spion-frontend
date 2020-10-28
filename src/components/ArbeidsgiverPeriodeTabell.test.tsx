@@ -18,7 +18,7 @@ import {
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 import { testFnr } from '../mockdata/testFnr';
-import YtelseSammendragProvider from '../data/store/YtelseSamendrag';
+import YtelseSammendragProvider from '../data/store/YtelseSammendrag';
 import { YtelseSammendrag, Status as yStatus } from '../util/helseSpionTypes';
 
 import mockYtelsesammendrag from '../mockdata/mockYtelsesammendrag';
@@ -74,13 +74,11 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    window.fetch = jest.fn().mockImplementationOnce(() => ({
+    jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
       status: 200,
-      json: () =>
-      new Promise((resolve, reject) => {
-        resolve(mockYtelser);
-      })
+      json: () => Promise.resolve(mockYtelser)
     }));
+
 
     const rendered = render(
       <StoreProvider>
@@ -105,12 +103,9 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    window.fetch = jest.fn().mockImplementationOnce(() => ({
+    jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
       status: 200,
-      json: () =>
-      new Promise((resolve, reject) => {
-        resolve(mockYtelser);
-      })
+      json: () => Promise.resolve(mockYtelser)
     }));
 
     const { container } = render(
@@ -121,15 +116,13 @@ describe('ArbeidsgiverPeriodeTabell', () => {
             status={Status.Successfully}
           >
             { () => {
-              act(() => {
-                var {setFirma} = useArbeidsgiver();
-                setFirma("Frima");
-                return (
-                  <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
-                    <ArbeidsgiverPeriodeTabell />
-                  </YtelseSammendragProvider>
-                )
-              })
+              var {setFirma} = useArbeidsgiver();
+              setFirma("Frima");
+              return (
+                <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
+                  <ArbeidsgiverPeriodeTabell />
+                </YtelseSammendragProvider>
+              )
             }}
           </ArbeidsgiverProvider>
         </Router>
