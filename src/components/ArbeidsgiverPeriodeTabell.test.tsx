@@ -10,12 +10,13 @@ import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 import StoreProvider from '../data/store/StoreProvider';
 
 import mockArbeidsgivere from '../mockdata/mockArbeidsgivere';
-import mockFetchedYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
+// import mockFetchedYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
+// import FetchMock, { MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 
-import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import {
   ArbeidsgiverProvider,
-  Status
+  Status,
+  useArbeidsgiver
 } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
@@ -24,35 +25,58 @@ import YtelseSammendragProvider from '../data/store/YtelseSamendrag';
 import { YtelseSammendrag, Status as yStatus } from '../util/helseSpionTypes';
 
 import mockYtelsesammendrag from '../mockdata/mockYtelsesammendrag';
-
+import mockYtelser from '../mockdata/mockYtelsesperiode';
+import mockFetchYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
+import { act } from 'react-dom/test-utils';
 expect.extend(toHaveNoViolations);
 
-const mockHookFetch = jest.fn().mockResolvedValue([]);
+// const mockHookFetch = jest.fn().mockResolvedValue([]);
 
 const mockYtelsesperiode: YtelseSammendrag[] = mockYtelsesammendrag;
 
-const mockHookYtelsesperioder = jest
-  .fn()
-  .mockResolvedValue(mockFetchedYtelsesperioder);
+// const mockHookYtelsesperioder = jest
+//   .fn()
+//   .mockResolvedValue(mockFetchedYtelsesperioder);
 
 describe('ArbeidsgiverPeriodeTabell', () => {
   const arbeidsgivere: Organisasjon[] = mockArbeidsgivere;
 
+  // let mock: FetchMock;
+  // let spy: SpyMiddleware;
+
+  // beforeEach(() => {
+  //   spy = new SpyMiddleware();
+  //   mock = FetchMock.configure({
+  //     middleware: spy.middleware
+  //   });
+  //   expect(spy.size()).toBe(0);
+  // });
+
+  // afterEach(() => {
+  //   mock.restore();
+  // });
+
   it('should render the component and display the stuff behind the toggle', async () => {
     const history = createMemoryHistory();
     history.push('/the/route?feature=true');
+
+    const fetchSpy = jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
+      status: 200,
+      json: () => Promise.resolve(mockFetchYtelsesperioder)
+    }));
+
     const rendered = render(
       <StoreProvider>
-        <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
-          <Router history={history}>
-            <ArbeidsgiverProvider
-              arbeidsgivere={arbeidsgivere}
-              status={Status.Successfully}
-            >
+        <Router history={history}>
+          <ArbeidsgiverProvider
+            arbeidsgivere={arbeidsgivere}
+            status={Status.Successfully}
+          >
+            <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
               <ArbeidsgiverPeriodeTabell />
-            </ArbeidsgiverProvider>
-          </Router>
-        </YtelseSammendragProvider>
+            </YtelseSammendragProvider>
+          </ArbeidsgiverProvider>
+        </Router>
       </StoreProvider>
     );
 
@@ -66,18 +90,21 @@ describe('ArbeidsgiverPeriodeTabell', () => {
 
     fireEvent.click(searchButton);
 
-    const fetchSpy = jest.spyOn(window, 'fetch');
-
-    const mockHook = jest.fn();
-
-    jest.spyOn(useYtelsesperioder, 'default').mockImplementation(mockHook);
-
+    expect(fetchSpy).toHaveBeenCalledWith("http://localhost:3000/api/v1/ytelsesperioder/oppslag", {"body": "{\"identitetsnummer\":\"25087327879\",\"arbeidsgiverId\":\"\"}", "credentials": "include", "headers": {"Accept": "application/json", "Content-Type": "application/json"}, "method": "POST"});
     expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
   });
 
   it('should render the component and not display the stuff behind the toggle, but show the searchbox in stead', async () => {
     const history = createMemoryHistory();
     history.push('/the/route');
+
+    window.fetch = jest.fn().mockImplementationOnce(() => ({
+      status: 200,
+      json: () =>
+      new Promise((resolve, reject) => {
+        resolve(mockYtelser);
+      })
+    }));
 
     const rendered = render(
       <StoreProvider>
@@ -86,7 +113,9 @@ describe('ArbeidsgiverPeriodeTabell', () => {
             arbeidsgivere={arbeidsgivere}
             status={Status.Successfully}
           >
-            <ArbeidsgiverPeriodeTabell />
+            <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
+              <ArbeidsgiverPeriodeTabell />
+            </YtelseSammendragProvider>
           </ArbeidsgiverProvider>
         </Router>
       </StoreProvider>
@@ -99,6 +128,15 @@ describe('ArbeidsgiverPeriodeTabell', () => {
   it('should have no a11y violations', async () => {
     const history = createMemoryHistory();
     history.push('/the/route');
+
+    window.fetch = jest.fn().mockImplementationOnce(() => ({
+      status: 200,
+      json: () =>
+      new Promise((resolve, reject) => {
+        resolve(mockYtelser);
+      })
+    }));
+
     const { container } = render(
       <StoreProvider>
         <Router history={history}>
@@ -106,7 +144,17 @@ describe('ArbeidsgiverPeriodeTabell', () => {
             arbeidsgivere={mockArbeidsgivere}
             status={Status.Successfully}
           >
-            <ArbeidsgiverPeriodeTabell />
+            { () => {
+              act(() => {
+                var {setFirma} = useArbeidsgiver();
+                setFirma("Frima");
+                return (
+                  <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
+                    <ArbeidsgiverPeriodeTabell />
+                  </YtelseSammendragProvider>
+                )
+              })
+            }}
           </ArbeidsgiverProvider>
         </Router>
       </StoreProvider>
