@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, Dispatch, SetStateAction } from 'react';
-// import YtelseSammendragTable from '../../components/YtelseSammendragTable';
 import { YtelseSammendrag } from '../../util/helseSpionTypes';
 
 interface YtelseSammendragProps {
