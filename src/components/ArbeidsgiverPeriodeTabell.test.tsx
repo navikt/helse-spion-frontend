@@ -58,13 +58,17 @@ describe('ArbeidsgiverPeriodeTabell', () => {
 
     const fnrField = rendered.getByPlaceholderText('IDENTITY_NUMBER_EXT');
 
-    fireEvent.change(fnrField, {
-      target: { value: testFnr.GyldigeFraDolly.TestPerson1 }
-    });
+    act(() => {
+      fireEvent.change(fnrField, {
+        target: { value: testFnr.GyldigeFraDolly.TestPerson1 }
+      });
+    })
 
     const searchButton = screen.getByRole('button', { name: 'SEARCH' });
 
-    fireEvent.click(searchButton);
+    act(() => {
+      fireEvent.click(searchButton);
+    })
 
     expect(fetchSpy).toHaveBeenCalledWith("http://localhost:3000/api/v1/ytelsesperioder/oppslag", {"body": "{\"identitetsnummer\":\"25087327879\",\"arbeidsgiverId\":\"\"}", "credentials": "include", "headers": {"Accept": "application/json", "Content-Type": "application/json"}, "method": "POST"});
     expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
@@ -107,14 +111,16 @@ describe('ArbeidsgiverPeriodeTabell', () => {
       status: 200,
       json: () => Promise.resolve(mockYtelser)
     }));
+    let ytreContainer;
+    act(() => {
 
-    const { container } = render(
-      <StoreProvider>
+      const { container } = render(
+        <StoreProvider>
         <Router history={history}>
           <ArbeidsgiverProvider
             arbeidsgivere={mockArbeidsgivere}
             status={Status.Successfully}
-          >
+            >
             { () => {
               var {setFirma} = useArbeidsgiver();
               setFirma("Frima");
@@ -128,7 +134,9 @@ describe('ArbeidsgiverPeriodeTabell', () => {
         </Router>
       </StoreProvider>
     );
-    const results = await axe(container);
+    ytreContainer = container;
+    });
+    const results = await axe(ytreContainer);
     expect(results).toHaveNoViolations();
   });
 });
