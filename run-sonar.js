@@ -9,7 +9,7 @@ scanner(
             'sonar.projectKey': 'navikt_helse-spion-frontend',
             'sonar.sources': 'src',
             'sonar.javascript.lcov.reportPaths': 'coverage/lcov.info',
-            'sonar.coverage.exclusions': '**/*.test.t*'
+            'sonar.coverage.exclusions': '**/*.test.t*,**/mock*.*'
         }
     },
     () => process.exit()

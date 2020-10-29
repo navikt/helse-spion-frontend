@@ -9,7 +9,7 @@ import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import {InnloggetSide, useArbeidsgiver} from '@navikt/helse-arbeidsgiver-felles-frontend'
+import {useArbeidsgiver} from '@navikt/helse-arbeidsgiver-felles-frontend'
 import { useAppStore } from '../data/store/AppStore';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
@@ -20,6 +20,7 @@ import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import FnrSokeside from './FnrSokeside';
 import './ArbeidsgiverPeriodeTabell.sass';
+import { useYtelseSammendragContext } from '../data/store/YtelseSammendrag';
 
 const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const {
@@ -27,12 +28,14 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
-    ytelsesammendrag,
-    setYtelsesammendrag,
     setYtelsesperioder,
     fraDato,
     tilDato,
   } = useAppStore();
+  const {
+    ytelsesammendrag,
+    setYtelsesammendrag
+  } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const [identityNumberInput ] = useState<string>('');
   const { t } = useTranslation();
@@ -72,9 +75,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   }
 
   return (
-    <InnloggetSide>
-
-      { ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
+    <>
+      { ytelsesammendrag && ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
       (
         <Row>
           <ArbeidsgiverHeader arbeidsgiverNavn={firma} arbeidsgiverId={arbeidsgiverId}/>
@@ -115,14 +117,13 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
               <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
             }
             {
-              ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
+              ytelsesperioder.length === 0 && ytelsesammendrag && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
               <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick} startdato={fraDato} sluttdato={tilDato}/>
             }
           </Column>
         </Row>
 
-    </InnloggetSide>
-  );
+    </>  );
 };
 
 export default ArbeidsgiverPeriodeTabell;

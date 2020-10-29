@@ -1,7 +1,6 @@
 import constate from 'constate';
 import { useState } from 'react';
-import { Ytelsesperiode, YtelseSammendrag } from '../../util/helseSpionTypes';
-
+import { Ytelsesperiode } from '../../util/helseSpionTypes';
 
 export const [ AppStoreProvider, useAppStore ] = constate(() => {
 	const [ arbeidsgivereLoading, setArbeidsgivereLoading ] = useState<boolean>(false);
@@ -9,13 +8,11 @@ export const [ AppStoreProvider, useAppStore ] = constate(() => {
 	const [ ytelsesperioderLoading, setYtelsesperioderLoading ] = useState<boolean>(false);
 	const [ ytelsesperioderErrorType, setYtelsesperioderErrorType ] = useState<string>();
 	const [ ytelsesperioderErrorMessage, setYtelsesperioderErrorMessage ] = useState<string>();
-  const [ ytelsesammendrag, setYtelsesammendrag ] = useState<YtelseSammendrag[]>([]);
   const [fraDato, setFraDato] = useState<string>('2010-01-01');
   const [tilDato, setTilDato] = useState<string>('2022-01-01');
 	return {
 		arbeidsgivereLoading, setArbeidsgivereLoading,
     ytelsesperioder, setYtelsesperioder,
-    ytelsesammendrag, setYtelsesammendrag,
 		ytelsesperioderLoading, setYtelsesperioderLoading,
 		ytelsesperioderErrorType, setYtelsesperioderErrorType,
     ytelsesperioderErrorMessage, setYtelsesperioderErrorMessage,

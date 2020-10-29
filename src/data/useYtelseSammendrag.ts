@@ -1,16 +1,17 @@
 import { useAppStore } from './store/AppStore';
+import { useYtelseSammendragContext } from './store/YtelseSammendrag';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 import dayjs from 'dayjs';
 import env from '../Environment';
 
 
 const useYtelseSammendrag = (): any => {
-  const { setYtelsesammendrag } = useAppStore();
+  const { setYtelsesammendrag } = useYtelseSammendragContext();
   const { setYtelsesperioderLoading } = useAppStore();
   const { setYtelsesperioderErrorType } = useAppStore();
   const { setYtelsesperioderErrorMessage } = useAppStore();
 
-  return (arbeidsgiverId?: string, fom?: string, tom?: string): Promise<void | YtelseSammendrag[] | undefined> => {
+  const getYtelseSammendrag = (arbeidsgiverId?: string, fom?: string, tom?: string): Promise<void | YtelseSammendrag[] | undefined> => {
     setYtelsesperioderLoading(true);
     let periodefilter = '';
 
@@ -49,10 +50,12 @@ const useYtelseSammendrag = (): any => {
       }
     });
   }
+
+  return getYtelseSammendrag;
   }
 
 // todo: type safety
-const convertResponseDataToYtelseSammendrag = (data: any): YtelseSammendrag[] => {
+export const convertResponseDataToYtelseSammendrag = (data: any): YtelseSammendrag[] => {
   const sammendrag:YtelseSammendrag[] = [];
   let ytelsesElement: YtelseSammendrag;
   data.forEach(element => {

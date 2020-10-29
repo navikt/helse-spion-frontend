@@ -1,7 +1,3 @@
-const options: Intl.DateTimeFormatOptions = {
-	day: '2-digit',
-	year: '2-digit',
-	month: '2-digit',
-};
+import dayjs from 'dayjs';
 
-export const dateToString = (date: Date): string => date.toLocaleDateString('nb', options);
+export const dateToString = (date: Date): string => dayjs(date).format('DD.MM.YY');
