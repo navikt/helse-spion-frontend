@@ -28,13 +28,13 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
-    setYtelsesperioder,
+    setYtelsesperioder, // eslint-disable-line @typescript-eslint/no-unused-vars
     fraDato,
     tilDato,
   } = useAppStore();
   const {
     ytelsesammendrag,
-    setYtelsesammendrag
+    setYtelsesammendrag // eslint-disable-line @typescript-eslint/no-unused-vars
   } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const [identityNumberInput ] = useState<string>('');
@@ -44,7 +44,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const getYtelseSammendrag = useYtelseSammendrag();
   const [ featureFlag, setFeatureFlag ] = useState<Boolean>(false);
 
-  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
+  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
       event.preventDefault();
       event.stopPropagation();

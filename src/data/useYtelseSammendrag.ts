@@ -59,7 +59,7 @@ export const convertResponseDataToYtelseSammendrag = (data: any): YtelseSammendr
   const sammendrag:YtelseSammendrag[] = [];
   let ytelsesElement: YtelseSammendrag;
   data.forEach(element => {
-    let ytelsesElementIndex: number  =  sammendrag.findIndex(sammendragElement => {
+    let ytelsesElementIndex: number  =  sammendrag.findIndex(sammendragElement => { // eslint-disable-line array-callback-return
       if(sammendragElement.identitetsnummer === element.arbeidsforhold.arbeidstaker.identitetsnummer) {
         return sammendragElement;
       }
