@@ -26,7 +26,7 @@ describe('FnrSokeside', () => {
     const inputField = screen.getByLabelText('IDENTITY_NUMBER_EXT');
     const searchButton = screen.getByText('SEARCH');
 
-    fireEvent.change(inputField, {value: '12345678901'});
+    fireEvent.change(inputField, { value: '12345678901' });
     fireEvent.click(searchButton);
 
     expect(rendered.getByText(/INFO_TEXT/)).toBeInTheDocument();

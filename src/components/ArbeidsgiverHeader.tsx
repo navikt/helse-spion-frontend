@@ -46,7 +46,7 @@ const ArbeidsgiverHeader = ({ arbeidsgiverNavn, arbeidsgiverId }: ArbeidsgiverHe
     if(arbeidsgiverId) {
       hentYtelsesdata();
     }
-  },[arbeidsgiverId, fraDato, tilDato])
+  },[ arbeidsgiverId, fraDato, tilDato ]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const Ytelsesperioder = useYtelsesperioder();

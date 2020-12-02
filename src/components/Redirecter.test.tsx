@@ -10,22 +10,22 @@ describe('Redirecter', () => {
   it('should render the component and reroute with params intact', () => {
     const history = createMemoryHistory();
     history.push('/some/route?some=params');
-    const rendered = render(<Router history={history}><Redirecter/></Router>);
+    render(<Router history={history}><Redirecter/></Router>);
     const newLocation = history.location;
 
     delete newLocation.key; // Removes the random part. Not needed anyway
 
-    expect(history.location).toEqual({"hash": "", "pathname": "/personoppslag", "search": "?some=params", "state": undefined});
+    expect(history.location).toEqual({ 'hash': '', 'pathname': '/personoppslag', 'search': '?some=params', 'state': undefined });
   })
 
   it('should render the component and reroute without params', () => {
     const history = createMemoryHistory();
     history.push('/some/route');
-    const rendered = render(<Router history={history}><Redirecter/></Router>);
+    render(<Router history={history}><Redirecter/></Router>);
     const newLocation = history.location;
 
     delete newLocation.key; // Removes the random part. Not needed anyway
 
-    expect(history.location).toEqual({"hash": "", "pathname": "/personoppslag", "search": "", "state": undefined});
+    expect(history.location).toEqual({ 'hash': '', 'pathname': '/personoppslag', 'search': '', 'state': undefined });
   })
 });

@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { render, fireEvent, screen, wait, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { axe, toHaveNoViolations } from 'jest-axe';
 
-import ArbeidstakerDetaljHeader, {ArbeidstakerInterface} from './ArbeidstakerDetaljHeader';
+import ArbeidstakerDetaljHeader, { ArbeidstakerInterface } from './ArbeidstakerDetaljHeader';
 import StoreProvider from '../data/store/StoreProvider';
 
 expect.extend(toHaveNoViolations);

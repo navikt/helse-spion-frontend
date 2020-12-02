@@ -9,7 +9,7 @@ import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import {useArbeidsgiver} from '@navikt/helse-arbeidsgiver-felles-frontend'
+import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend'
 import { useAppStore } from '../data/store/AppStore';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
@@ -65,7 +65,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
       getYtelseSammendrag(arbeidsgiverId, fraDato, tilDato);
     }
 
-  },[arbeidsgiverId, fraDato, tilDato]);
+  },[ytelsesammendrag, arbeidsgiverId, fraDato, tilDato]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const location: any = useLocation();
   if(location && location.search.includes('feature=true')) {

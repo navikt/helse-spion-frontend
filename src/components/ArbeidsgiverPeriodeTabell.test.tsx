@@ -19,7 +19,7 @@ import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
 
 import { testFnr } from '../mockdata/testFnr';
 import YtelseSammendragProvider from '../data/store/YtelseSammendrag';
-import { YtelseSammendrag, Status as yStatus } from '../util/helseSpionTypes';
+import { YtelseSammendrag } from '../util/helseSpionTypes';
 
 import mockYtelsesammendrag from '../mockdata/mockYtelsesammendrag';
 import mockYtelser from '../mockdata/mockYtelsesperiode';
@@ -70,7 +70,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
       fireEvent.click(searchButton);
     })
 
-    expect(fetchSpy).toHaveBeenCalledWith("http://localhost:3000/api/v1/ytelsesperioder/oppslag", {"body": "{\"identitetsnummer\":\"25087327879\",\"arbeidsgiverId\":\"\"}", "credentials": "include", "headers": {"Accept": "application/json", "Content-Type": "application/json"}, "method": "POST"});
+    expect(fetchSpy).toHaveBeenCalledWith('http://localhost:3000/api/v1/ytelsesperioder/oppslag', { 'body': '{"identitetsnummer":"25087327879","arbeidsgiverId":""}', 'credentials': 'include', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'method': 'POST' });
     expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
   });
 
@@ -122,8 +122,8 @@ describe('ArbeidsgiverPeriodeTabell', () => {
             status={Status.Successfully}
             >
             { () => {
-              var {setFirma} = useArbeidsgiver();
-              setFirma("Frima");
+              var { setFirma } = useArbeidsgiver();
+              setFirma('Frima');
               return (
                 <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
                   <ArbeidsgiverPeriodeTabell />

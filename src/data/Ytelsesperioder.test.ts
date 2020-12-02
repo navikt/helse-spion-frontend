@@ -11,7 +11,7 @@ describe('Ytelsesperioder', () => {
     });
     jest.spyOn(window, 'fetch').mockImplementationOnce(() => mockYtelser);
 
-    const {result} = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } );
+    const { result } = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } );
 
 
     const getYtelseSammendrag = result.current;
@@ -23,24 +23,18 @@ describe('Ytelsesperioder', () => {
   });
 
   it('skal håndtere feil', async () => {
-    const expectedViolations =[
-      {
-        validationType: "NoeGalt",
-        message: "Noe gikk galt"
-      }
-    ]
     const mockError = Promise.resolve({
       status: 500,
       json: () => Promise.resolve({ violations :[
          {
-          validationType: "NoeGalt",
-          message: "Noe gikk galt"
+          validationType: 'NoeGalt',
+          message: 'Noe gikk galt'
         }
-      ]}),
+      ] }),
     });
     jest.spyOn(window, 'fetch').mockImplementationOnce(() => mockError);
 
-    const {result} = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } )
+    const { result } = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } )
 
     const getYtelsesSammendrag = result.current;
     await act(async ()=> {
