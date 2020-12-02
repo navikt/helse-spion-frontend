@@ -1,16 +1,18 @@
-name: CI
+# This is a basic workflow to help you get started with Actions
 
+name: Publish
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/helse-spion-frontend:${{ github.sha }}
-  DOCKER_IMAGE_NAME: docker.pkg.github.com/${{ github.repository }}/helse-spion-frontend
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
 
@@ -53,29 +55,24 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
 
-  Docker:
-    needs: [Bygg,Kodekvalitet,Eslint,Snyk]
+  Deploy:
+    name: Deploy til produksjon
+    needs: [Eslint,Kodekvalitet,Snyk,Bygg]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
       - uses: actions/download-artifact@v2
         with:
           name: helse-spion-frontend-artifact
           path: build
-      - name: Build and publish Docker image
-        run: |
-          docker build --tag ${IMAGE} --tag ${LATEST_TAG} .
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker push ${DOCKER_IMAGE_NAME}
-
-  Deploy:
-    name: Deploy til PREPROD
-    needs: Docker
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
+      - run: |
+          git config --global user.email "helsearbeidsgiver@nav.no"
+          git config --global user.name "HelseArbeidsgiver"
+          npm version ${{ github.event.release.tag_name }}
+          git push origin HEAD:master
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-sbs
-          RESOURCE: deploy/dev.yaml
+          CLUSTER: prod-sbs
+          RESOURCE: deploy/prod.yaml
