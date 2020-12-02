@@ -20,6 +20,8 @@ spec:
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
+  ingresses:
+
   replicas:
     max: 1
     min: 1
@@ -30,6 +32,13 @@ spec:
     requests:
       cpu: 200m
       memory: 256Mi
+  vault:
+    enabled: true
+    paths:
+      - kvPath: apikey/apigw/prod/helse-spion/helse-spion-frontend_p
+        mountPath: /apigw/helse-spion
   env:
     - name: API_GATEWAY
       value: https://api-gw.oera.no/helse-spion
+    - name: LOGIN_URL
+      value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-refusjon/
