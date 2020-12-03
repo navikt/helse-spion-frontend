@@ -19,7 +19,7 @@ const YtelseSammendragContext = createContext<YtelsesammendragProps>({
 const YtelseSammendragProvider = (props: YtelseSammendragProps) => {
   const [ ytelsesammendrag, setYtelsesammendrag ] = useState<YtelseSammendrag[] | undefined>(props.ytelseSammendrag);
 
-  return (<YtelseSammendragContext.Provider value={{ytelsesammendrag, setYtelsesammendrag}}>{ props.children }</YtelseSammendragContext.Provider>);
+  return (<YtelseSammendragContext.Provider value={{ ytelsesammendrag, setYtelsesammendrag }}>{ props.children }</YtelseSammendragContext.Provider>);
 };
 
 export default YtelseSammendragProvider;
