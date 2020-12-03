@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { Languages, translationsToJson } from "./keys";
+import i18n from 'i18next';
+import { Languages, translationsToJson } from './keys';
 
 i18n.init({
   resources: {
@@ -14,12 +14,12 @@ i18n.init({
     },
   },
   fallbackLng: Languages.nb,
-  ns: ["translations"],
-  defaultNS: "translations",
+  ns: ['translations'],
+  defaultNS: 'translations',
   keySeparator: false,
   interpolation: {
     escapeValue: false,
-    formatSeparator: ","
+    formatSeparator: ','
   },
   react: {
     wait: true
