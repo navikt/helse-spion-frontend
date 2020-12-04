@@ -1,19 +1,25 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-
+import { axe } from 'jest-axe';
+import { I18nextProvider } from 'react-i18next';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import StoreProvider from '../data/store/StoreProvider';
-
 import { testFnr } from '../mockdata/testFnr';
-
-jest.mock('../data/Ytelsesperioder');
-
-expect.extend(toHaveNoViolations);
+import i18n from '../locales/i18n';
 
 describe('ArbeidsgiverHeader', () => {
+
+  beforeEach(() => {
+    jest.mock('../data/Ytelsesperioder');
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  })
+
   it('should render the component and display wait and then an error', async () => {
+
     const fetchSpy = jest.spyOn(window, 'fetch');
     const rendered = render(
       <StoreProvider>
@@ -46,10 +52,13 @@ describe('ArbeidsgiverHeader', () => {
   it('should have no a11y violations', async () => {
     const { container } = render(
       <StoreProvider>
-        <ArbeidsgiverHeader arbeidsgiverNavn='test' arbeidsgiverId='123' />
+        <I18nextProvider i18n={i18n}>
+          <ArbeidsgiverHeader arbeidsgiverNavn='test' arbeidsgiverId='123' />
+        </I18nextProvider>
       </StoreProvider>
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
 });

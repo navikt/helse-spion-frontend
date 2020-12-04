@@ -1,34 +1,29 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './locales/i18n';
 import { Route, Switch } from 'react-router-dom';
+import { ArbeidsgiverProvider, EnvironmentProvider } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import i18n from './locales/i18n';
 import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
-import ArbeidsgiverPeriodeTabell from './components/ArbeidsgiverPeriodeTabell';
 import './App.sass';
-import { ArbeidsgiverProvider, EnvironmentProvider, InnloggetSide } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import env from './Environment';
-import YtelseSammendragProvider from './data/store/YtelseSammendrag';
+import Personoppslag from './components/Personoppslag';
 
 const App = () => {
   return (
-    <StoreProvider>
-      <EnvironmentProvider loginServiceUrl={env.loginServiceUrl} sideTittel={'Min side - Refusjonsportal'} basePath={env.baseUrl}>
-        <ArbeidsgiverProvider>
-            <I18nextProvider i18n={i18n}>
-              <Switch>
-                <Route path="/personoppslag" render={() =>
-                  <InnloggetSide>
-                    <YtelseSammendragProvider>
-                      <ArbeidsgiverPeriodeTabell />
-                    </YtelseSammendragProvider>
-                  </InnloggetSide>} />
-                <Route path="/" render={() => <Redirecter />} />
-              </Switch>
-            </I18nextProvider>
-        </ArbeidsgiverProvider>
-      </EnvironmentProvider>
-    </StoreProvider>
+    <EnvironmentProvider loginServiceUrl={env.loginServiceUrl} sideTittel={'Min side - Refusjonsportal'}
+                         basePath={env.baseUrl}>
+      <I18nextProvider i18n={i18n}>
+        <StoreProvider>
+          <ArbeidsgiverProvider>
+            <Switch>
+              <Route path="/personoppslag" render={() => <Personoppslag/>} />
+              <Route path="/" render={() => <Redirecter/>}/>
+            </Switch>
+          </ArbeidsgiverProvider>
+        </StoreProvider>
+      </I18nextProvider>
+    </EnvironmentProvider>
   );
 };
 
