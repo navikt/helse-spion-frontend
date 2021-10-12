@@ -12,7 +12,7 @@ import mockArbeidsgivere from '../mockdata/mockArbeidsgivere';
 
 import {
   ArbeidsgiverProvider,
-  Status,
+  ArbeidsgiverStatus,
   useArbeidsgiver
 } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { Organisasjon } from '@navikt/bedriftsmeny/lib/organisasjon';
@@ -36,17 +36,20 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route?feature=true');
 
-    const fetchSpy = jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve(mockFetchYtelsesperioder)
-    }));
+    const fetchSpy = jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve(mockFetchYtelsesperioder)
+      })
+    );
 
     const rendered = render(
       <StoreProvider>
         <Router history={history}>
           <ArbeidsgiverProvider
             arbeidsgivere={arbeidsgivere}
-            status={Status.Successfully}
+            status={ArbeidsgiverStatus.Successfully}
+            baseUrl='/'
           >
             <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
               <ArbeidsgiverPeriodeTabell />
@@ -62,15 +65,26 @@ describe('ArbeidsgiverPeriodeTabell', () => {
       fireEvent.change(fnrField, {
         target: { value: testFnr.GyldigeFraDolly.TestPerson1 }
       });
-    })
+    });
 
     const searchButton = screen.getByRole('button', { name: 'SEARCH' });
 
     act(() => {
       fireEvent.click(searchButton);
-    })
+    });
 
-    expect(fetchSpy).toHaveBeenCalledWith('http://localhost:3000/api/v1/ytelsesperioder/oppslag', { 'body': '{"identitetsnummer":"25087327879","arbeidsgiverId":""}', 'credentials': 'include', 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' }, 'method': 'POST' });
+    expect(fetchSpy).toHaveBeenCalledWith(
+      'http://localhost:3000/api/v1/ytelsesperioder/oppslag',
+      {
+        body: '{"identitetsnummer":"25087327879","arbeidsgiverId":""}',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      }
+    );
     expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
   });
 
@@ -78,18 +92,20 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve(mockYtelser)
-    }));
-
+    jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve(mockYtelser)
+      })
+    );
 
     const rendered = render(
       <StoreProvider>
         <Router history={history}>
           <ArbeidsgiverProvider
             arbeidsgivere={arbeidsgivere}
-            status={Status.Successfully}
+            status={ArbeidsgiverStatus.Successfully}
+            baseUrl='/'
           >
             <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
               <ArbeidsgiverPeriodeTabell />
@@ -107,34 +123,38 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() => Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve(mockYtelser)
-    }));
+    jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        json: () => Promise.resolve(mockYtelser)
+      })
+    );
     let ytreContainer;
     act(() => {
-
       const { container } = render(
         <StoreProvider>
-        <Router history={history}>
-          <ArbeidsgiverProvider
-            arbeidsgivere={mockArbeidsgivere}
-            status={Status.Successfully}
+          <Router history={history}>
+            <ArbeidsgiverProvider
+              arbeidsgivere={mockArbeidsgivere}
+              status={ArbeidsgiverStatus.Successfully}
+              baseUrl='/'
             >
-            { () => {
-              var { setFirma } = useArbeidsgiver();
-              setFirma('Frima');
-              return (
-                <YtelseSammendragProvider ytelseSammendrag={mockYtelsesperiode}>
-                  <ArbeidsgiverPeriodeTabell />
-                </YtelseSammendragProvider>
-              )
-            }}
-          </ArbeidsgiverProvider>
-        </Router>
-      </StoreProvider>
-    );
-    ytreContainer = container;
+              {() => {
+                var { setFirma } = useArbeidsgiver();
+                setFirma('Frima');
+                return (
+                  <YtelseSammendragProvider
+                    ytelseSammendrag={mockYtelsesperiode}
+                  >
+                    <ArbeidsgiverPeriodeTabell />
+                  </YtelseSammendragProvider>
+                );
+              }}
+            </ArbeidsgiverProvider>
+          </Router>
+        </StoreProvider>
+      );
+      ytreContainer = container;
     });
     const results = await axe(ytreContainer);
     expect(results).toHaveNoViolations();

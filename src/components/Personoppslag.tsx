@@ -5,12 +5,12 @@ import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 
 const Personoppslag = () => {
   return (
-    <InnloggetSide>
+    <InnloggetSide sideTittel='Min side - Refusjonsportal'>
       <YtelseSammendragProvider>
-        <ArbeidsgiverPeriodeTabell/>
+        <ArbeidsgiverPeriodeTabell />
       </YtelseSammendragProvider>
     </InnloggetSide>
   );
-}
+};
 
 export default Personoppslag;
