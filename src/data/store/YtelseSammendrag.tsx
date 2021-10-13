@@ -1,14 +1,21 @@
-import React, { createContext, useState, useContext, Dispatch, SetStateAction } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  Dispatch,
+  SetStateAction,
+  ReactNode
+} from 'react';
 import { YtelseSammendrag } from '../../util/helseSpionTypes';
 
 interface YtelseSammendragProps {
-  children: React.ReactNode
-  ytelseSammendrag?: YtelseSammendrag[] | undefined
+  children: ReactNode;
+  ytelseSammendrag?: YtelseSammendrag[] | undefined;
 }
 
 interface YtelsesammendragProps {
-  ytelsesammendrag: YtelseSammendrag[] | undefined,
-  setYtelsesammendrag: Dispatch<SetStateAction<YtelseSammendrag[] | undefined>>,
+  ytelsesammendrag: YtelseSammendrag[] | undefined;
+  setYtelsesammendrag: Dispatch<SetStateAction<YtelseSammendrag[] | undefined>>;
 }
 
 const YtelseSammendragContext = createContext<YtelsesammendragProps>({
@@ -17,11 +24,20 @@ const YtelseSammendragContext = createContext<YtelsesammendragProps>({
 });
 
 const YtelseSammendragProvider = (props: YtelseSammendragProps) => {
-  const [ ytelsesammendrag, setYtelsesammendrag ] = useState<YtelseSammendrag[] | undefined>(props.ytelseSammendrag);
+  const [ytelsesammendrag, setYtelsesammendrag] = useState<
+    YtelseSammendrag[] | undefined
+  >(props.ytelseSammendrag);
 
-  return (<YtelseSammendragContext.Provider value={{ ytelsesammendrag, setYtelsesammendrag }}>{ props.children }</YtelseSammendragContext.Provider>);
+  return (
+    <YtelseSammendragContext.Provider
+      value={{ ytelsesammendrag, setYtelsesammendrag }}
+    >
+      {props.children}
+    </YtelseSammendragContext.Provider>
+  );
 };
 
 export default YtelseSammendragProvider;
 
-export const useYtelseSammendragContext = () => useContext(YtelseSammendragContext);
+export const useYtelseSammendragContext = () =>
+  useContext(YtelseSammendragContext);

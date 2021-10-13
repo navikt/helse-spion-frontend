@@ -4,10 +4,15 @@ import { stringToDate } from '../util/stringToDate';
 import env from '../Environment';
 
 export default (): any => {
-  const { setYtelsesperioder } = useAppStore();
-  const { setYtelsesperioderLoading } = useAppStore();
-  const { setYtelsesperioderErrorType } = useAppStore();
-  const { setYtelsesperioderErrorMessage } = useAppStore();
+  const {
+    setYtelsesperioder,
+    setYtelsesperioderLoading,
+    setYtelsesperioderErrorType,
+    setYtelsesperioderErrorMessage
+  } = useAppStore();
+  // const { setYtelsesperioderLoading } = useAppStore();
+  // const { setYtelsesperioderErrorType } = useAppStore();
+  // const { setYtelsesperioderErrorMessage } = useAppStore();
 
   return (
     identityNumber?: string,
