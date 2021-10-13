@@ -11,15 +11,12 @@ const useYtelseSammendrag = (): any => {
     setYtelsesperioderErrorType,
     setYtelsesperioderErrorMessage
   } = useAppStore();
-  // const { setYtelsesperioderErrorType } = useAppStore();
-  // const { setYtelsesperioderErrorMessage } = useAppStore();
 
   const getYtelseSammendrag = (
     arbeidsgiverId?: string,
     fom?: string,
     tom?: string
   ): Promise<void | YtelseSammendrag[] | undefined> => {
-    // debugger;
     setYtelsesperioderLoading(true);
     let periodefilter = '';
     if (fom && fom.trim().length > 1) {
@@ -28,7 +25,6 @@ const useYtelseSammendrag = (): any => {
     if (tom && tom.trim().length > 1) {
       periodefilter = periodefilter += `&tom=${tom}`;
     }
-    debugger;
     return fetch(
       env.baseUrl +
         `/api/v1/ytelsesperioder/virksomhet/${arbeidsgiverId}${periodefilter}`,

@@ -66,11 +66,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   };
 
   useEffect(() => {
-    debugger;
     if (arbeidsgiverId.length > 1 && featureFlag) {
       getYtelseSammendrag(arbeidsgiverId, fraDato, tilDato);
     }
-  }, [arbeidsgiverId, fraDato, tilDato, featureFlag]);
+  }, [arbeidsgiverId, fraDato, tilDato, featureFlag]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const location: any = useLocation();
   if (location && location.search.includes('feature=true')) {
