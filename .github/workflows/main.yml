@@ -49,15 +49,15 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
 
-  Snyk:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+  # Snyk:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/node@master
 
   Docker:
-    needs: [Bygg,Kodekvalitet,Eslint,Snyk]
+    needs: [Bygg,Kodekvalitet,Eslint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
