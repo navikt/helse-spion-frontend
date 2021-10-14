@@ -123,7 +123,8 @@
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "snyk": "^1.622.0",
-    "sonarqube-scanner": "^2.8.0"
+    "sonarqube-scanner": "^2.8.0",
+    "yet-another-fetch-mock": "^4.1.0"
   },
   "prettier": {
     "printWidth": 120

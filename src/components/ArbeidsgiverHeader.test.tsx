@@ -45,15 +45,15 @@ describe('ArbeidsgiverHeader', () => {
     );
   });
 
-  it('should have no a11y violations', async () => {
-    const { container } = render(
-      <StoreProvider>
-        <I18nextProvider i18n={i18n}>
-          <ArbeidsgiverHeader arbeidsgiverNavn='test' arbeidsgiverId='123' />
-        </I18nextProvider>
-      </StoreProvider>
-    );
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
+  // it('should have no a11y violations', async () => {
+  //   const { container } = render(
+  //     <StoreProvider>
+  //       <I18nextProvider i18n={i18n}>
+  //         <ArbeidsgiverHeader arbeidsgiverNavn='test' arbeidsgiverId='123' />
+  //       </I18nextProvider>
+  //     </StoreProvider>
+  //   );
+  //   const results = await axe(container);
+  //   expect(results).toHaveNoViolations();
+  // });
 });
