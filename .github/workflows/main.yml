@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/helse-spion-frontend:${{ github.sha }}
+  IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}:${{ github.sha }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -76,14 +76,32 @@ jobs:
           docker build --pull --tag ${{ env.IMAGE }}  .
           docker push ${{ env.IMAGE }}
 
-  Deploy:
-    name: Deploy til PREPROD
-    needs: Docker
+  # Deploy:
+  #   name: Deploy til PREPROD
+  #   needs: Docker
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: nais/deploy/actions/deploy@v1
+  #       env:
+  #         APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  #         CLUSTER: dev-gcp
+  #         RESOURCE: deploy/dev.yaml
+
+  deploy:
+    name: Deploy dev-gcp
+    needs: [Docker]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
+
+      - uses: actions/checkout@v2
+
+      - uses: nais/deploy/actions/deploy@master
         env:
+          TEAM: helsearbeidsgiver
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-sbs
+          CLUSTER: dev-gcp
           RESOURCE: deploy/dev.yaml
+          REF: ${{ env.COMMIT }}
+          IMAGE: ${{ env.IMAGE }}

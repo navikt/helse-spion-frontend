@@ -29,7 +29,7 @@ class Environment {
       case EnvironmentType.PROD:
         return 'https://arbeidsgiver.nav.no/min-side-refusjon';
       case EnvironmentType.PREPROD_DEV:
-        return 'https://arbeidsgiver-min-side-refusjon.dev.nav.no/min-side-refusjon';
+        return 'https://helse-spion.dev.nav.no';
       case EnvironmentType.PREPROD_Q:
         return 'https://arbeidsgiver-q.nav.no/min-side-refusjon';
       default:
