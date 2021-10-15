@@ -47,9 +47,7 @@ describe('Environment', () => {
     delete window.location;
     window.location = new URL('https://www.dev.nav.no');
 
-    expect(env.baseUrl).toBe(
-      'https://arbeidsgiver-min-side-refusjon.dev.nav.no/min-side-refusjon'
-    );
+    expect(env.baseUrl).toBe('https://helse-spion.dev.nav.no');
   });
 
   it('should return the baseUrl url for preprod q', () => {
