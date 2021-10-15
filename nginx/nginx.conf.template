@@ -1,0 +1,31 @@
+gzip on;
+
+server {
+  listen       8080;
+
+  proxy_http_version  1.1;
+  proxy_set_header    X-Real-IP $remote_addr;
+  proxy_redirect      off;
+
+  # Health check for NAIS
+  location = "/health/is-alive" {
+      return 200 "Application:UP";
+      default_type text/plain;
+  }
+
+  # Readiness check for NAIS
+  location = "/health/is-ready" {
+      return 200 "Application:READY";
+      default_type text/plain;
+  }
+
+  location / {
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+    try_files $uri $uri/ /index.html;
+  }
+
+  location /min-side-refusjon {
+    alias /usr/share/nginx/html;
+  }
+}

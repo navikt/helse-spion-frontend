@@ -7,7 +7,7 @@ metadata:
     team: helsearbeidsgiver
 spec:
   image: {{image}}
-  port: 443
+  port: 8080
   liveness:
     path: /health/is-alive
     initialDelay: 15
@@ -21,7 +21,6 @@ spec:
     periodSeconds: 3
     failureThreshold: 10
   ingresses:
-    - https://arbeidsgiver-q.nav.no/min-side-refusjon/
     - https://arbeidsgiver-min-side-refusjon.dev.nav.no
   replicas:
     max: 1
@@ -33,13 +32,3 @@ spec:
     requests:
       cpu: 400m
       memory: 256Mi
-  vault:
-    enabled: true
-    paths:
-      - kvPath: apikey/apigw/dev/helse-spion/helse-spion-frontend_q1
-        mountPath: /apigw/helse-spion
-  env:
-  - name: API_GATEWAY
-    value: https://api-gw-q1.oera.no/helse-spion
-  - name: LOGIN_URL
-    value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/

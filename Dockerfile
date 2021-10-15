@@ -1,19 +1,8 @@
-FROM openresty/openresty:alpine-fat
+FROM nginxinc/nginx-unprivileged
 
-# User env var is needed for luarocks to not complain.
-ENV APP_DIR="/app" \
-	APP_PATH_PREFIX="/min-side-refusjon" \
-	USER="root"
+ENV NGINX_ENVSUBST_OUTPUT_DIR /tmp
 
-# Copying over the config-files.
-COPY files/default-config.nginx /etc/nginx/conf.d/app.conf.template
-COPY files/start-nginx.sh       /usr/sbin/start-nginx
-RUN chmod u+x /usr/sbin/start-nginx
-RUN mkdir -p /nginx
-COPY build /app
+COPY /nginx/nginx-conf-overwrite.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 9000 8012 443
-
-WORKDIR ${APP_DIR}
-
-CMD ["start-nginx"]
+COPY build /usr/share/nginx/html
+COPY /nginx/nginx.conf.template /etc/nginx/templates/default.conf.template
