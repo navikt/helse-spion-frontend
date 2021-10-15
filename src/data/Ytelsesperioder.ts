@@ -21,9 +21,6 @@ export default (): any => {
     setYtelsesperioderErrorType,
     setYtelsesperioderErrorMessage
   } = useAppStore();
-  // const { setYtelsesperioderLoading } = useAppStore();
-  // const { setYtelsesperioderErrorType } = useAppStore();
-  // const { setYtelsesperioderErrorMessage } = useAppStore();
 
   return (
     identityNumber?: string,

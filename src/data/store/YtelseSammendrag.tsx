@@ -10,7 +10,7 @@ import { YtelseSammendrag } from '../../util/helseSpionTypes';
 
 interface YtelseSammendragProps {
   children: ReactNode;
-  ytelseSammendrag?: YtelseSammendrag[] | undefined;
+  ytelseSammendrag?: YtelseSammendrag[];
 }
 
 interface YtelsesammendragProps {
