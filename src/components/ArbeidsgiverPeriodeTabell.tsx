@@ -9,7 +9,7 @@ import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend'
+import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { useAppStore } from '../data/store/AppStore';
 import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
@@ -28,102 +28,124 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
-    setYtelsesperioder, // eslint-disable-line @typescript-eslint/no-unused-vars
+    // setYtelsesperioder, // eslint-disable-line @typescript-eslint/no-unused-vars
     fraDato,
-    tilDato,
+    tilDato
   } = useAppStore();
   const {
-    ytelsesammendrag,
-    setYtelsesammendrag // eslint-disable-line @typescript-eslint/no-unused-vars
+    ytelsesammendrag
+    // setYtelsesammendrag // eslint-disable-line @typescript-eslint/no-unused-vars
   } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
-  const [identityNumberInput ] = useState<string>('');
+  const [identityNumberInput] = useState<string>('');
   const { t } = useTranslation();
-  const arbeidstaker = ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
+  const arbeidstaker =
+    ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
-  const [ featureFlag, setFeatureFlag ] = useState<Boolean>(false);
+  const [featureFlag, setFeatureFlag] = useState<Boolean>(false);
 
-  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void { // eslint-disable-line @typescript-eslint/no-unused-vars
+  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
+    // eslint-disable-line @typescript-eslint/no-unused-vars
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
       event.preventDefault();
       event.stopPropagation();
       handleSubmitSearch();
     }
-  };
+  }
 
   const handleNameClick = async (identitetsnummer: string): Promise<void> => {
     await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
   };
 
   const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
+    await Ytelsesperioder(
+      identityNumberInput.replace(/\D/g, ''),
+      arbeidsgiverId
+    );
   };
 
   useEffect(() => {
-    if(arbeidsgiverId.length > 1 && featureFlag) {
+    if (arbeidsgiverId.length > 1 && featureFlag) {
       getYtelseSammendrag(arbeidsgiverId, fraDato, tilDato);
     }
-
-  },[ytelsesammendrag, arbeidsgiverId, fraDato, tilDato]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [arbeidsgiverId, fraDato, tilDato, featureFlag]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const location: any = useLocation();
-  if(location && location.search.includes('feature=true')) {
-    if(!featureFlag) {
+  if (location && location.search.includes('feature=true')) {
+    if (!featureFlag) {
       setFeatureFlag(true);
     }
   }
 
   return (
     <>
-      { ytelsesammendrag && ytelsesperioder.length === 0 && ytelsesammendrag.length > 0 &&
-      (
-        <Row>
-          <ArbeidsgiverHeader arbeidsgiverNavn={firma} arbeidsgiverId={arbeidsgiverId}/>
+      {ytelsesammendrag &&
+        ytelsesperioder.length === 0 &&
+        ytelsesammendrag.length > 0 && (
+          <Row>
+            <ArbeidsgiverHeader
+              arbeidsgiverNavn={firma}
+              arbeidsgiverId={arbeidsgiverId}
+            />
+          </Row>
+        )}
+
+      {arbeidstaker ? (
+        <ArbeidstakerDetaljHeader
+          arbeidstaker={arbeidstaker}
+          arbeidsgiverId={arbeidsgiverId}
+        />
+      ) : (
+        <Row className='arbeidsgiver-periode--lufting'>
+          <Column sm='12' />
+          <Column sm='12' />
         </Row>
       )}
 
-      {
-        arbeidstaker ?
-          <ArbeidstakerDetaljHeader arbeidstaker={arbeidstaker} arbeidsgiverId={arbeidsgiverId}/>
-          :
-          <Row className="arbeidsgiver-periode--lufting">
-            <Column sm="12"/>
-            <Column sm="12"/>
-          </Row>
-      }
-
-
-        <Row>
-          <Column sm="12">
-            {
-              ytelsesperioder.length === 0 && !featureFlag &&
-                <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
-            }
-            {
-              ytelsesperioderErrorType &&
-              (
-                ytelsesperioderErrorType !in ErrorType || ytelsesperioderErrorMessage
-                ? <AlertStripe type="feil">{ytelsesperioderErrorMessage}</AlertStripe>
-                : <AlertStripe type="feil">{t(ytelsesperioderErrorType)}</AlertStripe>
-                )
-              }
-            {
-              ytelsesperioderLoading &&
-              <div className="arbeidsgiver-periode-tabell--loading-spinner"> <NavFrontendSpinner /> </div>
-            }
-            {
-              ytelsesperioder.length > 0 && !ytelsesperioderLoading &&
-              <YtelsesperiodeTable ytelsesperioder={ytelsesperioder}/>
-            }
-            {
-              ytelsesperioder.length === 0 && ytelsesammendrag && ytelsesammendrag.length > 0 && !ytelsesperioderLoading &&
-              <YtelseSammendragTable ytelseSammendrag={ytelsesammendrag} onNameClick={handleNameClick} startdato={fraDato} sluttdato={tilDato}/>
-            }
-          </Column>
-        </Row>
-
-    </>  );
+      <Row>
+        <Column sm='12'>
+          {ytelsesperioder && ytelsesperioder.length === 0 && !featureFlag && (
+            <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
+          )}
+          {ytelsesperioderErrorType &&
+            (ytelsesperioderErrorType! in ErrorType ||
+            ytelsesperioderErrorMessage ? (
+              <AlertStripe type='feil'>
+                {ytelsesperioderErrorMessage}
+              </AlertStripe>
+            ) : (
+              <AlertStripe type='feil'>
+                {t(ytelsesperioderErrorType)}
+              </AlertStripe>
+            ))}
+          {ytelsesperioderLoading && (
+            <div className='arbeidsgiver-periode-tabell--loading-spinner'>
+              {' '}
+              <NavFrontendSpinner />{' '}
+            </div>
+          )}
+          {ytelsesperioder &&
+            ytelsesperioder.length > 0 &&
+            !ytelsesperioderLoading && (
+              <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />
+            )}
+          {ytelsesperioder &&
+            ytelsesperioder.length === 0 &&
+            ytelsesammendrag &&
+            ytelsesammendrag.length > 0 &&
+            !ytelsesperioderLoading && (
+              <YtelseSammendragTable
+                ytelseSammendrag={ytelsesammendrag}
+                onNameClick={handleNameClick}
+                startdato={fraDato}
+                sluttdato={tilDato}
+              />
+            )}
+        </Column>
+      </Row>
+    </>
+  );
 };
 
 export default ArbeidsgiverPeriodeTabell;
