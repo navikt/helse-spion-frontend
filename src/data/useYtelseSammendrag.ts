@@ -12,7 +12,7 @@ const useYtelseSammendrag = (): any => {
     setYtelsesperioderErrorMessage
   } = useAppStore();
 
-  const getYtelseSammendrag = (
+  return (
     arbeidsgiverId?: string,
     fom?: string,
     tom?: string
@@ -61,8 +61,6 @@ const useYtelseSammendrag = (): any => {
       }
     });
   };
-
-  return getYtelseSammendrag;
 };
 
 // todo: type safety
