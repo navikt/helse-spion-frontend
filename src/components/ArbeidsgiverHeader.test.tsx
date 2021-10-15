@@ -6,7 +6,6 @@ import { I18nextProvider } from 'react-i18next';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import StoreProvider from '../data/store/StoreProvider';
 import { testFnr } from '../mockdata/testFnr';
-import i18n from '../locales/i18n';
 
 describe('ArbeidsgiverHeader', () => {
   beforeEach(() => {
