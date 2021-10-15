@@ -12,8 +12,8 @@
     "start": "npm-run-all -p start:*",
     "build": "npm run build:css && npm run build:js",
     "test": "react-scripts test --color --watchAll=false --coverage --env=jest-environment-jsdom-sixteen",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint src/**/*.ts*",
+    "lint:fix": "eslint src/**/*.ts* --fix",
     "snyk-protect": "snyk protect",
     "pretty-please": "pretty-quick --staged --config .prettierrc.json",
     "prepare": "husky install"
