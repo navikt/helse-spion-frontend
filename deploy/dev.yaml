@@ -6,8 +6,10 @@ metadata:
   labels:
     team: helsearbeidsgiver
 spec:
-  image: {{image}}
+  image: {{ image }}
   port: 8080
+  ingresses:
+    - https://arbeidsgiver-min-side-refusjon.dev.nav.no
   liveness:
     path: /health/is-alive
     initialDelay: 15
@@ -20,8 +22,6 @@ spec:
     timeout: 1
     periodSeconds: 3
     failureThreshold: 10
-  ingresses:
-    - https://arbeidsgiver-min-side-refusjon.dev.nav.no
   replicas:
     max: 1
     min: 1
