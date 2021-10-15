@@ -74,7 +74,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     });
 
     expect(fetchSpy).toHaveBeenCalledWith(
-      'http://localhost:3000/api/v1/ytelsesperioder/oppslag',
+      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
       {
         body: '{"identitetsnummer":"25087327879","arbeidsgiverId":""}',
         credentials: 'include',

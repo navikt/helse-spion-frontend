@@ -33,7 +33,7 @@ class Environment {
       case EnvironmentType.PREPROD_Q:
         return 'https://arbeidsgiver-q.nav.no/min-side-refusjon';
       default:
-        return 'http://localhost:3000';
+        return 'http://localhost:8080';
     }
   }
 

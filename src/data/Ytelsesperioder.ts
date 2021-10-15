@@ -3,11 +3,24 @@ import { Ytelsesperiode } from '../util/helseSpionTypes';
 import { stringToDate } from '../util/stringToDate';
 import env from '../Environment';
 
+interface MessageBodyPeriode {
+  fom: string;
+  tom: string;
+}
+
+interface MessageBodyPost {
+  identitetsnummer: string;
+  arbeidsgiverId: string;
+  periode?: MessageBodyPeriode;
+}
+
 export default (): any => {
-  const { setYtelsesperioder } = useAppStore();
-  const { setYtelsesperioderLoading } = useAppStore();
-  const { setYtelsesperioderErrorType } = useAppStore();
-  const { setYtelsesperioderErrorMessage } = useAppStore();
+  const {
+    setYtelsesperioder,
+    setYtelsesperioderLoading,
+    setYtelsesperioderErrorType,
+    setYtelsesperioderErrorMessage
+  } = useAppStore();
 
   return (
     identityNumber?: string,
@@ -17,10 +30,9 @@ export default (): any => {
   ): Promise<any> => {
     setYtelsesperioderLoading(true);
 
-    const messageBody = {
-      identitetsnummer: identityNumber,
-      arbeidsgiverId: arbeidsgiverId,
-      periode: {}
+    const messageBody: MessageBodyPost = {
+      identitetsnummer: identityNumber || '',
+      arbeidsgiverId: arbeidsgiverId || ''
     };
 
     if (fom && tom) {
@@ -29,7 +41,7 @@ export default (): any => {
         tom: tom
       };
     } else {
-      messageBody.periode = {};
+      delete messageBody.periode;
     }
 
     return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
