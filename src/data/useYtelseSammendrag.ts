@@ -72,7 +72,6 @@ export const convertResponseDataToYtelseSammendrag = (
   data.forEach((element) => {
     let ytelsesElementIndex: number = sammendrag.findIndex(
       (sammendragElement) => {
-        // eslint-disable-line array-callback-return
         if (
           sammendragElement.identitetsnummer ===
           element.arbeidsforhold.arbeidstaker.identitetsnummer
