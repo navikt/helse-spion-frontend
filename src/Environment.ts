@@ -16,11 +16,11 @@ class Environment {
       case EnvironmentType.PROD:
         return 'https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-refusjon/';
       case EnvironmentType.PREPROD_DEV:
-        return 'https://loginservice.dev.nav.no/login?redirect=https://arbeidsgiver-min-side-refusjon.dev.nav.no';
+        return 'https://helse-spion.dev.nav.no/login?redirect=https://helse-spion.dev.nav.no';
       case EnvironmentType.PREPROD_Q:
         return 'https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/';
       default:
-        return 'http://localhost:8080/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/';
+        return 'https://helse-spion.dev.nav.no/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/';
     }
   }
 
