@@ -28,14 +28,10 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
     ytelsesperioderLoading,
     ytelsesperioderErrorType,
     ytelsesperioderErrorMessage,
-    // setYtelsesperioder, // eslint-disable-line @typescript-eslint/no-unused-vars
     fraDato,
     tilDato
   } = useAppStore();
-  const {
-    ytelsesammendrag
-    // setYtelsesammendrag // eslint-disable-line @typescript-eslint/no-unused-vars
-  } = useYtelseSammendragContext();
+  const { ytelsesammendrag } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const [identityNumberInput] = useState<string>('');
   const { t } = useTranslation();

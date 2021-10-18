@@ -20,7 +20,9 @@ interface YtelsesammendragProps {
 
 const YtelseSammendragContext = createContext<YtelsesammendragProps>({
   ytelsesammendrag: [],
-  setYtelsesammendrag: () => {}
+  setYtelsesammendrag: () => {
+    // This is intentional
+  }
 });
 
 const YtelseSammendragProvider = (props: YtelseSammendragProps) => {

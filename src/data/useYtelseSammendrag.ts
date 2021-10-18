@@ -63,7 +63,6 @@ const useYtelseSammendrag = (): any => {
   };
 };
 
-// todo: type safety
 export const convertResponseDataToYtelseSammendrag = (
   data: any
 ): YtelseSammendrag[] => {
