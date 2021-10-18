@@ -3,7 +3,7 @@ import env from './Environment';
 describe('Environment', () => {
   it('should return the loginservice url for localhost', () => {
     expect(env.loginServiceUrl).toBe(
-      'http://localhost:8080/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/'
+      'https://helse-spion.dev.nav.no/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/'
     );
   });
 
@@ -12,7 +12,7 @@ describe('Environment', () => {
     window.location = new URL('https://www.dev.nav.no');
 
     expect(env.loginServiceUrl).toBe(
-      'https://loginservice.dev.nav.no/login?redirect=https://arbeidsgiver-min-side-refusjon.dev.nav.no'
+      'https://helse-spion.dev.nav.no/login?redirect=https://helse-spion.dev.nav.no'
     );
   });
 
