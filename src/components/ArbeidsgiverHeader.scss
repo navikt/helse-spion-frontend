@@ -2,12 +2,16 @@
     > .skjemaelement {
     display: inline-block;
     
-        &:first-child {
+        .datovelger-fra {
             margin-right: 1rem;
+        }
+
+        .datovelger-til {
+            margin-left: 1rem;
         }
     }
 }
 
 .arbeidsgiver-periode-search-header-label {
-    margin-bottom: 1.9rem;
+    margin-bottom: .5rem;
 }

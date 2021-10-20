@@ -1,10 +1,15 @@
 import React from 'react';
-import { Side } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import {
+  Side,
+  useArbeidsgiver
+} from '@navikt/helse-arbeidsgiver-felles-frontend';
 import YtelseSammendragProvider from '../data/store/YtelseSammendrag';
-import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
 import './Personoppslag.scss';
+import FnrSokeside from './FnrSokeside';
 
 const Personoppslag = () => {
+  const { arbeidsgiverId, firma } = useArbeidsgiver();
+
   return (
     <Side
       sidetittel='Refusjoner'
@@ -13,7 +18,7 @@ const Personoppslag = () => {
       className='side-personoppslag'
     >
       <YtelseSammendragProvider>
-        <ArbeidsgiverPeriodeTabell />
+        <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
       </YtelseSammendragProvider>
     </Side>
   );

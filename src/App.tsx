@@ -15,6 +15,8 @@ import translatedKeys from './locales/keys';
 import Personoppslag from './components/Personoppslag';
 import Redirecter from './components/Redirecter';
 import StoreProvider from './data/store/StoreProvider';
+import Personoversikt from './components/Personoversikt';
+import Person from './components/person';
 
 interface ApplicationProps {
   loginStatus?: LoginStatus;
@@ -49,6 +51,8 @@ export const Application = ({
         >
           <Switch>
             <Route path='/personoppslag' render={() => <Personoppslag />} />
+            <Route path='/personoversikt' render={() => <Personoversikt />} />
+            <Route path='/person' render={() => <Person />} />
             <Route path='/' render={() => <Redirecter />} />
           </Switch>
         </LanguageProvider>
@@ -58,7 +62,7 @@ export const Application = ({
 );
 
 const App = () => (
-  <BrowserRouter basename='fritak-agp'>
+  <BrowserRouter>
     <Application />
   </BrowserRouter>
 );

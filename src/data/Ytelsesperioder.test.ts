@@ -2,45 +2,84 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import Ytelsesperioder from './Ytelsesperioder';
 import { AppStoreProvider } from '../data/store/AppStore';
 import ytelser from '../mockdata/mockYtelser';
+import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock';
 
 describe('Ytelsesperioder', () => {
   it('skal returnere arbeidsgivere', async () => {
-    const mockYtelser = Promise.resolve({
-      status: 200,
-      json: () => Promise.resolve(ytelser),
+    let mock: FetchMock;
+    let spy: SpyMiddleware;
+
+    spy = new SpyMiddleware();
+
+    mock = FetchMock.configure({
+      middleware: spy.middleware
     });
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() => mockYtelser);
 
-    const { result } = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } );
+    expect(spy.size()).toBe(0);
 
+    mock.post(
+      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
+    );
+
+    const { result } = renderHook(() => Ytelsesperioder(), {
+      wrapper: AppStoreProvider
+    });
 
     const getYtelseSammendrag = result.current;
     await act(async () => {
-      const getResult = await getYtelseSammendrag('123456789','2020.01.01','2020.02.02');
+      const getResult = await getYtelseSammendrag(
+        '123456789',
+        '2020.01.01',
+        '2020.02.02'
+      );
 
       expect(getResult).toBeUndefined();
-    })
+    });
   });
 
   it('skal håndtere feil', async () => {
-    const mockError = Promise.resolve({
-      status: 500,
-      json: () => Promise.resolve({ violations :[
-         {
-          validationType: 'NoeGalt',
-          message: 'Noe gikk galt'
-        }
-      ] }),
+    let mock: FetchMock;
+    let spy: SpyMiddleware;
+    const mockError = {
+      type: 'NoeGalt',
+      title: 'Noe gikk galt'
+    };
+
+    spy = new SpyMiddleware();
+
+    mock = FetchMock.configure({
+      middleware: spy.middleware
     });
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() => mockError);
 
-    const { result } = renderHook(() => Ytelsesperioder(),{ wrapper: AppStoreProvider } )
+    expect(spy.size()).toBe(0);
 
-    const getYtelsesSammendrag = result.current;
-    await act(async ()=> {
-      const gotError = await getYtelsesSammendrag('123456789','2020.01.01','2020.02.02');
+    mock.post(
+      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
+    );
 
-      expect(gotError).toBeUndefined();
-    })
+    const { result } = renderHook(() => Ytelsesperioder(), {
+      wrapper: AppStoreProvider
+    });
+
+    const getYtelsesperioder = result.current;
+
+    let gotError: any;
+
+    await act(async () => {
+      const gotError = await getYtelsesperioder(
+        '123456789',
+        '2020.01.01',
+        '2020.02.02'
+      );
+    });
+
+    expect(spy.size()).toBe(1);
+    expect(spy.lastCall()).not.toBeNull();
+    expect(spy.lastUrl()).toBe(
+      'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
+    );
+    expect(gotError).toBeUndefined();
   });
 });

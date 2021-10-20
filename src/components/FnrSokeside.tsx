@@ -10,10 +10,10 @@ import useYtelsesperioder from '../data/Ytelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import { v4 as uuid } from 'uuid';
 import './FnrSokeside.scss';
-
+import { useHistory } from 'react-router-dom';
 
 interface FnrSokesideInterface {
-  arbeidsgiverId: string,
+  arbeidsgiverId: string;
 }
 
 const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
@@ -21,50 +21,69 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const Ytelsesperioder = useYtelsesperioder();
   const fnrId = uuid();
+  const history = useHistory();
+  const [feilmeldingstekst, setFeilmeldingstekst] = useState<string>('');
 
-  const {
-    ytelsesperioderLoading,
-  } = useAppStore();
+  const { ytelsesperioder, ytelsesperioderLoading } = useAppStore();
+
+  const [isValidFnr, setIsValidFnr] = useState<boolean>(false);
 
   const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(identityNumberInput.replace(/\D/g, ''), arbeidsgiverId);
+    await Ytelsesperioder(
+      identityNumberInput.replace(/\D/g, ''),
+      arbeidsgiverId
+    );
+
+    const arbeidstaker =
+      ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
+    if (!!arbeidstaker) {
+      history.push('/person');
+    } else {
+      setFeilmeldingstekst('Fant ingen med dette fødselsnummeret');
+    }
+  };
+
+  const validationHandler = (isValid) => {
+    setIsValidFnr(isValid);
   };
 
   return (
     <Row>
-      <Column sm="12">
-        <Panel border className="fnr-sokeside-panel">
+      <Column sm='12'>
+        <Panel border className='fnr-sokeside-panel'>
           <Innholdstittel>{t(Keys.EMPLOYEE_SEARCH)}</Innholdstittel>
-          <label htmlFor={fnrId} className="fnr-sokeside-label">
+          <label htmlFor={fnrId} className='fnr-sokeside-label'>
             {t(Keys.IDENTITY_NUMBER_EXT)}
           </label>
           <div>
             <FnrInput
-              bredde="M"
+              bredde='M'
               value={identityNumberInput}
               placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
-              onChange={e => setIdentityNumberInput(e.target.value)}
-              onBlur={e => setIdentityNumberInput(e.target.value)}
-              onValidate={() => true}
-              // feil={feilmeldingstekst}
+              onChange={(e) => setIdentityNumberInput(e.target.value)}
+              onBlur={(e) => setIdentityNumberInput(e.target.value)}
+              onValidate={validationHandler}
+              feil={feilmeldingstekst}
               id={fnrId}
-              className="arbeidsgiver-periode-fnr-input fnr-sokeside-fnrinput"
-              />
+              className='arbeidsgiver-periode-fnr-input fnr-sokeside-fnrinput'
+            />
             <Søkeknapp
-                disabled={identityNumberInput.length < 11 || ytelsesperioderLoading }
-                className="ytelsesperiode--søke-knapp"
-                onClick={handleSubmitSearch}
-              >
+              disabled={!isValidFnr || ytelsesperioderLoading}
+              className='fnr-sokeside--søke-knapp'
+              onClick={handleSubmitSearch}
+              spinner={ytelsesperioderLoading}
+            >
               <span>{t(Keys.SEARCH)}</span>
             </Søkeknapp>
           </div>
-          <div className="fnr-sokeside-infobox">
-            <span className="fnr-sokeside-infointro">{t(Keys.FOR_INFO)}:</span> {t(Keys.INFO_TEXT)}
+          <div className='fnr-sokeside-infobox'>
+            <span className='fnr-sokeside-infointro'>{t(Keys.FOR_INFO)}:</span>{' '}
+            {t(Keys.INFO_TEXT)}
           </div>
         </Panel>
       </Column>
     </Row>
-  )
-}
+  );
+};
 
 export default FnrSokeside;
