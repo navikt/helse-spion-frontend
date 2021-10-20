@@ -28,7 +28,8 @@ export enum Keys {
   EMPLOYEE_SEARCH = 'EMPLOYEE_SEARCH',
   FOR_INFO = 'FOR_INFO',
   INFO_TEXT = 'INFO_TEXT',
-  INNLOGGET_SIDE_MIN_SIDE = 'INNLOGGET_SIDE_MIN_SIDE'
+  INNLOGGET_SIDE_MIN_SIDE = 'INNLOGGET_SIDE_MIN_SIDE',
+  SIDE_MIN_SIDE_ARBEIDSGIVER = 'SIDE_MIN_SIDE_ARBEIDSGIVER'
 }
 
 const translatedKeys: IncludedKeys = {
@@ -75,9 +76,9 @@ const translatedKeys: IncludedKeys = {
   },
 
   [Keys.IDENTITY_NUMBER_EXT]: {
-    nb: 'Fødselsnummer 11 siffer',
-    nn: 'Fødselsnummer 11 siffer',
-    en: 'Identity number 11 numbers'
+    nb: 'Fødselsnummer 11 siffer:',
+    nn: 'Fødselsnummer 11 siffer:',
+    en: 'Identity number 11 digits:'
   },
 
   [Keys.SEARCH]: {
@@ -192,6 +193,12 @@ const translatedKeys: IncludedKeys = {
     nb: 'Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.',
     nn: 'Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.',
     en: 'We are working on putting in place a table view of employees with refunds. This will not be ready until the autumn of 2020.'
+  },
+
+  [Keys.SIDE_MIN_SIDE_ARBEIDSGIVER]: {
+    nb: 'Min side',
+    nn: 'Min side',
+    en: 'My page'
   },
 
   [Keys.INNLOGGET_SIDE_MIN_SIDE]: {

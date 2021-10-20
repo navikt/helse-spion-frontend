@@ -14,7 +14,7 @@ const expected = {
   HENLAGT: 'Henlagt',
   IDENTITETSNUMMERCONSTRAINT: 'En feil har skjedd. Prøv igjen senere.',
   IDENTITY_NUMBER: 'Fødselsnummer',
-  IDENTITY_NUMBER_EXT: 'Fødselsnummer 11 siffer',
+  IDENTITY_NUMBER_EXT: 'Fødselsnummer 11 siffer:',
   INFO_TEXT:
     'Vi jobber med å få på plass en tabellvisning av ansatte med refusjoner. Dette vil først være klart høsten 2020.',
   INNVILGET: 'Innvilget',
@@ -37,6 +37,7 @@ const expected = {
   TOTAL_REFUNDED_IN_PERIOD: 'Sum refusjoner fra',
   UNDER_BEHANDLING: 'Under behandling',
   UNKNOWN: 'En feil har skjedd. Prøv igjen senere.',
+  SIDE_MIN_SIDE_ARBEIDSGIVER: 'Min side',
   INNLOGGET_SIDE_MIN_SIDE: 'Min side'
 };
 

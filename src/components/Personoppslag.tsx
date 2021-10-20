@@ -1,15 +1,21 @@
 import React from 'react';
-import { InnloggetSide } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import { Side } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import YtelseSammendragProvider from '../data/store/YtelseSammendrag';
 import ArbeidsgiverPeriodeTabell from './ArbeidsgiverPeriodeTabell';
+import './Personoppslag.scss';
 
 const Personoppslag = () => {
   return (
-    <InnloggetSide sideTittel='Min side - Refusjonsportal'>
+    <Side
+      sidetittel='Refusjoner'
+      bedriftsmeny
+      skjulTilbakeLenke
+      className='side-personoppslag'
+    >
       <YtelseSammendragProvider>
         <ArbeidsgiverPeriodeTabell />
       </YtelseSammendragProvider>
-    </InnloggetSide>
+    </Side>
   );
 };
 

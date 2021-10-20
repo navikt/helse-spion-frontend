@@ -1,9 +1,11 @@
-import '@testing-library/jest-dom'
-import React from 'react'
-import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
-import ArbeidstakerDetaljHeader, { ArbeidstakerInterface } from './ArbeidstakerDetaljHeader';
+import ArbeidstakerDetaljHeader, {
+  ArbeidstakerInterface
+} from './ArbeidstakerDetaljHeader';
 import StoreProvider from '../data/store/StoreProvider';
 
 expect.extend(toHaveNoViolations);
@@ -18,15 +20,15 @@ describe('ArbeidstakerDetaljHeader', () => {
 
     render(
       <StoreProvider>
-
-          <ArbeidstakerDetaljHeader arbeidsgiverId="12345678901" arbeidstaker={arbeidstaker} />
-
+        <ArbeidstakerDetaljHeader
+          arbeidsgiverId='12345678901'
+          arbeidstaker={arbeidstaker}
+        />
       </StoreProvider>
-      );
+    );
 
-    expect(screen.getByText(/123456-78901/)).toBeInTheDocument();
-
-  })
+    expect(screen.getByText(/123456 78901/)).toBeInTheDocument();
+  });
 
   it('should have no a11y violations', async () => {
     const arbeidstaker: ArbeidstakerInterface = {
@@ -37,11 +39,13 @@ describe('ArbeidstakerDetaljHeader', () => {
 
     const { container } = render(
       <StoreProvider>
-        <ArbeidstakerDetaljHeader arbeidsgiverId="12345678901" arbeidstaker={arbeidstaker} />
+        <ArbeidstakerDetaljHeader
+          arbeidsgiverId='12345678901'
+          arbeidstaker={arbeidstaker}
+        />
       </StoreProvider>
-      );
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
-
-})
+});
