@@ -8,7 +8,7 @@ import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { FnrInput } from 'nav-frontend-skjema';
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
-import validatePerioder from '../util/validatePeriode';
+import validateDato from '../util/validateDato';
 import { useAppStore } from '../data/store/AppStore';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
@@ -39,9 +39,9 @@ const ArbeidsgiverHeader = ({
   const fnrId = uuid();
   const min = dayjs('1970-01-01').toDate();
   const max = dayjs(new Date()).add(1, 'year').toDate();
-  const datepickerId = uuid();
-  const [valgteDatoer, setValgteDatoer] = useState<[Date, Date] | undefined>();
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
+  const [fraError, setFraError] = useState<string>('');
+  const [tilError, setTilError] = useState<string>('');
   const { ytelsesperioderLoading, fraDato, setFraDato, tilDato, setTilDato } =
     useAppStore();
   const ytelseSammendrag = useYtelseSammendrag();
@@ -59,20 +59,24 @@ const ArbeidsgiverHeader = ({
 
   const handleDatepickerFomClose = (selectedDate: Date): void => {
     const fom = dayjs(selectedDate).format('YYYY-MM-DD');
-    // const periodeError = validatePerioder(fom, tilDato);
+    const datoError = validateDato(fom);
 
-    // if (!periodeError) {
-    setFraDato(fom);
-    // }
+    if (!datoError) {
+      setFraDato(fom);
+    } else {
+      setFraError(datoError);
+    }
   };
 
   const handleDatepickerTomClose = (selectedDate: Date): void => {
     const tom = dayjs(selectedDate).format('YYYY-MM-DD');
-    // const periodeError = validatePerioder(fom, tom);
+    const datoError = validateDato(tom);
 
-    // if (!periodeError) {
-    setTilDato(tom);
-    // }
+    if (!datoError) {
+      setTilDato(tom);
+    } else {
+      setTilError(datoError);
+    }
   };
 
   const handleSubmitSearch = async (): Promise<void> => {
@@ -108,7 +112,7 @@ const ArbeidsgiverHeader = ({
               <DatoVelger
                 id='fom_datovelger'
                 dato={dayjs(fraDato).toDate()}
-                // feilmelding={item.fomError}
+                feilmelding={fraError}
                 label='Fra dato'
                 placeholder='dd.mm.yyyy'
                 // disabled={item.accepted}
@@ -120,7 +124,7 @@ const ArbeidsgiverHeader = ({
               <DatoVelger
                 id='tom_datovelger'
                 dato={dayjs(tilDato).toDate()}
-                // feilmelding={item.fomError}
+                feilmelding={tilError}
                 label='Til dato'
                 placeholder='dd.mm.yyyy'
                 // disabled={item.accepted}
@@ -130,27 +134,6 @@ const ArbeidsgiverHeader = ({
                 onChange={(dato) => handleDatepickerTomClose(dato)}
               />
             </div>
-            {/* <Flatpickr
-              id={datepickerId}
-              placeholder='dd.mm.yyyy til dd.mm.yyyy'
-              className={'skjemaelement__input periode'}
-              value={valgteDatoer}
-              options={{
-                minDate: min,
-                maxDate: max,
-                mode: 'range',
-                enableTime: false,
-                dateFormat: 'd.m.Y',
-                altInput: true,
-                altFormat: 'd.m.Y',
-                locale: Norwegian,
-                allowInput: true,
-                clickOpens: true,
-                // formatDate: formatDatoer,
-                onClose: (selectedDates: [Date, Date]) =>
-                  handleDatepickerClose(selectedDates)
-              }}
-            /> */}
           </label>
         </Column>
         <Column sm='6' className='ytelsesperiode--column-right-allign'>

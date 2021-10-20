@@ -9,6 +9,7 @@ import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import useYtelsesperioder from '../data/Ytelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import identityNumberSeparation from '../util/identityNumberSeparation';
+import Lenke from 'nav-frontend-lenker';
 
 export interface ArbeidstakerInterface {
   identitetsnummer: string;
@@ -47,12 +48,13 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
     <>
       <Row className='arbeidsgiver-periode--lufting'>
         <Column sm='12'>
-          <button
+          <Lenke
             className='lenke arbeidsgiver-periode-linkbutton'
             onClick={handleBackClick}
+            href='#'
           >
             &lt;&lt; {t(Keys.BACK)}
-          </button>
+          </Lenke>
         </Column>
       </Row>
       <Row className='arbeidsgiver-periode--lufting'>
