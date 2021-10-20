@@ -32,6 +32,7 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
     sortColumn,
     sortDescending
   );
+  /* eslint-disable */
   const FileIcon = () => (
     <svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
       <g>
@@ -39,6 +40,7 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
       </g>
     </svg>
   );
+  /* eslint-enable */
 
   const columnHeaders: string[] = [
     t(Keys.PERIOD),
