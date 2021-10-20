@@ -17,14 +17,14 @@ interface YtelsesperiodeTableProps {
 
 const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
   const { t } = useTranslation();
+  const [sortDescending, setSortDescending] = useState<boolean>(false);
+  const [sortColumn, setSortColumn] = useState<number>(-1);
   const setSort = (index: number): void => {
     setSortDescending(!sortDescending);
     setSortColumn(index);
   };
 
   const { ytelsesperioder } = props;
-  const [sortDescending, setSortDescending] = useState<boolean>(false);
-  const [sortColumn, setSortColumn] = useState<number>(-1);
 
   const totalRefund = totalRefundInYtelsesperioder(ytelsesperioder);
   const sortedYtelsesperioder = sortYtelsesperioder(
@@ -32,6 +32,7 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
     sortColumn,
     sortDescending
   );
+
   /* eslint-disable */
   const FileIcon = () => (
     <svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
@@ -79,7 +80,7 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
     )
   );
 
-  const wrapperFunction = (items: JSX.Element[]): JSX.Element => (
+  const wrapperFunction = (tableBodyItems: JSX.Element[]): JSX.Element => (
     <table className='tabell tabell--stripet ytelsesperiode-tabell--tabell'>
       <thead>
         <tr>
@@ -129,7 +130,7 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
           })}
         </tr>
       </thead>
-      <tbody>{items}</tbody>
+      <tbody>{tableBodyItems}</tbody>
     </table>
   );
 
