@@ -1,0 +1,13 @@
+.arbeidsgiver-header-datovelgere {
+    > .skjemaelement {
+    display: inline-block;
+    
+        &:first-child {
+            margin-right: 1rem;
+        }
+    }
+}
+
+.arbeidsgiver-periode-search-header-label {
+    margin-bottom: 1.9rem;
+}

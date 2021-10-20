@@ -42,7 +42,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const [featureFlag, setFeatureFlag] = useState<Boolean>(false);
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
-    // eslint-disable-line @typescript-eslint/no-unused-vars
     if (event.key === 'Enter' && identityNumberInput.length === 11) {
       event.preventDefault();
       event.stopPropagation();
