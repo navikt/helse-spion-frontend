@@ -11,7 +11,7 @@ class Environment {
       case EnvironmentType.PROD:
         return 'https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-refusjon/';
       case EnvironmentType.PREPROD_DEV:
-        return 'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=http://https://helse-spion-frontend.dev.nav.no/?loggedIn=true';
+        return 'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=https://helse-spion-frontend.dev.nav.no/?loggedIn=true';
       case EnvironmentType.PREPROD_Q:
         return 'https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/';
       default:
