@@ -12,7 +12,7 @@ describe('Environment', () => {
     window.location = new URL('https://www.dev.nav.no');
 
     expect(env.loginServiceUrl).toBe(
-      'https://loginservice.dev.nav.no/login?redirect=https://arbeidsgiver-min-side-refusjon.dev.nav.no'
+      'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=XXX?loggedIn=true'
     );
   });
 
