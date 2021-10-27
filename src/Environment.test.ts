@@ -12,7 +12,7 @@ describe('Environment', () => {
     window.location = new URL('https://www.dev.nav.no');
 
     expect(env.loginServiceUrl).toBe(
-      'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=XXX?loggedIn=true'
+      'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=http://https://helse-spion-frontend.dev.nav.no/?loggedIn=true'
     );
   });
 
