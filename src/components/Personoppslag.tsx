@@ -8,7 +8,7 @@ import './Personoppslag.scss';
 import FnrSokeside from './FnrSokeside';
 
 const Personoppslag = () => {
-  const { arbeidsgiverId, firma } = useArbeidsgiver();
+  const { arbeidsgiverId } = useArbeidsgiver();
 
   return (
     <Side

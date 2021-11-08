@@ -39,6 +39,7 @@ describe('Ytelsesperioder', () => {
   });
 
   it('skal håndtere feil', async () => {
+    const expectedError = { title: 'Noe gikk galt', type: 'NOEGALT' };
     let mock: FetchMock;
     let spy: SpyMiddleware;
     const mockError = {
@@ -68,7 +69,7 @@ describe('Ytelsesperioder', () => {
     let gotError: any;
 
     await act(async () => {
-      const gotError = await getYtelsesperioder(
+      gotError = await getYtelsesperioder(
         '123456789',
         '2020.01.01',
         '2020.02.02'
@@ -80,6 +81,6 @@ describe('Ytelsesperioder', () => {
     expect(spy.lastUrl()).toBe(
       'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
     );
-    expect(gotError).toBeUndefined();
+    expect(gotError).toEqual(expectedError);
   });
 });
