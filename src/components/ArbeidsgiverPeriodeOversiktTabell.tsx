@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Row, Column } from 'nav-frontend-grid';
+import { Row } from 'nav-frontend-grid';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
@@ -37,7 +37,6 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
     ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
-  const [featureFlag, setFeatureFlag] = useState<Boolean>(false);
 
   function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (event.key === 'Enter' && identityNumberInput.length === 11) {

@@ -56,9 +56,7 @@ const useYtelseSammendrag = (): any => {
         });
       } else {
         // todo: error 400/500s etc
-        console.log('response');
         return response.json().then((data) => {
-          console.log('data', data);
           if (response.status === 500) {
             setYtelsesperioderErrorType(data.type.toUpperCase());
             setYtelsesperioderErrorMessage(data.title);
