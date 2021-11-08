@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Column } from 'nav-frontend-grid';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { useTranslation } from 'react-i18next';
 import { Keys } from '../locales/keys';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
@@ -95,13 +94,13 @@ const ArbeidsgiverHeader = ({
           </Innholdstittel>
         </Column>
       </Row>
-      <Row className='arbeidsgiver-periode--lufting'>
+      {/* <Row className='arbeidsgiver-periode--lufting'>
         <Column sm='12'>
           <Lenke className='arbeidsgiver-periode--lufting' href=''>
             &lt;&lt; {t(Keys.ALL_REFUNDS)}
           </Lenke>
         </Column>
-      </Row>
+      </Row> */}
       <Row className='arbeidsgiver-periode--lufting'>
         <Column sm='6' className='ytelsesperiode-datovelger'>
           <label>
@@ -113,24 +112,25 @@ const ArbeidsgiverHeader = ({
                 id='fom_datovelger'
                 dato={dayjs(fraDato).toDate()}
                 feilmelding={fraError}
-                label='Fra dato'
+                // label='Fra dato'
                 placeholder='dd.mm.yyyy'
                 // disabled={item.accepted}
                 minDate={min}
                 maxDate={max}
-                className='input--fullbredde bulk-element'
+                className='datovelger datovelger-fra'
                 onChange={(dato) => handleDatepickerFomClose(dato)}
               />
+              -
               <DatoVelger
                 id='tom_datovelger'
                 dato={dayjs(tilDato).toDate()}
                 feilmelding={tilError}
-                label='Til dato'
+                // label='Til dato'
                 placeholder='dd.mm.yyyy'
                 // disabled={item.accepted}
                 minDate={min}
                 maxDate={max}
-                className='input--fullbredde bulk-element'
+                className='datovelger datovelger-til'
                 onChange={(dato) => handleDatepickerTomClose(dato)}
               />
             </div>

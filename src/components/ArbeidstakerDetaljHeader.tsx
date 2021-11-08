@@ -10,6 +10,7 @@ import useYtelsesperioder from '../data/Ytelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import identityNumberSeparation from '../util/identityNumberSeparation';
 import Lenke from 'nav-frontend-lenker';
+import './ArbeidstakerDetaljHeader.scss';
 
 export interface ArbeidstakerInterface {
   identitetsnummer: string;
@@ -32,6 +33,11 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const { ytelsesperioderLoading, ytelsesperioder, setYtelsesperioder } =
     useAppStore();
+  const [isValidFnr, setIsValidFnr] = useState<boolean>(false);
+
+  const validationHandler = (isValid) => {
+    setIsValidFnr(isValid);
+  };
 
   const handleSubmitSearch = async (): Promise<void> => {
     await fetchYtelsesperioder(
@@ -61,23 +67,31 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
         <Column sm='7'>
           <div className='arbeidsgiver-periode-header'>
             <div>
-              <div>
+              <div className='arbeidstaker-detalj-header-overskrift'>
                 {t(Keys.IDENTITY_NUMBER)}:{' '}
                 {identityNumberSeparation(arbeidstaker.identitetsnummer)}
               </div>
             </div>
             <div>
               <div>
-                <Innholdstittel id='arbeidsgiver-periode-tabell--person-navn'>
+                <Innholdstittel
+                  tag='span'
+                  id='arbeidsgiver-periode-tabell--person-navn'
+                >
                   {arbeidstaker.fornavn} {arbeidstaker.etternavn}
                 </Innholdstittel>
               </div>
             </div>
           </div>
           <div className='arbeidsgiver-periode-header arbeidsgiver-periode-teller'>
-            <div>{t(Keys.REFUNDABLE_DAYS_MAX)}</div>
+            <div className='arbeidstaker-detalj-header-overskrift'>
+              {t(Keys.REFUNDABLE_DAYS_MAX)}
+            </div>
             {ytelsesperioder && ytelsesperioder.length > 0 ? (
-              <Innholdstittel id='arbeidsgiver-periode-tabell--max-dager'>
+              <Innholdstittel
+                tag='span'
+                id='arbeidsgiver-periode-tabell--max-dager'
+              >
                 {
                   ytelsesperioder[ytelsesperioder.length - 1]
                     .gjenståendeSykedager
@@ -103,17 +117,16 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
                 placeholder={t(Keys.IDENTITY_NUMBER_EXT)}
                 onChange={(e) => setIdentityNumberInput(e.target.value)}
                 onBlur={(e) => setIdentityNumberInput(e.target.value)}
-                onValidate={() => true}
+                onValidate={validationHandler}
                 // feil={feilmeldingstekst}
                 id={fnrId}
                 className='arbeidsgiver-periode-fnr-input'
               />
               <Søkeknapp
-                disabled={
-                  identityNumberInput.length < 11 || ytelsesperioderLoading
-                }
+                disabled={!isValidFnr || ytelsesperioderLoading}
                 className='arbeidsgiver-periode-tabell--søke-knapp'
                 onClick={handleSubmitSearch}
+                spinner={ytelsesperioderLoading}
               >
                 <span>{t(Keys.SEARCH)}</span>
               </Søkeknapp>

@@ -14,6 +14,11 @@ interface MessageBodyPost {
   periode?: MessageBodyPeriode;
 }
 
+interface ErrorReturnvalue {
+  type: string;
+  title: string;
+}
+
 export default (): any => {
   const {
     setYtelsesperioder,
@@ -27,7 +32,7 @@ export default (): any => {
     arbeidsgiverId?: string,
     fom?: string,
     tom?: string
-  ): Promise<any> => {
+  ): Promise<void | undefined | ErrorReturnvalue> => {
     setYtelsesperioderLoading(true);
 
     const messageBody: MessageBodyPost = {
@@ -64,17 +69,36 @@ export default (): any => {
         });
       } else {
         // todo: error 400/500s etc
+        if (response.status === 500) {
+          return response.json().then((data) => {
+            setYtelsesperioderErrorType(data.type.toUpperCase());
+            setYtelsesperioderErrorMessage(data.title);
+            return {
+              type: data.type.toUpperCase(),
+              title: data.title
+            };
+          });
+        }
+
         if (response.status === 400) {
-          setYtelsesperioderErrorType(response.status.toString());
+          setYtelsesperioderErrorType(response.status.toString().toUpperCase());
           setYtelsesperioderErrorMessage(response.statusText);
-          return;
+          return {
+            type: response.status.toString().toUpperCase(),
+            title: response.statusText
+          };
         }
         return response.json().then((data) => {
           // Todo: change errors to array and map all violations
-          setYtelsesperioderErrorType(
-            data.violations[0].validationType.toUpperCase()
-          );
-          setYtelsesperioderErrorMessage(data.violations[0].message);
+          if (response.status === 500) {
+            setYtelsesperioderErrorType(data.type.toUpperCase());
+            setYtelsesperioderErrorMessage(data.title);
+          } else {
+            setYtelsesperioderErrorType(
+              data.violations[0].validationType.toUpperCase()
+            );
+            setYtelsesperioderErrorMessage(data.violations[0].message);
+          }
         });
       }
     });

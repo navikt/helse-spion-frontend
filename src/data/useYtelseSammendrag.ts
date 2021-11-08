@@ -4,6 +4,11 @@ import { YtelseSammendrag } from '../util/helseSpionTypes';
 import dayjs from 'dayjs';
 import env from '../Environment';
 
+interface ErrorReturnvalue {
+  type: string;
+  title: string;
+}
+
 const useYtelseSammendrag = (): any => {
   const { setYtelsesammendrag } = useYtelseSammendragContext();
   const {
@@ -16,7 +21,7 @@ const useYtelseSammendrag = (): any => {
     arbeidsgiverId?: string,
     fom?: string,
     tom?: string
-  ): Promise<void | YtelseSammendrag[] | undefined> => {
+  ): Promise<void | YtelseSammendrag[] | undefined | ErrorReturnvalue> => {
     setYtelsesperioderLoading(true);
     let periodefilter = '';
     if (fom && fom.trim().length > 1) {
@@ -52,11 +57,24 @@ const useYtelseSammendrag = (): any => {
       } else {
         // todo: error 400/500s etc
         return response.json().then((data) => {
-          // Todo: change errors to array and map all violations
-          setYtelsesperioderErrorType(
-            data.violations[0].validationType.toUpperCase()
-          );
-          setYtelsesperioderErrorMessage(data.violations[0].message);
+          if (response.status === 500) {
+            setYtelsesperioderErrorType(data.type.toUpperCase());
+            setYtelsesperioderErrorMessage(data.title);
+            return {
+              type: data.type.toUpperCase(),
+              title: data.title
+            };
+          } else {
+            // Todo: change errors to array and map all violations
+            setYtelsesperioderErrorType(
+              data.violations[0].validationType.toUpperCase()
+            );
+            setYtelsesperioderErrorMessage(data.violations[0].message);
+            return {
+              type: data.violations[0].validationType.toUpperCase(),
+              title: data.violations[0].message
+            };
+          }
         });
       }
     });
