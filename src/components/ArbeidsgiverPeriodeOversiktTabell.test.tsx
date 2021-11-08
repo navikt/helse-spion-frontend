@@ -116,7 +116,6 @@ describe('ArbeidsgiverPeriodeOversiktTabell', () => {
     );
 
     expect(rendered.getByText(/FIND_OTHER_EMPLOYEE/)).toBeInTheDocument();
-    // expect(rendered.getByText(/IDENTITY_NUMBER_EXT/)).toBeInTheDocument();
   });
 
   it('should have no a11y violations', async () => {
