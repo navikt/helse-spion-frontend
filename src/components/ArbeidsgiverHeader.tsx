@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Column } from 'nav-frontend-grid';
 import { Innholdstittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { useTranslation } from 'react-i18next';
 import { Keys } from '../locales/keys';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
