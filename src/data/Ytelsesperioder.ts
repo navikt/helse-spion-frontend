@@ -49,6 +49,8 @@ export default (): any => {
       delete messageBody.periode;
     }
 
+    console.log(env.baseUrl + '/api/v1/ytelsesperioder/oppslag');
+
     return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
       headers: {
@@ -61,6 +63,10 @@ export default (): any => {
       setYtelsesperioderLoading(false);
       if (response.status === 401) {
         window.location.href = env.loginServiceUrl ?? '';
+        return {
+          type: '401',
+          title: '401'
+        };
       } else if (response.status === 200) {
         return response.json().then((data) => {
           setYtelsesperioder(convertResponseDataToYtelsesperioder(data));
