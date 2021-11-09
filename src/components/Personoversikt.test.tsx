@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import Person from '.';
-import StoreProvider from '../../data/store/StoreProvider';
+import StoreProvider from '../data/store/StoreProvider';
+import Personoversikt from './Personoversikt';
 
-describe('Person', () => {
+describe('Personoversikt', () => {
   it('should have now a11y violations', async () => {
     const { container } = render(
       <StoreProvider>
-        <Person />
+        <Personoversikt />
       </StoreProvider>
     );
     const results = await axe(container);

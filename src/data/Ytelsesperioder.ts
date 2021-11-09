@@ -49,8 +49,6 @@ export default (): any => {
       delete messageBody.periode;
     }
 
-    console.log(env.baseUrl + '/api/v1/ytelsesperioder/oppslag');
-
     return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
       headers: {
