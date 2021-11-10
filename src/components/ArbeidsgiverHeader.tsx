@@ -13,7 +13,7 @@ import useYtelsesperioder from '../data/Ytelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import './Flatpickr.scss';
 import './ArbeidsgiverHeader.scss';
-import { Dato, DatoVelger } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import { DatoVelger } from '@navikt/helse-arbeidsgiver-felles-frontend';
 
 interface ArbeidsgiverHeaderInterface {
   arbeidsgiverNavn: string;

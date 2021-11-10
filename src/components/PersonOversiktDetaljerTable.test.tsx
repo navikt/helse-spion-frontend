@@ -1,7 +1,7 @@
 import PersonOversiktDetaljerTable from './PersonOversiktDetaljerTable';
 import React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Status, Ytelsesperiode } from '../util/helseSpionTypes';
 
 const ytelsesperioder: Ytelsesperiode[] = [
