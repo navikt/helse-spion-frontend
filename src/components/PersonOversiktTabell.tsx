@@ -43,16 +43,14 @@ const PersonOversiktTabell: React.FC = () => {
       />
       <Row>
         {ytelsesperioderErrorType &&
-          (ytelsesperioderErrorType! in ErrorType ||
-          ytelsesperioderErrorMessage ? (
+          (ytelsesperioderErrorMessage ? (
             <AlertStripe type='feil'>{ytelsesperioderErrorMessage}</AlertStripe>
           ) : (
             <AlertStripe type='feil'>{t(ytelsesperioderErrorType)}</AlertStripe>
           ))}
         {ytelsesperioderLoading && (
           <div className='arbeidsgiver-periode-tabell--loading-spinner'>
-            {' '}
-            <NavFrontendSpinner />{' '}
+            <NavFrontendSpinner />
           </div>
         )}
         {ytelsesperioder &&
