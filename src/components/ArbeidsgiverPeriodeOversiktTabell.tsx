@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AlertStripe from 'nav-frontend-alertstriper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -31,30 +31,14 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
   } = useAppStore();
   const { ytelsesammendrag } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
-  const [identityNumberInput] = useState<string>('');
   const { t } = useTranslation();
   const arbeidstaker =
     ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
 
-  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
-    if (event.key === 'Enter' && identityNumberInput.length === 11) {
-      event.preventDefault();
-      event.stopPropagation();
-      handleSubmitSearch();
-    }
-  }
-
   const handleNameClick = async (identitetsnummer: string): Promise<void> => {
     await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
-  };
-
-  const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(
-      identityNumberInput.replace(/\D/g, ''),
-      arbeidsgiverId
-    );
   };
 
   useEffect(() => {
