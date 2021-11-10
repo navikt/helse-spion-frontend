@@ -39,7 +39,7 @@ describe('ArbeidsgiverHeader', () => {
 
     expect(rendered.getByText(/ArbeidsgiverNavn/)).toBeInTheDocument();
     expect(fetchSpy).toHaveBeenCalledWith(
-      'http://localhost:8080/api/v1/ytelsesperioder/virksomhet/123?fom=2010-01-01&tom=2022-01-01',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/virksomhet/123?fom=2010-01-01&tom=2022-01-01',
       { credentials: 'include', method: 'GET' }
     );
   });

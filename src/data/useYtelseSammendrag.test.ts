@@ -45,7 +45,7 @@ describe('useYtelseSammendrag', () => {
     expect(spy.size()).toBe(0);
 
     mock.get(
-      'http://localhost:8080/api/v1/ytelsesperioder/virksomhet/:arbeidsgiverid',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/virksomhet/:arbeidsgiverid',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
@@ -65,7 +65,7 @@ describe('useYtelseSammendrag', () => {
     expect(spy.size()).toBe(1);
     expect(spy.lastCall()).not.toBeNull();
     expect(spy.lastUrl()).toBe(
-      'http://localhost:8080/api/v1/ytelsesperioder/virksomhet/123456789?fom=2020.01.01&tom=2020.02.02'
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/virksomhet/123456789?fom=2020.01.01&tom=2020.02.02'
     );
     expect(getResult).toEqual(expected);
   });
@@ -92,7 +92,7 @@ describe('useYtelseSammendrag', () => {
     expect(spy.size()).toBe(0);
 
     mock.get(
-      'http://localhost:8080/api/v1/ytelsesperioder/virksomhet/:arbeidsgiverid',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/virksomhet/:arbeidsgiverid',
       (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
     );
 
@@ -113,7 +113,7 @@ describe('useYtelseSammendrag', () => {
     expect(spy.size()).toBe(1);
     expect(spy.lastCall()).not.toBeNull();
     expect(spy.lastUrl()).toBe(
-      'http://localhost:8080/api/v1/ytelsesperioder/virksomhet/123456789?fom=2020.01.01&tom=2020.02.02'
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/virksomhet/123456789?fom=2020.01.01&tom=2020.02.02'
     );
     expect(gotError).toEqual(mockExpected);
   });

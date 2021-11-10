@@ -18,7 +18,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(0);
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
@@ -38,7 +38,7 @@ describe('Ytelsesperioder', () => {
       expect(spy.size()).toBe(1);
       expect(spy.lastCall()).not.toBeNull();
       expect(spy.lastUrl()).toBe(
-        'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
+        'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
       );
     });
   });
@@ -56,7 +56,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(0);
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
@@ -79,7 +79,7 @@ describe('Ytelsesperioder', () => {
     };
 
     expect(spy.lastUrl()).toBe(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
     );
     expect(optionsBody).toEqual(expectedOptions);
   });
@@ -102,7 +102,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(0);
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
     );
 
@@ -134,7 +134,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(1);
     expect(spy.lastCall()).not.toBeNull();
     expect(spy.lastUrl()).toBe(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
     );
     expect(optionsBody).toEqual(expectedOptions);
     expect(gotError).toEqual(expectedError);
@@ -157,7 +157,7 @@ describe('Ytelsesperioder', () => {
     });
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(401))
     );
 
@@ -173,7 +173,7 @@ describe('Ytelsesperioder', () => {
 
     expect(getResult).toEqual({ title: '401', type: '401' });
     expect(window.location.href).toBe(
-      'http://localhost:8080/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/'
+      'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=http://localhost:3000/min-side-refusjon/'
     );
   });
 });

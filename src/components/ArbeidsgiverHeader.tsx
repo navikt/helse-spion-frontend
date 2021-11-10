@@ -20,16 +20,6 @@ interface ArbeidsgiverHeaderInterface {
   arbeidsgiverId: string;
 }
 
-export const toDate = (dato: Dato | undefined): Date | undefined => {
-  if (!dato) {
-    return;
-  }
-  if (!dato.month || !dato.day || !dato.year) {
-    return;
-  }
-  return new Date(dato.year, dato.month - 1, dato.day);
-};
-
 const ArbeidsgiverHeader = ({
   arbeidsgiverNavn,
   arbeidsgiverId
@@ -149,7 +139,6 @@ const ArbeidsgiverHeader = ({
                 onChange={(e) => setIdentityNumberInput(e.target.value)}
                 onBlur={(e) => setIdentityNumberInput(e.target.value)}
                 onValidate={() => true}
-                // feil={feilmeldingstekst}
                 id={fnrId}
                 className='arbeidsgiver-periode-fnr-input'
               />
