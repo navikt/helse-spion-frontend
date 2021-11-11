@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom'
-import React from 'react'
-import { render, fireEvent, screen, getAllByTestId } from '@testing-library/react'
+import '@testing-library/jest-dom';
+import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 import YtelsesperiodeTable from './YtelsesperiodeTable';
@@ -12,7 +12,6 @@ expect.extend(toHaveNoViolations);
 
 describe('YtelsesperiodeTable', () => {
   const ytelsesperioder: Ytelsesperiode[] = mockYtelsesperiode;
-
 
   it('should render the component and display data', () => {
     render(<YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />);
@@ -56,8 +55,8 @@ describe('YtelsesperiodeTable', () => {
 
     const refunds = screen.getAllByTestId('ytelse');
     const ytelser = refunds.map((element) => {
-      return element.firstChild?.textContent
-    })
+      return element.firstChild?.textContent;
+    });
 
     expect(ytelser).toStrictEqual(expected);
     expect(screen.getByText(/AVSLÅTT/)).toBeInTheDocument();
@@ -65,17 +64,16 @@ describe('YtelsesperiodeTable', () => {
     fireEvent.click(columnHeader);
 
     const descendingYtelser = refunds.map((element) => {
-      return element.firstChild?.textContent
-    })
+      return element.firstChild?.textContent;
+    });
 
     expect(descendingYtelser).toStrictEqual(descendingExpected);
   });
 
   it('should have no a11y violations', async () => {
-
-    const mockFunction = jest.fn();
-
-    const rendered = render(<YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />);
+    const rendered = render(
+      <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />
+    );
 
     const results = await axe(rendered.container);
     expect(results).toHaveNoViolations();

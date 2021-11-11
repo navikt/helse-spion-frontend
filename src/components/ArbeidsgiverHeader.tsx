@@ -13,22 +13,12 @@ import useYtelsesperioder from '../data/Ytelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import './Flatpickr.scss';
 import './ArbeidsgiverHeader.scss';
-import { Dato, DatoVelger } from '@navikt/helse-arbeidsgiver-felles-frontend';
+import { DatoVelger } from '@navikt/helse-arbeidsgiver-felles-frontend';
 
 interface ArbeidsgiverHeaderInterface {
   arbeidsgiverNavn: string;
   arbeidsgiverId: string;
 }
-
-export const toDate = (dato: Dato | undefined): Date | undefined => {
-  if (!dato) {
-    return;
-  }
-  if (!dato.month || !dato.day || !dato.year) {
-    return;
-  }
-  return new Date(dato.year, dato.month - 1, dato.day);
-};
 
 const ArbeidsgiverHeader = ({
   arbeidsgiverNavn,
@@ -149,7 +139,6 @@ const ArbeidsgiverHeader = ({
                 onChange={(e) => setIdentityNumberInput(e.target.value)}
                 onBlur={(e) => setIdentityNumberInput(e.target.value)}
                 onValidate={() => true}
-                // feil={feilmeldingstekst}
                 id={fnrId}
                 className='arbeidsgiver-periode-fnr-input'
               />

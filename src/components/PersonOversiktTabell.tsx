@@ -11,7 +11,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { useAppStore } from '../data/store/AppStore';
-import { ErrorType } from '../util/helseSpionTypes';
 import YtelsesperiodeTable from './YtelsesperiodeTable';
 import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import './ArbeidsgiverPeriodeTabell.sass';
@@ -43,16 +42,14 @@ const PersonOversiktTabell: React.FC = () => {
       />
       <Row>
         {ytelsesperioderErrorType &&
-          (ytelsesperioderErrorType! in ErrorType ||
-          ytelsesperioderErrorMessage ? (
+          (ytelsesperioderErrorMessage ? (
             <AlertStripe type='feil'>{ytelsesperioderErrorMessage}</AlertStripe>
           ) : (
             <AlertStripe type='feil'>{t(ytelsesperioderErrorType)}</AlertStripe>
           ))}
         {ytelsesperioderLoading && (
           <div className='arbeidsgiver-periode-tabell--loading-spinner'>
-            {' '}
-            <NavFrontendSpinner />{' '}
+            <NavFrontendSpinner />
           </div>
         )}
         {ytelsesperioder &&

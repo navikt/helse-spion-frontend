@@ -15,7 +15,7 @@ class Environment {
       case EnvironmentType.PREPROD_Q:
         return 'https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-refusjon/';
       default:
-        return 'http://localhost:8080/local/cookie-please?subject=12321&redirect=http://localhost:3000/min-side-refusjon/';
+        return 'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=http://localhost:3000/min-side-refusjon/';
     }
   }
 
@@ -28,7 +28,7 @@ class Environment {
       case EnvironmentType.PREPROD_Q:
         return 'https://arbeidsgiver-q.nav.no/min-side-refusjon';
       default:
-        return 'http://localhost:8080';
+        return 'https://helse-spion.dev.nav.no';
     }
   }
 

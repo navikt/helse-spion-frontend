@@ -18,7 +18,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(0);
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
@@ -35,7 +35,53 @@ describe('Ytelsesperioder', () => {
       );
 
       expect(getResult).toBeUndefined();
+      expect(spy.size()).toBe(1);
+      expect(spy.lastCall()).not.toBeNull();
+      expect(spy.lastUrl()).toBe(
+        'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
+      );
     });
+  });
+
+  it('skal returnere arbeidsgivere uten fom og tom', async () => {
+    let mock: FetchMock;
+    let spy: SpyMiddleware;
+
+    spy = new SpyMiddleware();
+
+    mock = FetchMock.configure({
+      middleware: spy.middleware
+    });
+
+    expect(spy.size()).toBe(0);
+
+    mock.post(
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
+      (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
+    );
+
+    const { result } = renderHook(() => Ytelsesperioder(), {
+      wrapper: AppStoreProvider
+    });
+
+    const getYtelseSammendrag = result.current;
+    await act(async () => {
+      const getResult = await getYtelseSammendrag('12345678901', '123456789');
+
+      expect(getResult).toBeUndefined();
+    });
+
+    const lastOptions = spy.lastOptions();
+    const optionsBody = JSON.parse(lastOptions?.body as unknown as string);
+    const expectedOptions = {
+      identitetsnummer: '12345678901',
+      arbeidsgiverId: '123456789'
+    };
+
+    expect(spy.lastUrl()).toBe(
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
+    );
+    expect(optionsBody).toEqual(expectedOptions);
   });
 
   it('skal håndtere feil', async () => {
@@ -56,7 +102,7 @@ describe('Ytelsesperioder', () => {
     expect(spy.size()).toBe(0);
 
     mock.post(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag',
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
     );
 
@@ -70,17 +116,64 @@ describe('Ytelsesperioder', () => {
 
     await act(async () => {
       gotError = await getYtelsesperioder(
+        '12345678901',
         '123456789',
         '2020.01.01',
         '2020.02.02'
       );
     });
 
+    const lastOptions = spy.lastOptions();
+    const optionsBody = JSON.parse(lastOptions?.body as unknown as string);
+    const expectedOptions = {
+      identitetsnummer: '12345678901',
+      arbeidsgiverId: '123456789',
+      periode: { fom: '2020.01.01', tom: '2020.02.02' }
+    };
+
     expect(spy.size()).toBe(1);
     expect(spy.lastCall()).not.toBeNull();
     expect(spy.lastUrl()).toBe(
-      'http://localhost:8080/api/v1/ytelsesperioder/oppslag'
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag'
     );
+    expect(optionsBody).toEqual(expectedOptions);
     expect(gotError).toEqual(expectedError);
+  });
+
+  it('skal gjøre runddansen om login om man er logget ut.', async () => {
+    let mock: FetchMock;
+    let spy: SpyMiddleware;
+
+    spy = new SpyMiddleware();
+
+    mock = FetchMock.configure({
+      middleware: spy.middleware
+    });
+
+    expect(spy.size()).toBe(0);
+
+    Object.defineProperty(window, 'location', {
+      value: new URL('https://localhost/loginServer')
+    });
+
+    mock.post(
+      'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
+      (req, res, ctx) => res(ctx.json(ytelser), ctx.status(401))
+    );
+
+    const { result } = renderHook(() => Ytelsesperioder(), {
+      wrapper: AppStoreProvider
+    });
+
+    let getResult: any;
+    const getYtelseSammendrag = result.current;
+    await act(async () => {
+      getResult = await getYtelseSammendrag('12345678901', '123456789');
+    });
+
+    expect(getResult).toEqual({ title: '401', type: '401' });
+    expect(window.location.href).toBe(
+      'https://helse-spion.dev.nav.no/local/cookie-please?subject=10107400090&redirect=http://localhost:3000/min-side-refusjon/'
+    );
   });
 });

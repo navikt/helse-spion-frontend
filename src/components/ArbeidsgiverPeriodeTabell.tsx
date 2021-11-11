@@ -33,7 +33,6 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   } = useAppStore();
   const { ytelsesammendrag } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
-  const [identityNumberInput] = useState<string>('');
   const { t } = useTranslation();
   const arbeidstaker =
     ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
@@ -41,23 +40,8 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
   const getYtelseSammendrag = useYtelseSammendrag();
   const [featureFlag, setFeatureFlag] = useState<Boolean>(false);
 
-  function onEnterClick(event: React.KeyboardEvent<HTMLDivElement>): void {
-    if (event.key === 'Enter' && identityNumberInput.length === 11) {
-      event.preventDefault();
-      event.stopPropagation();
-      handleSubmitSearch();
-    }
-  }
-
   const handleNameClick = async (identitetsnummer: string): Promise<void> => {
     await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
-  };
-
-  const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(
-      identityNumberInput.replace(/\D/g, ''),
-      arbeidsgiverId
-    );
   };
 
   useEffect(() => {
