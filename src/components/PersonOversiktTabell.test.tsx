@@ -13,7 +13,8 @@ describe('PersonOversiktTabell', () => {
   it('should have now a11y violations, just go back', async () => {
     const history = createMemoryHistory();
     const goBackSpy = jest.spyOn(history, 'goBack'); // or 'replace', 'goBack', etc.
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     useAppStore.mockImplementation(() => ({
       // eslint-disable-line
       ytelsesperioderLoading: false,
@@ -33,6 +34,8 @@ describe('PersonOversiktTabell', () => {
   });
 
   it('should have now a11y violations, just show the stuff', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     useAppStore.mockImplementation(() => ({
       // eslint-disable-line
       ytelsesperioderLoading: false,
@@ -69,6 +72,8 @@ describe('PersonOversiktTabell', () => {
   });
 
   it('should have now a11y violations, just show the error', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     useAppStore.mockImplementation(() => ({
       // eslint-disable-line
       ytelsesperioderLoading: false,
@@ -106,6 +111,8 @@ describe('PersonOversiktTabell', () => {
   });
 
   it('should have now a11y violations, just show the errormessage', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     useAppStore.mockImplementation(() => ({
       // eslint-disable-line
       ytelsesperioderLoading: false,
@@ -143,6 +150,8 @@ describe('PersonOversiktTabell', () => {
   });
 
   it('should have now a11y violations, just show the loading state', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     useAppStore.mockImplementation(() => ({
       // eslint-disable-line
       ytelsesperioderLoading: true,

@@ -22,7 +22,6 @@ import YtelseSammendragProvider from '../data/store/YtelseSammendrag';
 import { YtelseSammendrag } from '../util/helseSpionTypes';
 
 import mockYtelsesammendrag from '../mockdata/mockYtelsesammendrag';
-import mockYtelser from '../mockdata/mockYtelsesperiode';
 import mockFetchYtelsesperioder from '../mockdata/mockFetchedYtelsesperioder';
 import { act } from 'react-dom/test-utils';
 expect.extend(toHaveNoViolations);
@@ -36,12 +35,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route?feature=true');
 
-    const fetchSpy = jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
-      Promise.resolve({
-        status: 200,
-        json: () => Promise.resolve(mockFetchYtelsesperioder)
-      })
-    );
+    const fetchSpy = mockFetch200();
 
     const rendered = render(
       <StoreProvider>
@@ -92,12 +86,7 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
-      Promise.resolve({
-        status: 200,
-        json: () => Promise.resolve(mockYtelser)
-      })
-    );
+    mockFetch200();
 
     const rendered = render(
       <StoreProvider>
@@ -123,12 +112,8 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     const history = createMemoryHistory();
     history.push('/the/route');
 
-    jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
-      Promise.resolve({
-        status: 200,
-        json: () => Promise.resolve(mockYtelser)
-      })
-    );
+    mockFetch200();
+
     let ytreContainer;
     act(() => {
       const { container } = render(
@@ -160,3 +145,14 @@ describe('ArbeidsgiverPeriodeTabell', () => {
     expect(results).toHaveNoViolations();
   });
 });
+
+function mockFetch200() {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  return jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+    Promise.resolve({
+      status: 200,
+      json: () => Promise.resolve(mockFetchYtelsesperioder)
+    })
+  );
+}

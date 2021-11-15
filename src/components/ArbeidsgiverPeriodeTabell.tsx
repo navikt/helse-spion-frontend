@@ -82,8 +82,7 @@ const ArbeidsgiverPeriodeTabell: React.FC = () => {
             <FnrSokeside arbeidsgiverId={arbeidsgiverId} />
           )}
           {ytelsesperioderErrorType &&
-            (ytelsesperioderErrorType! in ErrorType ||
-            ytelsesperioderErrorMessage ? (
+            (ytelsesperioderErrorMessage ? (
               <AlertStripe type='feil'>
                 {ytelsesperioderErrorMessage}
               </AlertStripe>

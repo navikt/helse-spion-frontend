@@ -123,6 +123,7 @@
     "sass": "^1.43.4",
     "snyk": "^1.741.0",
     "sonarqube-scanner": "^2.8.0",
+    "timezone-mock": "^1.2.2",
     "yet-another-fetch-mock": "^4.1.0"
   },
   "prettier": {

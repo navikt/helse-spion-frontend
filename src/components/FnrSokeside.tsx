@@ -20,22 +20,21 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
   const { t } = useTranslation();
   const [identityNumberInput, setIdentityNumberInput] = useState<string>('');
   const Ytelsesperioder = useYtelsesperioder();
-  const fnrId = uuid();
+  const fnrId: string = uuid();
   const history = useHistory();
   const [feilmeldingstekst, setFeilmeldingstekst] = useState<string>('');
 
-  const { ytelsesperioder, ytelsesperioderLoading } = useAppStore();
+  const { ytelsesperioderLoading } = useAppStore();
 
   const [isValidFnr, setIsValidFnr] = useState<boolean>(false);
 
   const handleSubmitSearch = async (): Promise<void> => {
-    await Ytelsesperioder(
+    const perioder = await Ytelsesperioder(
       identityNumberInput.replace(/\D/g, ''),
       arbeidsgiverId
     );
 
-    const arbeidstaker =
-      ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
+    const arbeidstaker = perioder && perioder[0]?.arbeidsforhold.arbeidstaker;
     if (!!arbeidstaker) {
       history.push('/person');
     } else {
@@ -43,7 +42,7 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
     }
   };
 
-  const validationHandler = (isValid) => {
+  const validationHandler = (isValid: boolean) => {
     setIsValidFnr(isValid);
   };
 

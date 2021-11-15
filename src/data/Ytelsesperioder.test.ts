@@ -3,6 +3,68 @@ import Ytelsesperioder from './Ytelsesperioder';
 import { AppStoreProvider } from '../data/store/AppStore';
 import ytelser from '../mockdata/mockYtelser';
 import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock';
+import timezone_mock from 'timezone-mock';
+
+timezone_mock.register('Europe/London');
+
+const expectedStuff = [
+  {
+    arbeidsforhold: {
+      arbeidstaker: {
+        etternavn: 'Knutsen',
+        fornavn: 'Knut',
+        identitetsnummer: 1234
+      }
+    },
+    periode: {
+      fom: new Date('2019-01-01T00:00:00.000Z'),
+      tom: new Date('2020-01-01T00:00:00.000Z')
+    },
+    refusjonsbeløp: 444
+  },
+  {
+    arbeidsforhold: {
+      arbeidstaker: {
+        etternavn: 'Olsen',
+        fornavn: 'Ole',
+        identitetsnummer: 234555
+      }
+    },
+    periode: {
+      fom: new Date('2019-01-01T00:00:00.000Z'),
+      tom: new Date('2020-01-01T00:00:00.000Z')
+    },
+    refusjonsbeløp: 323
+  },
+  {
+    arbeidsforhold: {
+      arbeidstaker: {
+        etternavn: 'Pålsen',
+        fornavn: 'Pål',
+        identitetsnummer: 4444444
+      }
+    },
+    periode: {
+      fom: new Date('2019-01-01T00:00:00.000Z'),
+      tom: new Date('2020-01-01T00:00:00.000Z')
+    },
+    refusjonsbeløp: 123
+  },
+  {
+    arbeidsforhold: {
+      arbeidstaker: {
+        etternavn: 'Pålsen',
+        fornavn: 'Pål',
+        identitetsnummer: 4444444
+      }
+    },
+    periode: {
+      fom: new Date('2020-02-02T00:00:00.000Z'),
+      tom: new Date('2020-03-03T00:00:00.000Z')
+    },
+    refusjonsbeløp: 123
+  }
+];
 
 describe('Ytelsesperioder', () => {
   it('skal returnere arbeidsgivere', async () => {
@@ -34,7 +96,7 @@ describe('Ytelsesperioder', () => {
         '2020.02.02'
       );
 
-      expect(getResult).toBeUndefined();
+      expect(getResult).toEqual(expectedStuff);
       expect(spy.size()).toBe(1);
       expect(spy.lastCall()).not.toBeNull();
       expect(spy.lastUrl()).toBe(
@@ -68,7 +130,7 @@ describe('Ytelsesperioder', () => {
     await act(async () => {
       const getResult = await getYtelseSammendrag('12345678901', '123456789');
 
-      expect(getResult).toBeUndefined();
+      expect(getResult).toEqual(expectedStuff);
     });
 
     const lastOptions = spy.lastOptions();

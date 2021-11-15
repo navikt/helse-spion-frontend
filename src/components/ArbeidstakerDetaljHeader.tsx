@@ -35,7 +35,7 @@ const ArbeidstakerDetaljHeader: React.FC<ArbeidstakerDetaljHeaderInterface> = ({
     useAppStore();
   const [isValidFnr, setIsValidFnr] = useState<boolean>(false);
 
-  const validationHandler = (isValid) => {
+  const validationHandler = (isValid: boolean) => {
     setIsValidFnr(isValid);
   };
 

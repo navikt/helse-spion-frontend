@@ -32,7 +32,7 @@ export default (): any => {
     arbeidsgiverId?: string,
     fom?: string,
     tom?: string
-  ): Promise<void | undefined | ErrorReturnvalue> => {
+  ): Promise<void | undefined | ErrorReturnvalue | Ytelsesperiode[]> => {
     setYtelsesperioderLoading(true);
 
     const messageBody: MessageBodyPost = {
@@ -67,9 +67,11 @@ export default (): any => {
         };
       } else if (response.status === 200) {
         return response.json().then((data) => {
-          setYtelsesperioder(convertResponseDataToYtelsesperioder(data));
+          const ytelsesperioder = convertResponseDataToYtelsesperioder(data);
+          setYtelsesperioder(ytelsesperioder);
           setYtelsesperioderErrorType(undefined);
           setYtelsesperioderErrorMessage(undefined);
+          return ytelsesperioder;
         });
       } else {
         // todo: error 400/500s etc
