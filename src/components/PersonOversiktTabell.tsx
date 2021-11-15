@@ -7,7 +7,6 @@ import { Row } from 'nav-frontend-grid';
 import 'nav-frontend-tabell-style';
 import 'nav-frontend-skjema-style';
 import 'nav-frontend-alertstriper-style';
-import 'react-datepicker/dist/react-datepicker.css';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { useAppStore } from '../data/store/AppStore';
