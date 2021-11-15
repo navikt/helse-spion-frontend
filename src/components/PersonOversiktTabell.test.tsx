@@ -9,6 +9,22 @@ import { ErrorType } from '../util/helseSpionTypes';
 
 jest.mock('../data/store/AppStore');
 
+const ytelsesperioderMock = [
+  {
+    periode: {
+      fom: new Date(),
+      tom: new Date()
+    },
+    arbeidsforhold: {
+      arbeidstaker: {
+        etternavn: 'string',
+        fornavn: 'string',
+        identitetsnummer: 'string'
+      }
+    }
+  }
+];
+
 describe('PersonOversiktTabell', () => {
   it('should have now a11y violations, just go back', async () => {
     const history = createMemoryHistory();
@@ -41,21 +57,7 @@ describe('PersonOversiktTabell', () => {
       ytelsesperioderLoading: false,
       ytelsesperioderErrorType: undefined,
       ytelsesperioderErrorMessage: undefined,
-      ytelsesperioder: [
-        {
-          periode: {
-            fom: new Date(),
-            tom: new Date()
-          },
-          arbeidsforhold: {
-            arbeidstaker: {
-              etternavn: 'string',
-              fornavn: 'string',
-              identitetsnummer: 'string'
-            }
-          }
-        }
-      ]
+      ytelsesperioder: ytelsesperioderMock
     }));
 
     const history = createMemoryHistory();
@@ -79,21 +81,7 @@ describe('PersonOversiktTabell', () => {
       ytelsesperioderLoading: false,
       ytelsesperioderErrorType: ErrorType.IDENTITETSNUMMERCONSTRAINT,
       ytelsesperioderErrorMessage: undefined,
-      ytelsesperioder: [
-        {
-          periode: {
-            fom: new Date(),
-            tom: new Date()
-          },
-          arbeidsforhold: {
-            arbeidstaker: {
-              etternavn: 'string',
-              fornavn: 'string',
-              identitetsnummer: 'string'
-            }
-          }
-        }
-      ]
+      ytelsesperioder: ytelsesperioderMock
     }));
 
     const history = createMemoryHistory();
@@ -118,21 +106,7 @@ describe('PersonOversiktTabell', () => {
       ytelsesperioderLoading: false,
       ytelsesperioderErrorType: ErrorType.IDENTITETSNUMMERCONSTRAINT,
       ytelsesperioderErrorMessage: 'Feilmelding',
-      ytelsesperioder: [
-        {
-          periode: {
-            fom: new Date(),
-            tom: new Date()
-          },
-          arbeidsforhold: {
-            arbeidstaker: {
-              etternavn: 'string',
-              fornavn: 'string',
-              identitetsnummer: 'string'
-            }
-          }
-        }
-      ]
+      ytelsesperioder: ytelsesperioderMock
     }));
 
     const history = createMemoryHistory();
@@ -157,21 +131,7 @@ describe('PersonOversiktTabell', () => {
       ytelsesperioderLoading: true,
       ytelsesperioderErrorType: ErrorType.IDENTITETSNUMMERCONSTRAINT,
       ytelsesperioderErrorMessage: 'Feilmelding',
-      ytelsesperioder: [
-        {
-          periode: {
-            fom: new Date(),
-            tom: new Date()
-          },
-          arbeidsforhold: {
-            arbeidstaker: {
-              etternavn: 'string',
-              fornavn: 'string',
-              identitetsnummer: 'string'
-            }
-          }
-        }
-      ]
+      ytelsesperioder: ytelsesperioderMock
     }));
 
     const history = createMemoryHistory();
