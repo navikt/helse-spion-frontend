@@ -11,6 +11,7 @@ import sortYtelseSammendrag from '../util/sortYtelseSammendrag';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import FileIcon from './FileIcon';
+import ColumnHeader from './ColumnHeader';
 
 interface YtelseSammendragTableInterface {
   ytelseSammendrag: YtelseSammendrag[];
@@ -79,50 +80,16 @@ const YtelseSammendragTable = ({
     <table className='tabell tabell--stripet ytelsesperiode-tabell--tabell'>
       <thead>
         <tr>
-          {columnHeaders.map((columnHeader, index) => {
-            if (sortColumn === index) {
-              return sortDescending ? (
-                <th
-                  key={index}
-                  role='columnheader'
-                  className='tabell__th--sortert-desc'
-                  aria-sort='descending'
-                >
-                  <button
-                    onClick={() => setSort(index)}
-                    className='lenke ytelsesperiode-lenkeknapp'
-                  >
-                    {columnHeader}
-                  </button>
-                </th>
-              ) : (
-                <th
-                  key={index}
-                  role='columnheader'
-                  className='tabell__th--sortert-asc'
-                  aria-sort='ascending'
-                >
-                  <button
-                    onClick={() => setSort(index)}
-                    className='lenke ytelsesperiode-lenkeknapp'
-                  >
-                    {columnHeader}
-                  </button>
-                </th>
-              );
-            } else {
-              return (
-                <th key={index} role='columnheader' aria-sort='none'>
-                  <button
-                    onClick={() => setSort(index)}
-                    className='lenke ytelsesperiode-lenkeknapp'
-                  >
-                    {columnHeader}
-                  </button>
-                </th>
-              );
-            }
-          })}
+          {columnHeaders.map((columnHeader, index) => (
+            <ColumnHeader
+              key={index}
+              columnIndex={index}
+              sortColumn={sortColumn}
+              sortDescending={sortDescending}
+              columnTitle={columnHeader}
+              setSort={setSort}
+            />
+          ))}
         </tr>
       </thead>
       <tbody>{items}</tbody>
