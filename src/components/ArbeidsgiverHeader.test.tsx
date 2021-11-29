@@ -8,7 +8,7 @@ import { testFnr } from '../mockdata/testFnr';
 
 describe('ArbeidsgiverHeader', () => {
   beforeEach(() => {
-    jest.mock('../data/Ytelsesperioder');
+    jest.mock('../data/useYtelsesperioder');
   });
 
   afterEach(() => {

@@ -19,7 +19,7 @@ interface ErrorReturnvalue {
   title: string;
 }
 
-export default (): any => {
+export default function useYtelsesperioder(): any {
   const {
     setYtelsesperioder,
     setYtelsesperioderLoading,
@@ -109,7 +109,7 @@ export default (): any => {
       }
     });
   };
-};
+}
 // todo: type safety
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] =>
   data.map((ytelsesperiode) => ({

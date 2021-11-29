@@ -6,7 +6,7 @@ import { Keys } from '../locales/keys';
 import { v4 as uuid } from 'uuid';
 import { FnrInput } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import useYtelsesperioder from '../data/Ytelsesperioder';
+import useYtelsesperioder from '../data/useYtelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import identityNumberSeparation from '../util/identityNumberSeparation';
 import Lenke from 'nav-frontend-lenker';

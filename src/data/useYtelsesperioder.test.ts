@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import Ytelsesperioder from './Ytelsesperioder';
-import { AppStoreProvider } from '../data/store/AppStore';
+import useYtelsesperioder from './useYtelsesperioder';
+import { AppStoreProvider } from './store/AppStore';
 import ytelser from '../mockdata/mockYtelser';
 import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock';
 import timezone_mock from 'timezone-mock';
@@ -66,7 +66,7 @@ const expectedStuff = [
   }
 ];
 
-describe('Ytelsesperioder', () => {
+describe('useYtelsesperioder', () => {
   it('skal returnere arbeidsgivere', async () => {
     let mock: FetchMock;
     let spy: SpyMiddleware;
@@ -84,7 +84,7 @@ describe('Ytelsesperioder', () => {
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -122,7 +122,7 @@ describe('Ytelsesperioder', () => {
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -168,7 +168,7 @@ describe('Ytelsesperioder', () => {
       (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -223,7 +223,7 @@ describe('Ytelsesperioder', () => {
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(401))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 

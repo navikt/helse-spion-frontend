@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
 import validateDato from '../util/validateDato';
 import { useAppStore } from '../data/store/AppStore';
-import useYtelsesperioder from '../data/Ytelsesperioder';
+import useYtelsesperioder from '../data/useYtelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import './Flatpickr.scss';
 import './ArbeidsgiverHeader.scss';
