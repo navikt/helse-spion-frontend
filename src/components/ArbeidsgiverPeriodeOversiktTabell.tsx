@@ -9,15 +9,16 @@ import 'nav-frontend-alertstriper-style';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { useAppStore } from '../data/store/AppStore';
-import { ErrorType } from '../util/helseSpionTypes';
-import YtelsesperiodeTable from './YtelsesperiodeTable';
+// import { ErrorType } from '../util/helseSpionTypes';
+// import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/useYtelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import YtelseSammendragTable from './YtelseSammendragTable';
-import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
+// import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import './ArbeidsgiverPeriodeTabell.sass';
 import { useYtelseSammendragContext } from '../data/store/YtelseSammendrag';
+import { useHistory } from 'react-router-dom';
 
 const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
   const {
@@ -27,17 +28,24 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
     ytelsesperioderErrorMessage,
     fraDato,
     tilDato
+    // setYtelsesperioder
   } = useAppStore();
   const { ytelsesammendrag } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const { t } = useTranslation();
-  const arbeidstaker =
-    ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
+  // const arbeidstaker =
+  //   ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
+  const history = useHistory();
 
   const handleNameClick = async (identitetsnummer: string): Promise<void> => {
-    await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
+    const perioder = await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
+
+    const arbeidstaker = perioder && perioder[0]?.arbeidsforhold.arbeidstaker;
+    if (!!arbeidstaker) {
+      history.push('/person');
+    }
   };
 
   useEffect(() => {
@@ -59,17 +67,9 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
           </Row>
         )}
 
-      {arbeidstaker && (
-        <ArbeidstakerDetaljHeader
-          arbeidstaker={arbeidstaker}
-          arbeidsgiverId={arbeidsgiverId}
-        />
-      )}
-
       <Row>
         {ytelsesperioderErrorType &&
-          (ytelsesperioderErrorType! in ErrorType ||
-          ytelsesperioderErrorMessage ? (
+          (ytelsesperioderErrorMessage ? (
             <AlertStripe type='feil'>{ytelsesperioderErrorMessage}</AlertStripe>
           ) : (
             <AlertStripe type='feil'>{t(ytelsesperioderErrorType)}</AlertStripe>
@@ -80,23 +80,15 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
             <NavFrontendSpinner />{' '}
           </div>
         )}
-        {ytelsesperioder &&
-          ytelsesperioder.length > 0 &&
-          !ytelsesperioderLoading && (
-            <YtelsesperiodeTable ytelsesperioder={ytelsesperioder} />
-          )}
-        {ytelsesperioder &&
-          ytelsesperioder.length === 0 &&
-          ytelsesammendrag &&
-          ytelsesammendrag.length > 0 &&
-          !ytelsesperioderLoading && (
-            <YtelseSammendragTable
-              ytelseSammendrag={ytelsesammendrag}
-              onNameClick={handleNameClick}
-              startdato={fraDato}
-              sluttdato={tilDato}
-            />
-          )}
+
+        {ytelsesperioder && ytelsesammendrag && ytelsesammendrag.length > 0 && (
+          <YtelseSammendragTable
+            ytelseSammendrag={ytelsesammendrag}
+            onNameClick={handleNameClick}
+            startdato={fraDato}
+            sluttdato={tilDato}
+          />
+        )}
       </Row>
     </>
   );

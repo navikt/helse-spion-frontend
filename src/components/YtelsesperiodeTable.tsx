@@ -44,8 +44,6 @@ const YtelsesperiodeTable = (props: YtelsesperiodeTableProps) => {
     t(Keys.REFUND)
   ];
 
-  console.log(columnHeaders);
-
   const items: JSX.Element[] = sortedYtelsesperioder.map(
     (ytelsesperiode, index) => (
       <tr key={index}>
