@@ -38,26 +38,9 @@ jobs:
       - run: npm test
       - run: node run-sonar.js
 
-  Eslint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm ci
-      - run: npm run-script lint
-
-  Snyk:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-
   Deploy:
     name: Deploy til produksjon
-    needs: [Eslint,Kodekvalitet,Snyk,Bygg]
+    needs: [Kodekvalitet,Bygg]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -70,7 +53,7 @@ jobs:
           git config --global user.email "helsearbeidsgiver@nav.no"
           git config --global user.name "HelseArbeidsgiver"
           npm version ${{ github.event.release.tag_name }}
-          git push origin HEAD:master
+          git push origin HEAD:main
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
