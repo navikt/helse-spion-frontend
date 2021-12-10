@@ -23,10 +23,11 @@
     "plugins": [
         "react-hooks",
         "@typescript-eslint",
-        "react"
+        "react",
+        "typescript"
     ],
     "rules": {
-        "no-console": "warn",
+        "no-console": "error",
         "max-len": [
             "error", 160, {
                 "ignoreUrls": true,
@@ -47,7 +48,7 @@
         "object-curly-spacing":  ["warn", "always"],
         "no-duplicate-imports": "error",
         "quotes": ["warn", "single"],
-        "@typescript-eslint/no-unused-vars": ["error"]
+        "typescript/no-unused-vars": "error"
     },
     "settings": {
         "react": {

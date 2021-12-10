@@ -147,7 +147,6 @@ describe('ArbeidsgiverPeriodeTabell', () => {
 });
 
 function mockFetch200() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   return jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
     Promise.resolve({

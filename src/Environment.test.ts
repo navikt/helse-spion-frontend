@@ -59,10 +59,8 @@ describe('Environment', () => {
 });
 
 function setWindowLocation(windowLocationURL: string) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete window.location;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   window.location = new URL(windowLocationURL);
 }
