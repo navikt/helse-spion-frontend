@@ -1,0 +1,17 @@
+name: Eslint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
