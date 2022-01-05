@@ -76,7 +76,7 @@ const YtelseSammendragTable = ({
     )
   );
 
-  const wrapperFunction = (items: JSX.Element[]): JSX.Element => (
+  const wrapperFunction = (tableBodyItems: JSX.Element[]): JSX.Element => (
     <table className='tabell tabell--stripet ytelsesperiode-tabell--tabell'>
       <thead>
         <tr>
@@ -92,7 +92,7 @@ const YtelseSammendragTable = ({
           ))}
         </tr>
       </thead>
-      <tbody>{items}</tbody>
+      <tbody>{tableBodyItems}</tbody>
     </table>
   );
 

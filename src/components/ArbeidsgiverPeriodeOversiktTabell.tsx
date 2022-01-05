@@ -9,12 +9,9 @@ import 'nav-frontend-alertstriper-style';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { useArbeidsgiver } from '@navikt/helse-arbeidsgiver-felles-frontend';
 import { useAppStore } from '../data/store/AppStore';
-// import { ErrorType } from '../util/helseSpionTypes';
-// import YtelsesperiodeTable from './YtelsesperiodeTable';
 import useYtelsesperioder from '../data/useYtelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import YtelseSammendragTable from './YtelseSammendragTable';
-// import ArbeidstakerDetaljHeader from './ArbeidstakerDetaljHeader';
 import ArbeidsgiverHeader from './ArbeidsgiverHeader';
 import './ArbeidsgiverPeriodeTabell.sass';
 import { useYtelseSammendragContext } from '../data/store/YtelseSammendrag';
@@ -28,13 +25,10 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
     ytelsesperioderErrorMessage,
     fraDato,
     tilDato
-    // setYtelsesperioder
   } = useAppStore();
   const { ytelsesammendrag } = useYtelseSammendragContext();
   const { arbeidsgiverId, firma } = useArbeidsgiver();
   const { t } = useTranslation();
-  // const arbeidstaker =
-  //   ytelsesperioder && ytelsesperioder[0]?.arbeidsforhold.arbeidstaker;
   const Ytelsesperioder = useYtelsesperioder();
   const getYtelseSammendrag = useYtelseSammendrag();
   const history = useHistory();

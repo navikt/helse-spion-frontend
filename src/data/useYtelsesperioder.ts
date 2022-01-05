@@ -36,18 +36,11 @@ export default function useYtelsesperioder(): any {
     setYtelsesperioderLoading(true);
 
     const messageBody: MessageBodyPost = {
-      identitetsnummer: identityNumber || '',
-      arbeidsgiverId: arbeidsgiverId || ''
+      identitetsnummer: setBlankIfUndefined(identityNumber),
+      arbeidsgiverId: setBlankIfUndefined(arbeidsgiverId)
     };
 
-    if (fom && tom) {
-      messageBody.periode = {
-        fom: fom,
-        tom: tom
-      };
-    } else {
-      delete messageBody.periode;
-    }
+    setFomTom(fom, tom, messageBody);
 
     return fetch(env.baseUrl + '/api/v1/ytelsesperioder/oppslag', {
       credentials: 'include',
@@ -60,21 +53,21 @@ export default function useYtelsesperioder(): any {
     }).then((response) => {
       setYtelsesperioderLoading(false);
       if (response.status === 401) {
-        window.location.href = env.loginServiceUrl ?? '';
+        window.location.href = setBlankIfUndefined(env.loginServiceUrl);
         return {
           type: '401',
           title: '401'
         };
       } else if (response.status === 200) {
         return response.json().then((data) => {
-          const ytelsesperioder = convertResponseDataToYtelsesperioder(data);
+          const ytelsesperioder: Ytelsesperiode[] =
+            convertResponseDataToYtelsesperioder(data);
           setYtelsesperioder(ytelsesperioder);
           setYtelsesperioderErrorType(undefined);
           setYtelsesperioderErrorMessage(undefined);
           return ytelsesperioder;
         });
       } else {
-        // todo: error 400/500s etc
         if (response.status === 500) {
           return response.json().then((data) => {
             setYtelsesperioderErrorType(data.type.toUpperCase());
@@ -95,7 +88,6 @@ export default function useYtelsesperioder(): any {
           };
         }
         return response.json().then((data) => {
-          // Todo: change errors to array and map all violations
           if (response.status === 500) {
             setYtelsesperioderErrorType(data.type.toUpperCase());
             setYtelsesperioderErrorMessage(data.title);
@@ -110,7 +102,7 @@ export default function useYtelsesperioder(): any {
     });
   };
 }
-// todo: type safety
+
 const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] =>
   data.map((ytelsesperiode) => ({
     ...ytelsesperiode,
@@ -119,3 +111,24 @@ const convertResponseDataToYtelsesperioder = (data): Ytelsesperiode[] =>
       tom: stringToDate(ytelsesperiode.periode.tom)
     }
   }));
+
+function setBlankIfUndefined(
+  posiblyUndefinedString: string | undefined
+): string {
+  return posiblyUndefinedString ?? '';
+}
+
+function setFomTom(
+  fom: string | undefined,
+  tom: string | undefined,
+  messageBody: MessageBodyPost
+) {
+  if (fom && tom) {
+    messageBody.periode = {
+      fom: fom,
+      tom: tom
+    };
+  } else {
+    delete messageBody.periode;
+  }
+}
