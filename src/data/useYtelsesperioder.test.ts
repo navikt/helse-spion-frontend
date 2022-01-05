@@ -67,18 +67,22 @@ const expectedStuff = [
 ];
 
 describe('useYtelsesperioder', () => {
-  it('skal returnere arbeidsgivere', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
+  let mock: FetchMock;
+  let spy: SpyMiddleware;
 
+  beforeEach(() => {
     spy = new SpyMiddleware();
 
     mock = FetchMock.configure({
       middleware: spy.middleware
     });
+  });
 
-    expect(spy.size()).toBe(0);
+  afterEach(() => {
+    mock.restore();
+  });
 
+  it('skal returnere arbeidsgivere', async () => {
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
@@ -106,17 +110,6 @@ describe('useYtelsesperioder', () => {
   });
 
   it('skal returnere arbeidsgivere uten fom og tom', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
-
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
@@ -148,20 +141,11 @@ describe('useYtelsesperioder', () => {
 
   it('skal håndtere feil', async () => {
     const expectedError = { title: 'Noe gikk galt', type: 'NOEGALT' };
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
+
     const mockError = {
       type: 'NoeGalt',
       title: 'Noe gikk galt'
     };
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
 
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
@@ -203,17 +187,6 @@ describe('useYtelsesperioder', () => {
   });
 
   it('skal gjøre runddansen om login om man er logget ut.', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
-
     Object.defineProperty(window, 'location', {
       value: new URL('https://localhost/loginServer')
     });
