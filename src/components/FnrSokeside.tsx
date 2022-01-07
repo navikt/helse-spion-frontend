@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Keys } from '../locales/keys';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { FnrInput } from 'nav-frontend-skjema';
-import useYtelsesperioder from '../data/Ytelsesperioder';
+import useYtelsesperioder from '../data/useYtelsesperioder';
 import { useAppStore } from '../data/store/AppStore';
 import { v4 as uuid } from 'uuid';
 import './FnrSokeside.scss';
