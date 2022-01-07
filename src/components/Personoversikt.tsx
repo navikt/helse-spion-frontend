@@ -6,7 +6,12 @@ import './Personoversikt.scss';
 
 const Personoversikt = () => {
   return (
-    <Side sidetittel='Refusjoner' bedriftsmeny className='side-personoversikt'>
+    <Side
+      sidetittel='Refusjoner'
+      bedriftsmeny
+      className='side-personoversikt'
+      skjulTilbakeLenke
+    >
       <YtelseSammendragProvider>
         <ArbeidsgiverPeriodeOversiktTabell />
       </YtelseSammendragProvider>

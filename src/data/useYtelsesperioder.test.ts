@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import Ytelsesperioder from './Ytelsesperioder';
-import { AppStoreProvider } from '../data/store/AppStore';
+import useYtelsesperioder from './useYtelsesperioder';
+import { AppStoreProvider } from './store/AppStore';
 import ytelser from '../mockdata/mockYtelser';
 import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock';
 import timezone_mock from 'timezone-mock';
@@ -66,25 +66,29 @@ const expectedStuff = [
   }
 ];
 
-describe('Ytelsesperioder', () => {
-  it('skal returnere arbeidsgivere', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
+describe('useYtelsesperioder', () => {
+  let mock: FetchMock;
+  let spy: SpyMiddleware;
 
+  beforeEach(() => {
     spy = new SpyMiddleware();
 
     mock = FetchMock.configure({
       middleware: spy.middleware
     });
+  });
 
-    expect(spy.size()).toBe(0);
+  afterEach(() => {
+    mock.restore();
+  });
 
+  it('skal returnere arbeidsgivere', async () => {
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -106,23 +110,12 @@ describe('Ytelsesperioder', () => {
   });
 
   it('skal returnere arbeidsgivere uten fom og tom', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
-
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(200))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -148,27 +141,18 @@ describe('Ytelsesperioder', () => {
 
   it('skal håndtere feil', async () => {
     const expectedError = { title: 'Noe gikk galt', type: 'NOEGALT' };
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
+
     const mockError = {
       type: 'NoeGalt',
       title: 'Noe gikk galt'
     };
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
 
     mock.post(
       'https://helse-spion.dev.nav.no/api/v1/ytelsesperioder/oppslag',
       (req, res, ctx) => res(ctx.json(mockError), ctx.status(500))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
@@ -203,17 +187,6 @@ describe('Ytelsesperioder', () => {
   });
 
   it('skal gjøre runddansen om login om man er logget ut.', async () => {
-    let mock: FetchMock;
-    let spy: SpyMiddleware;
-
-    spy = new SpyMiddleware();
-
-    mock = FetchMock.configure({
-      middleware: spy.middleware
-    });
-
-    expect(spy.size()).toBe(0);
-
     Object.defineProperty(window, 'location', {
       value: new URL('https://localhost/loginServer')
     });
@@ -223,7 +196,7 @@ describe('Ytelsesperioder', () => {
       (req, res, ctx) => res(ctx.json(ytelser), ctx.status(401))
     );
 
-    const { result } = renderHook(() => Ytelsesperioder(), {
+    const { result } = renderHook(() => useYtelsesperioder(), {
       wrapper: AppStoreProvider
     });
 
