@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
 import validateDato from '../util/validateDato';
 import { useAppStore } from '../data/store/AppStore';
-import useYtelsesperioder from '../data/Ytelsesperioder';
+import useYtelsesperioder from '../data/useYtelsesperioder';
 import useYtelseSammendrag from '../data/useYtelseSammendrag';
 import './Flatpickr.scss';
 import './ArbeidsgiverHeader.scss';
@@ -84,13 +84,6 @@ const ArbeidsgiverHeader = ({
           </Innholdstittel>
         </Column>
       </Row>
-      {/* <Row className='arbeidsgiver-periode--lufting'>
-        <Column sm='12'>
-          <Lenke className='arbeidsgiver-periode--lufting' href=''>
-            &lt;&lt; {t(Keys.ALL_REFUNDS)}
-          </Lenke>
-        </Column>
-      </Row> */}
       <Row className='arbeidsgiver-periode--lufting'>
         <Column sm='6' className='ytelsesperiode-datovelger'>
           <label>
@@ -102,9 +95,7 @@ const ArbeidsgiverHeader = ({
                 id='fom_datovelger'
                 dato={dayjs(fraDato).toDate()}
                 feilmelding={fraError}
-                // label='Fra dato'
                 placeholder='dd.mm.yyyy'
-                // disabled={item.accepted}
                 minDate={min}
                 maxDate={max}
                 className='datovelger datovelger-fra'
@@ -115,9 +106,7 @@ const ArbeidsgiverHeader = ({
                 id='tom_datovelger'
                 dato={dayjs(tilDato).toDate()}
                 feilmelding={tilError}
-                // label='Til dato'
                 placeholder='dd.mm.yyyy'
-                // disabled={item.accepted}
                 minDate={min}
                 maxDate={max}
                 className='datovelger datovelger-til'
