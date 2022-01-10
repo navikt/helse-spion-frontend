@@ -37,7 +37,7 @@ const ArbeidsgiverPeriodeOversiktTabell: React.FC = () => {
     const perioder = await Ytelsesperioder(identitetsnummer, arbeidsgiverId);
 
     const arbeidstaker = perioder && perioder[0]?.arbeidsforhold.arbeidstaker;
-    if (!!arbeidstaker) {
+    if (arbeidstaker) {
       history.push('/person');
     }
   };

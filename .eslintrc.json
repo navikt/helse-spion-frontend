@@ -5,8 +5,10 @@
         "node": true
     },
     "extends": [
+        "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:jsx-a11y/recommended"
+        "plugin:jsx-a11y/recommended",
+        "plugin:jest/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -21,12 +23,13 @@
         "sourceType": "module"
     },
     "plugins": [
+        "jsx-a11y",
         "react-hooks",
         "@typescript-eslint",
         "react"
     ],
     "rules": {
-        "no-console": "warn",
+        "no-console": "error",
         "max-len": [
             "error", 160, {
                 "ignoreUrls": true,
@@ -49,6 +52,14 @@
         "quotes": ["warn", "single"],
         "@typescript-eslint/no-unused-vars": ["error"]
     },
+    "overrides": [
+        {
+            "files": ["*.ts*"],
+            "rules": {
+                "no-undef": "off"
+            }
+        }
+    ],
     "settings": {
         "react": {
             "version": "detect"

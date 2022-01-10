@@ -27,7 +27,9 @@ describe('YtelseSammendragTable', () => {
     );
 
     expect(screen.getByText(/Donald Duck/)).toBeInTheDocument();
-    expect(screen.getByText(testFnr.GyldigeFraDolly.TestPerson2)).toBeInTheDocument();
+    expect(
+      screen.getByText(testFnr.GyldigeFraDolly.TestPerson2)
+    ).toBeInTheDocument();
     expect(screen.getByText(/merknad 2/)).toBeInTheDocument();
     expect(screen.getByText(/234/)).toBeInTheDocument();
     expect(screen.getByText(/01.01.20/)).toBeInTheDocument();
@@ -35,7 +37,7 @@ describe('YtelseSammendragTable', () => {
     expect(screen.getByText(/942/)).toBeInTheDocument();
   });
 
-  it('should render the component and display data', () => {
+  it('should render the component and display new data after click', () => {
     const mockFunction = jest.fn();
 
     render(
@@ -52,7 +54,9 @@ describe('YtelseSammendragTable', () => {
     fireEvent.click(idNumberHeader);
 
     expect(screen.getByText(/Donald Schneider/)).toBeInTheDocument();
-    expect(screen.getByText(testFnr.GyldigeFraDolly.TestPerson1)).toBeInTheDocument();
+    expect(
+      screen.getByText(testFnr.GyldigeFraDolly.TestPerson1)
+    ).toBeInTheDocument();
     expect(screen.getByText(/Merknad på ytelse/)).toBeInTheDocument();
     expect(screen.getByText(/234/)).toBeInTheDocument();
     expect(screen.getByText(/01.01.20/)).toBeInTheDocument();
