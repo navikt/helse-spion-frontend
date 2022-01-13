@@ -35,7 +35,7 @@ const FnrSokeside = ({ arbeidsgiverId }: FnrSokesideInterface) => {
     );
 
     const arbeidstaker = perioder && perioder[0]?.arbeidsforhold.arbeidstaker;
-    if (!!arbeidstaker) {
+    if (arbeidstaker) {
       history.push('/person');
     } else {
       setFeilmeldingstekst('Fant ingen med dette fødselsnummeret');

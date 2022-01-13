@@ -16,8 +16,8 @@ function ColumnHeader({
   columnTitle,
   setSort
 }: ColumnHeaderProps): JSX.Element {
-  const sortDirection = !!sortDescending ? 'desc' : 'asc';
-  const ariaSortDirection = !!sortDescending ? 'descending' : 'ascending';
+  const sortDirection = sortDescending ? 'desc' : 'asc';
+  const ariaSortDirection = sortDescending ? 'descending' : 'ascending';
 
   if (sortColumn === columnIndex) {
     return (

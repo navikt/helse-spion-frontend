@@ -37,6 +37,7 @@ describe('ArbeidsgiverPeriodeOversiktTabell', () => {
     history.push('/the/route?feature=true');
 
     const fetchSpy = jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      // @ts-ignore
       Promise.resolve({
         status: 200,
         json: () => Promise.resolve(mockFetchYtelsesperioder)
@@ -93,6 +94,7 @@ describe('ArbeidsgiverPeriodeOversiktTabell', () => {
     history.push('/the/route');
 
     jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      // @ts-ignore
       Promise.resolve({
         status: 200,
         json: () => Promise.resolve(mockYtelser)
@@ -123,6 +125,7 @@ describe('ArbeidsgiverPeriodeOversiktTabell', () => {
     history.push('/the/route');
 
     jest.spyOn(window, 'fetch').mockImplementationOnce(() =>
+      // @ts-ignore
       Promise.resolve({
         status: 200,
         json: () => Promise.resolve(mockYtelser)
