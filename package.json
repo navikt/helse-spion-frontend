@@ -43,7 +43,7 @@
     "@navikt/fnrvalidator": "^1.1.4",
     "@navikt/helse-arbeidsgiver-felles-frontend": "^0.3.7",
     "@sentry/react": "^6.17.1",
-    "@sentry/tracing": "^6.16.1",
+    "@sentry/tracing": "^6.17.1",
     "classnames": "^2.2.6",
     "constate": "^3.3.0",
     "dayjs": "^1.10.3",
