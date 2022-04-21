@@ -9555,7 +9555,15 @@ react-error-overlay@^6.0.10:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.10.tgz#0fe26db4fa85d9dbb8624729580e90e7159a59a6"
   integrity sha512-mKR90fX7Pm5seCOfz8q9F+66VCc1PGsWSBxKbITjfKVQHMNF2zudxHnMdJiB1fRCb+XsbQV9sO9DCkgsMQgBIA==
 
-react-flatpickr@^3.10.1, react-flatpickr@^3.x:
+react-flatpickr@^3.10.9:
+  version "3.10.11"
+  resolved "https://registry.yarnpkg.com/react-flatpickr/-/react-flatpickr-3.10.11.tgz#eabaebda24e73c8d6fc4e45167fa9b99a63e38c6"
+  integrity sha512-iHDSpV32QZYFreQzFunMQ/9jZ7AI7V5LNBeBCcgpbr6EDqPEwnRDDikxfGyfz8yOoXdIzD40ZBAJnGFPdongtw==
+  dependencies:
+    flatpickr "^4.6.2"
+    prop-types "^15.5.10"
+
+react-flatpickr@^3.x:
   version "3.10.7"
   resolved "https://registry.npmjs.org/react-flatpickr/-/react-flatpickr-3.10.7.tgz"
   integrity sha512-dJ7cZAayefqWJnX4Xe8Piy13oK2h4aeGCH9tz+D2iSNh+kbezUAWVMVCKdTqjsNBqTMS4v0DkfMy2CP2atNCTQ==
