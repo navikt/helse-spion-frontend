@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@navikt/bedriftsmeny": "^3.5.0",
+    "@navikt/bedriftsmeny": "^3.5.3",
     "@navikt/fnrvalidator": "^1.1.4",
     "@navikt/helse-arbeidsgiver-felles-frontend": "^0.3.7",
     "@sentry/react": "^6.17.1",

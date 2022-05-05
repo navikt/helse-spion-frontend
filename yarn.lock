@@ -2145,12 +2145,12 @@
     "@types/amplitude-js" "^8.0.1"
     fuzzysort "^1.1.4"
 
-"@navikt/bedriftsmeny@^3.5.0":
-  version "3.5.2"
-  resolved "https://registry.npmjs.org/@navikt/bedriftsmeny/-/bedriftsmeny-3.5.2.tgz"
-  integrity sha512-lfT1BVm0YgZO+i530PCM1Eki5QDBiuIUK/zm/yCSRnKLlgH0eSFjiTCk7vTc07FOG+agb1gZq/jgdgE10c/YYQ==
+"@navikt/bedriftsmeny@^3.5.3":
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-3.5.3.tgz#4e2508f3d48fbf9c1b1550703762481e0c4c4260"
+  integrity sha512-rTgg1LmyxoP+ZktpStnDjPpJdbOH9WiW4adL8AXFDoH4WirelghciPuMGQpGeoP927ToUgA16uMx45wpF+/Fgg==
   dependencies:
-    "@types/amplitude-js" "^8.0.1"
+    "@types/amplitude-js" "^8.9.4"
     fuzzysort "^1.1.4"
 
 "@navikt/fnrvalidator@1.x", "@navikt/fnrvalidator@^1.1.4":
@@ -2586,6 +2586,11 @@
   version "8.0.1"
   resolved "https://registry.npmjs.org/@types/amplitude-js/-/amplitude-js-8.0.1.tgz"
   integrity sha512-JrVJ/G8bXEz/b12xKOsSWbQ4C4i4AlPalQprJBCXhUG0loWtPNfV/8Uj53mL0OHa3hfI5javocIsgF33k6cOVQ==
+
+"@types/amplitude-js@^8.9.4":
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-8.16.0.tgz#2e201473148ece37667fe52cfce5db2ea2508c84"
+  integrity sha512-ElfQLlWQvtlXw2dwk3qslgs9PIUlX6+6Cf/NEezlNnexJ5B9ykUrNOQk6xbNFKR01MhCld07nWEf5iTYERKS9A==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
