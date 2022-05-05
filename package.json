@@ -77,7 +77,7 @@
     "react": "17.X",
     "react-app-polyfill": "3.0.0",
     "react-dom": "17.x",
-    "react-flatpickr": "^3.10.1",
+    "react-flatpickr": "^3.10.9",
     "react-i18next": "^11.16.2",
     "react-modal": "^3.14.4",
     "react-paginate": "^7.1.3",
