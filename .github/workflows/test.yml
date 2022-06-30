@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    branches-ignore:
-      - dependabot/*
-      - snyk-*
 
 env:
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

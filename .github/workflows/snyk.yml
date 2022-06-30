@@ -1,9 +1,8 @@
 name: Snyk
 
 on:
-  pull_request:
-    branches:
-      - main
+  schedule:
+    - cron:  "0 13 * * 1"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
