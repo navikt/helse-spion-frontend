@@ -4,6 +4,8 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=navikt_helse-spion-frontend&metric=code_smells)](https://sonarcloud.io/dashboard?id=navikt_helse-spion-frontend)
 ![Bygg og deploy master](https://github.com/navikt/helse-spion-frontend/workflows/Bygg%20og%20deploy%20master/badge.svg)
 
+:warning: **Repoet er arkivert ettersom utviklingen er stoppet på ubestemt tid.** :warning:
+
 Frontendapplikasjon for Refusjonsportalen. Gir arbeidsgiverne en løpende oversikt over refusjoner som er tilkjent dem, for deres egne arbeidstakere.
 
 ## Komme i gang
